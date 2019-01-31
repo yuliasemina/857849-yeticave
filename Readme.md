@@ -1,7 +1,7 @@
 # Личный проект «YetiCave»
 
 * Студент: [Юлия Семина](https://up.htmlacademy.ru/php/8/user/857849).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Куприянов](https://htmlacademy.ru/profile/id541075).
 
 ---
 
