@@ -27,14 +27,14 @@ $user_name = 'Юлия'; // укажите здесь ваше имя
                 <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
 
                 <nav class="user-menu">
-                    <?php if ($is_auth == 1): ?>
+                    <?php if ($is_auth === 1): ?>
                      <div class="user-menu__logged">
                         <p>
                             <?php print($user_name); ?>
                         </p>
                     </div>
                     
-                    <?php elseif  ($is_auth == 0): ?>
+                    <?php else: ?>
                         <ul class="user-menu__list">
                             <li class="user-menu__item">
                               <a href="#">Регистрация</a>
