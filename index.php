@@ -1,10 +1,15 @@
 <?php
 $is_auth = rand(0, 1);
 
-$user_name = 'Юлия'; // укажите здесь ваше имя
+function price_format($price) {
+    $price = ceil($price);
+    $price = number_format($price, 0, ".", " ");
+    $price .= " ₽";
+
+    return $price;
+};
 
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
-
 $lots = [
             [
                'title' => '2014 Rossignol District Snowboard',
@@ -12,35 +17,30 @@ $lots = [
                'price' => '10999',
                'url_img' => 'img/lot-1.jpg'
             ],
-
             [
                'title' => 'DC Ply Mens 2016/2017 Snowboard',
                'category' => 'Доски и лыжи',
                'price' => '159999',
                'url_img' => 'img/lot-2.jpg'
             ],
-
             [
                'title' => 'Крепления Union Contact Pro 2015 года размер L/XL',
                'category' => 'Крепления',
                'price' => '8000',
                'url_img' => 'img/lot-3.jpg'
             ],
-
             [
                'title' => 'Ботинки для сноуборда DC Mutiny Charocal',
                'category' => 'Ботинки',
                'price' => '10999',
                'url_img' => 'img/lot-4.jpg'
             ],
-
             [
                'title' => 'Куртка для сноуборда DC Mutiny Charocal',
                'category' => 'Одежда',
                'price' => '7500',
                'url_img' => 'img/lot-5.jpg'
             ],
-
             [
                'title' => 'Маска Oakley Canopy',
                'category' => 'Разное',
@@ -48,7 +48,7 @@ $lots = [
                'url_img' => 'img/lot-6.jpg'
             ]
 ];
-
+$user_name = 'Юлия';
 
 ?>
 <!DOCTYPE html>
@@ -60,21 +60,21 @@ $lots = [
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-    <div class="page-wrapper">
+<div class="page-wrapper">
 
-        <header class="main-header">
-            <div class="main-header__container container">
-                <h1 class="visually-hidden">YetiCave</h1>
-                <a class="main-header__logo">
-                    <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
-                </a>
-                <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
-                    <input type="search" name="search" placeholder="Поиск лота">
-                    <input class="main-header__search-btn" type="submit" name="find" value="Найти">
-                </form>
-                <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
+<header class="main-header">
+    <div class="main-header__container container">
+        <h1 class="visually-hidden">YetiCave</h1>
+        <a class="main-header__logo">
+            <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
+        </a>
+        <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
+            <input type="search" name="search" placeholder="Поиск лота">
+            <input class="main-header__search-btn" type="submit" name="find" value="Найти">
+        </form>
+        <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
 
-                <nav class="user-menu">
+        <nav class="user-menu">
                     <?php if ($is_auth === 1): ?>
                      <div class="user-menu__logged">
                         <p>
@@ -93,8 +93,8 @@ $lots = [
                       </ul>
                     <?php endif; ?>
                 </nav>
-            </div>
-        </header>
+    </div>
+</header>
 
 <main class="container">
     <section class="promo">
@@ -114,19 +114,18 @@ $lots = [
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-            <!--заполните этот список из массива с товарами-->
-            <?php foreach ($lots as $items): ?>
+            <?php foreach ($lots as $lot): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?=$items['url_img'] ?>" width="350" height="260" alt="">
+                    <img src="<?=$lot['url_img'] ?>" width="350" height="260" alt="">
                 </div>
                 <div class="lot__info">
-                    <span class="lot__category"><?$items['category'] ?></span>
-                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=$items['title'] ?></a></h3>
+                    <span class="lot__category"><?$lot['category'] ?></span>
+                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=$lot['title'] ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=$items['price'] ?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?=price_format($lot['price']) ?></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
@@ -143,7 +142,6 @@ $lots = [
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <!--заполните этот список из массива категорий-->
              <?php foreach ($categories as $category_name): ?>
              <li class="nav__item">
                 <a href="pages/all-lots.html"><?=$category_name ?></a>
@@ -177,6 +175,7 @@ $lots = [
                 <span class="visually-hidden">Вконтакте</span>
                 <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.666"/><path fill="#879296" d="M13.92 18.07c.142-.016.278-.074.39-.166.077-.107.118-.237.116-.37 0 0 0-1.13.516-1.296.517-.165 1.208 1.09 1.95 1.58.276.213.624.314.973.28h1.95s.973-.057.525-.837c-.38-.62-.865-1.17-1.432-1.626-1.208-1.1-1.043-.916.41-2.816.886-1.16 1.236-1.86 1.13-2.163-.108-.302-.76-.214-.76-.214h-2.164c-.092-.026-.19-.026-.282 0-.083.058-.15.135-.195.225-.224.57-.49 1.125-.8 1.656-.973 1.61-1.344 1.697-1.51 1.59-.37-.234-.272-.975-.272-1.433 0-1.56.243-2.202-.468-2.377-.32-.075-.647-.108-.974-.098-.604-.052-1.213.01-1.793.186-.243.116-.438.38-.32.4.245.018.474.13.642.31.152.303.225.638.214.975 0 0 .127 1.832-.302 2.056-.43.223-.692-.167-1.55-1.618-.29-.506-.547-1.03-.77-1.57-.038-.09-.098-.17-.174-.233-.1-.065-.214-.108-.332-.128H6.485s-.312 0-.42.137c-.106.135 0 .36 0 .36.87 2 2.022 3.868 3.42 5.543.923.996 2.21 1.573 3.567 1.598z"/></svg>
             </a>
+
         </div>
         <a class="main-footer__add-lot button" href="add-lot.html">Добавить лот</a>
         <div class="main-footer__developed-by">
@@ -190,7 +189,8 @@ $lots = [
                 </svg>
             </a>
         </div>
-    </footer>
+    </div>
+</footer>
 
 </body>
 </html>
