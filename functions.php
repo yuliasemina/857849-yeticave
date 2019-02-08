@@ -11,8 +11,6 @@
    *  @return string - возвращает строку - итоговый HTML-код с подставленными данными 
    *
    */
-
-
 function include_template($name, $data) {
     $name = 'templates/' . $name;
     $result = '';
@@ -29,5 +27,24 @@ function include_template($name, $data) {
 
     return $result;
 }
+
+
+/**
+   * Фукция для вывода цены в формате с делением на разряды и добавлением знака рубля
+   * функция принимает один аргумент — целое число.
+   * 
+   * @param int $price - исходящая цена лота.
+   * @return int - возвращает округленное разделенное на разряды число.
+   *
+   */
+
+function price_format($price) {
+    $price = ceil($price);
+    $price = number_format($price, 0, ".", " ");
+    $price .= " ₽";
+
+    return $price;
+};
+
 
 ?>

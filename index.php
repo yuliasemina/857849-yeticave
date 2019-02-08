@@ -1,27 +1,8 @@
 <?php
 
 require 'functions.php' ;
-//require 'templates/index.php';
-//require 'templates/layout.php';
 
 $is_auth = rand(0, 1);
-
-/**
-   * Фукция для вывода цены в формате с делением на разряды и добавлением знака рубля
-   * функция принимает один аргумент — целое число.
-   * 
-   * @param int $price - исходящая цена лота.
-   * @return int - возвращает округленное разделенное на разряды число.
-   *
-   */
-
-function price_format($price) {
-    $price = ceil($price);
-    $price = number_format($price, 0, ".", " ");
-    $price .= " ₽";
-
-    return $price;
-};
 
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 $lots = [
@@ -65,7 +46,9 @@ $lots = [
 $user_name = 'Юлия';
 $title_name = 'Главная';
 
-$page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lots]);
+$price_format = price_format($price);
+$page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lots, 'price_format' => $price_format]);
+
 
 $layout_content = include_template('layout.php', ['main_content'=> $page_content, 'user_name' => $user_name, 'categories' => $categories,
  'title_name' => $title_name, 'is_auth' => $is_auth]);
