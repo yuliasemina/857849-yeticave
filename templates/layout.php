@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?= $title_name ?></title>
+    <title><?= $title_name; ?></title>
     <link href="css/normalize.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -25,7 +25,7 @@
                     <?php if ($is_auth === 1): ?>
                      <div class="user-menu__logged">
                         <p>
-                            <?php print($user_name); ?>
+                            <?php print("$user_name"); ?>
                         </p>
                     </div>
                     
@@ -43,7 +43,7 @@
     </div>
 </header>
 <main class="container">
-<?= $main_content ?>
+<?= $main_content; ?>
 </main>
 </div>
 

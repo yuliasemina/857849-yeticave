@@ -1,9 +1,8 @@
 <?php
 
-set_include_path('D:\OSPanel\domains\857849-yeticave');
-require ('functions.php') ;
-require("templates/index.php");
-require("templates/layout.php");
+require 'functions.php' ;
+//require 'templates/index.php';
+//require 'templates/layout.php';
 
 $is_auth = rand(0, 1);
 
@@ -11,11 +10,8 @@ $is_auth = rand(0, 1);
    * Фукция для вывода цены в формате с делением на разряды и добавлением знака рубля
    * функция принимает один аргумент — целое число.
    * 
-   * @param $price = ceil($price) - округляет число.
-   * @param $price = number_format($price, 0, ".", " ") - с помощью функции number_format делит число на разряды
-   * @param $price .= " ₽" - добавляет к числу знак рубля
-   *
-   * @return $price - возвращает отформатированное число.
+   * @param int $price - исходящая цена лота.
+   * @return int - возвращает округленное разделенное на разряды число.
    *
    */
 
@@ -67,11 +63,12 @@ $lots = [
             ]
 ];
 $user_name = 'Юлия';
+$title_name = 'Главная';
 
+$page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lots]);
 
-$page_content = renderTemplate ('templates/index.php', ['categories' => $categories, 'lots' => $lots]);
-
-$layout_content = renderTemplate ('templates/layout.php', ['main_content'=> $page_content, 'title_name' => 'Главная']);
+$layout_content = include_template('layout.php', ['main_content'=> $page_content, 'user_name' => $user_name, 'categories' => $categories,
+ 'title_name' => $title_name, 'is_auth' => $is_auth]);
 
 print($layout_content);
 
