@@ -46,8 +46,7 @@ $lots = [
 $user_name = 'Юлия';
 $title_name = 'Главная';
 
-$price_format = price_format($price);
-$page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lots, 'price_format' => $price_format]);
+$page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lots]);
 
 
 $layout_content = include_template('layout.php', ['main_content'=> $page_content, 'user_name' => $user_name, 'categories' => $categories,
