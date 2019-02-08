@@ -1,6 +1,18 @@
 <?php
 $is_auth = rand(0, 1);
 
+/**
+   * Фукция для вывода цены в формате с делением на разряды и добавлением знака рубля
+   * функция принимает один аргумент — целое число.
+   * 
+   * @param $price = ceil($price) - округляет число.
+   * @param $price = number_format($price, 0, ".", " ") - с помощью функции number_format делит число на разряды
+   * @param $price .= " ₽" - добавляет к числу знак рубля
+   *
+   * @return $price - возвращает отформатированное число.
+   *
+   */
+
 function price_format($price) {
     $price = ceil($price);
     $price = number_format($price, 0, ".", " ");
