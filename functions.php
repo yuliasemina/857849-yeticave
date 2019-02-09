@@ -12,20 +12,20 @@
    *
    */
 function include_template($name, $data) {
-    $name = 'templates/' . $name;
-    $result = '';
+  $name = 'templates/' . $name;
+  $result = '';
 
-    if (!is_readable($name)) {
-        return $result;
-    }
-
-    ob_start();
-    extract($data);
-    require $name;
-
-    $result = ob_get_clean();
-
+  if (!is_readable($name)) {
     return $result;
+  }
+
+  ob_start();
+  extract($data);
+  require $name;
+
+  $result = ob_get_clean();
+
+  return $result;
 }
 
 
@@ -39,12 +39,30 @@ function include_template($name, $data) {
    */
 
 function price_format($price) {
-    $price = ceil($price);
-    $price = number_format($price, 0, ".", " ");
-    $price .= " ₽";
+  $price = ceil($price);
+  $price = number_format($price, 0, ".", " ");
+  $price .= " ₽";
 
-    return $price;
+  return $price;
 };
 
+
+/**
+   * Функция определяет время, которое осталось до полуночи
+   * 
+   * 
+   * @return date - возвращает интервал времени в формате "часы:минуты".
+   *
+   */
+
+function time_midnight () {
+  $timestamp1 = strtotime('now');
+  $timestamp2 = strtotime('next day midnight');
+
+  $interval = $timestamp2 - $timestamp1 -10740;
+
+  return date('H:i', $interval); 
+  //return gmdate('H:i', $interval); ---- время на минуту меньше предполагаемого
+}
 
 ?>
