@@ -48,21 +48,27 @@ function price_format($price) {
 
 
 /**
-   * Функция определяет время, которое осталось до полуночи
+   * Функция определяет время, оставшееся до определенного момента
+   * @param int @time_now -- по умолчанию - текущее время.
+   * @param int @time_end -- задает дату, до которой нужно посчитать интервал времени
    * 
-   * 
-   * @return date - возвращает интервал времени в формате "часы:минуты".
+   * @return string - возвращает строку "часы:минуты".
    *
    */
 
-function time_midnight () {
-  $timestamp1 = strtotime('now');
-  $timestamp2 = strtotime('next day midnight');
+function time_interval ($time_end) {
+  $time_now = strtotime('now');
+  $time_end = strtotime($time_end);
 
-  $interval = $timestamp2 - $timestamp1 -10740;
+  $interval = $time_end - $time_now;
+  $hours = floor($interval/3600);
+  $minutes = ceil(($interval - $hours*3600)/60);
+  $time_lots = $hours . ":" . $minutes;
 
-  return date('H:i', $interval); 
-  //return gmdate('H:i', $interval); ---- время на минуту меньше предполагаемого
+
+  return $time_lots;
+
+ // return date('H:i', $interval_second); 
 }
 
 ?>
