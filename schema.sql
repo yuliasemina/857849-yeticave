@@ -15,7 +15,7 @@ CREATE TABLE `lots` (
 `date_end` DATE NOT NULL,
 `name` CHAR(128) NOT NULL,
 `description` TEXT NOT NULL,
-`image` TEXT NOT NULL,
+`image` CHAR (255) NOT NULL,
 `start_price` DECIMAL NOT NULL,
 `bet_step` INT NOT NULL,
 
@@ -27,7 +27,7 @@ CREATE TABLE `lots` (
 CREATE TABLE `bets` (
 `id` INT AUTO_INCREMENT PRIMARY KEY,
 `date_bets` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-`sum_bets` DECIMAL NOT NULL ,
+`sum_bets` DECIMAL NOT NULL,
 
 `user_id` INT NOT NULL,
 `lot_id` INT NOT NULL
@@ -39,7 +39,7 @@ CREATE TABLE users (
 `email` CHAR(128) NOT NULL UNIQUE,
 `name` CHAR(128) NOT NULL,
 `password` CHAR(128) NOT NULL,
-`avatar` CHAR DEFAULT NULL,
+`avatar` CHAR (255) DEFAULT NULL,
 `contact` TEXT NOT NULL
 );
 
