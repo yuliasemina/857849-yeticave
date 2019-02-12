@@ -67,8 +67,6 @@ function time_interval ($time_end) {
 
 
   return $time_lots;
-
- // return date('H:i', $interval_second); 
 }
 
 ?>

@@ -1,0 +1,47 @@
+CREATE DATABASE `857849-yeticave`
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
+
+USE `857849-yeticave`;
+
+CREATE TABLE `categories` (
+`id` INT AUTO_INCREMENT PRIMARY KEY,
+`name` CHAR (128) NOT NULL UNIQUE
+);
+
+CREATE TABLE `lots` (
+`id` INT AUTO_INCREMENT PRIMARY KEY,
+`date_start` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`date_end` DATE NOT NULL,
+`name` CHAR(128) NOT NULL,
+`description` TEXT NOT NULL,
+`image` CHAR NOT NULL,
+`start_price` DECIMAL NOT NULL,
+`bet_step` INT NOT NULL,
+
+`user_id` INT NOT NULL,
+`category_id` INT NOT NULL,
+`user_winner` TEXT DEFAULT NULL
+);
+
+CREATE TABLE `bets` (
+`id` INT AUTO_INCREMENT PRIMARY KEY,
+`date_bets` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`sum_bets` DECIMAL NOT NULL ,
+
+`user_id` INT NOT NULL,
+`lot_id` INT NOT NULL
+);
+
+CREATE TABLE users (
+`id` INT AUTO_INCREMENT PRIMARY KEY,
+`date_account` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`email` CHAR(128) NOT NULL UNIQUE,
+`name` CHAR(128) NOT NULL,
+`password` CHAR(128) NOT NULL,
+`avatar` CHAR DEFAULT NULL,
+`contact` TEXT NOT NULL
+);
+
+CREATE UNIQUE INDEX `cat_name` ON `categories`(`name`);
+CREATE UNIQUE INDEX `user_email` ON `users`(`email`);
