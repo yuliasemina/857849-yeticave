@@ -15,7 +15,7 @@ CREATE TABLE `lots` (
 `date_end` DATE NOT NULL,
 `name` CHAR(128) NOT NULL,
 `description` TEXT NOT NULL,
-`image` CHAR NOT NULL,
+`image` TEXT NOT NULL,
 `start_price` DECIMAL NOT NULL,
 `bet_step` INT NOT NULL,
 
