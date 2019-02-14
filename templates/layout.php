@@ -50,9 +50,9 @@
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-             <?php foreach ($categories as $category_name): ?>
+             <?php foreach ($categories as $category): ?>
              <li class="nav__item">
-                <a href="pages/all-lots.html"><?= htmlspecialchars($category_name['category']) ?></a>
+                <a href="pages/all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
             </li>
         <?php endforeach ?>
         </ul>
