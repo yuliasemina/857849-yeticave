@@ -28,7 +28,7 @@
                             <span class="lot__cost"><?= price_format(htmlspecialchars($lot['price'])) ?></span>
                         </div>
                         <div class="lot__timer timer">
-                            <?= time_interval('next day midnight'); ?>
+                            <?= time_interval($lot['date_end']); ?>
                         </div>
                     </div>
                 </div>
