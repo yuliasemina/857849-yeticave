@@ -5,13 +5,9 @@ $lot_list = [];
     $categories_sql = "SELECT `name` AS `category` FROM `categories`";
 
     $categories_result = mysqli_query($con, $categories_sql);
-        if (!$categories_result) {
-            $error = mysqli_error($con);
-            print($error);
-        }
-        else {
+        if ($categories_result) {
             $categories = mysqli_fetch_all($categories_result, MYSQLI_ASSOC);
-        };
+        }
 
     $lot_list_sql = "SELECT
         `l`.`name` AS 'title',
@@ -37,13 +33,7 @@ $lot_list = [];
         `l`.`start_at` DESC";
 
     $lot_list_result = mysqli_query($con, $lot_list_sql);
-        if (!$lot_list_result) {
-            $error = mysqli_error($con);
-            print($error);
+        if ($lot_list_result) {
+           $lot_list = mysqli_fetch_all($lot_list_result, MYSQLI_ASSOC);
         }
-        else {
-            $lot_list = mysqli_fetch_all($lot_list_result, MYSQLI_ASSOC);
-        };
-
-
-?>
+  
