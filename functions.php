@@ -47,6 +47,13 @@ function price_format($price) {
 };
 
 
+function price_cur($price) {
+  $price = ceil($price);
+  $price = number_format($price, 0, ".", " ");
+
+  return $price;
+};
+
 /**
    * Функция определяет время, оставшееся до определенного момента
    * @param int @time_now -- по умолчанию - текущее время.

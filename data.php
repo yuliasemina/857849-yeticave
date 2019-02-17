@@ -1,17 +1,22 @@
 <?php
-$categories = [];
+
 $lot_list = [];
 $lot_info_id = [];
 $lot_bets_id = [];
-$lot_id = 3;
+
+function get_categories($con){
+    $categories = [];
     $categories_sql = "SELECT `name` AS `category_name` FROM `categories`";
 
     $categories_result = mysqli_query($con, $categories_sql);
         if ($categories_result) {
             $categories = mysqli_fetch_all($categories_result, MYSQLI_ASSOC);
         }
+            return $categories;
+}
 
     $lot_list_sql = "SELECT
+        `l`.`id`,
         `l`.`name` AS 'title',
         `l`.`start_price` AS 'price',
         `l`.`image` AS 'url_img',
@@ -38,8 +43,10 @@ $lot_id = 3;
         if ($lot_list_result) {
            $lot_list = mysqli_fetch_all($lot_list_result, MYSQLI_ASSOC);
         }
- 
-$lot_info_id_sql ="SELECT 
+
+function get_lot_by_id ($con, $lot_id){ 
+$lot_info_id_sql = "SELECT 
+        `l`.`id`,
         `l`.`name` AS 'title',
         `l`.`start_price` AS 'price',
         `l`.`image` AS 'url_img',
@@ -58,9 +65,10 @@ WHERE `l`.`id` = $lot_id";
 
 $lot_info_id_result = mysqli_query($con, $lot_info_id_sql);
         if ($lot_info_id_result) {
-           $lot_info_id = mysqli_fetch_all($lot_info_id_result, MYSQLI_ASSOC);
+           $lot_info_id = mysqli_fetch_assoc ($lot_info_id_result);
         }
- 
+    return $lot_info_id;
+}
 
 $lot_bets_id_sql = "SELECT `l`.`name`, `b`.`sum_bets` AS 'sum_bets', `b`.`bet_at` FROM `lots` `l`
 JOIN `bets` `b`
