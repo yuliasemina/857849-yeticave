@@ -44,6 +44,8 @@ function get_categories($con){
            $lot_list = mysqli_fetch_all($lot_list_result, MYSQLI_ASSOC);
         }
 
+
+
 function get_lot_by_id ($con, $lot_id){ 
 $lot_info_id_sql = "SELECT 
         `l`.`id`,
@@ -53,15 +55,14 @@ $lot_info_id_sql = "SELECT
         `l`.`date_end` AS 'date_end',
         `l`.`description` AS description,
         `c`.`name` `category_name`,
-         MAX(`b`.`sum_bets`) `max_price`,
-         MIN(`b`.`sum_bets`) `min_price`
+         MAX(`b`.`sum_bets`) `max_price`
 FROM `lots` `l`
 JOIN `categories` `c`
 ON `l`.`category_id` = `c`.`id`
 LEFT JOIN
         `bets` `b`
         ON `b`.`lot_id` = `l`.`id`
-WHERE `l`.`id` = $lot_id";
+WHERE `l`.`id` = ?";
 
 $lot_info_id_result = mysqli_query($con, $lot_info_id_sql);
         if ($lot_info_id_result) {
@@ -69,6 +70,8 @@ $lot_info_id_result = mysqli_query($con, $lot_info_id_sql);
         }
     return $lot_info_id;
 }
+
+
 
 $lot_bets_id_sql = "SELECT `l`.`name`, `b`.`sum_bets` AS 'sum_bets', `b`.`bet_at` FROM `lots` `l`
 JOIN `bets` `b`

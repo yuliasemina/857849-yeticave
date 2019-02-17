@@ -84,7 +84,7 @@
 
                       </div>
                       <div class="lot-item__min-cost">
-                        Мин. ставка <span><?= htmlspecialchars(price_cur($lot['min_price'])) ?> р</span>
+                        Мин. ставка <span><?= htmlspecialchars(price_cur($lot['price'])) ?> р</span>
                       </div>
                     </div>
                     <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">

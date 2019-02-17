@@ -4,6 +4,7 @@ require 'db.php';
 require 'data.php';
 require 'functions.php';
 
+
 $is_auth = rand(0, 1);
 $user_name = 'Юлия';
 
@@ -11,13 +12,17 @@ $categories = get_categories($con);
 
 
 
-$lot_id = intval($_GET['id']);
-$lot = get_lot_by_id($con, $lot_id);
+//$lot_id = intval($_GET['id']);
+//$lot = get_lot_by_id($con, $lot_id);
 
-$sql = get_lot_by_id($con, $lot);
-$stmt = mysqli_prepare($con, $sql);
-mysqli_stmt_bind_param($stmt, 'i', $lot_id);
-mysqli_stmt_execute($stmt);
+$sql = get_lot_by_id($con, $lot_id);
+
+$stmt = db_get_prepare_stmt($con, $sql, [$_GET['id']]);
+
+//$lot = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+
+
 
 $layout_content = include_template('lot.php', 
   [
