@@ -1,7 +1,6 @@
 <?php
 
 $lot_list = [];
-$lot_info_id = [];
 $lot_bets_id = [];
 
 function get_categories($con){
@@ -47,6 +46,7 @@ function get_categories($con){
 
 
 function get_lot_by_id ($con, $lot_id){ 
+$lot_info_id = [];
 $lot_info_id_sql = "SELECT 
         `l`.`id`,
         `l`.`name` AS 'title',
@@ -62,7 +62,7 @@ ON `l`.`category_id` = `c`.`id`
 LEFT JOIN
         `bets` `b`
         ON `b`.`lot_id` = `l`.`id`
-WHERE `l`.`id` = ?";
+WHERE `l`.`id` = $lot_id";
 
 $lot_info_id_result = mysqli_query($con, $lot_info_id_sql);
         if ($lot_info_id_result) {
