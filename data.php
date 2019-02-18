@@ -1,6 +1,5 @@
 <?php
 
-$lot_list = [];
 $lot_bets_id = [];
 
 function get_categories($con){
@@ -14,6 +13,9 @@ function get_categories($con){
             return $categories;
 }
 
+function get_lot_list($con){
+    
+    $lot_list = [];
     $lot_list_sql = "SELECT
         `l`.`id`,
         `l`.`name` AS 'title',
@@ -43,11 +45,14 @@ function get_categories($con){
            $lot_list = mysqli_fetch_all($lot_list_result, MYSQLI_ASSOC);
         }
 
+    return $lot_list;
+}
 
-
-function get_lot_by_id ($con, $lot_id){ 
-$lot_info_id = [];
-$lot_info_id_sql = "SELECT 
+function get_lot_by_id ($con, $lot_id)
+{
+    $lot = null;
+    $sql = "
+      SELECT 
         `l`.`id`,
         `l`.`name` AS 'title',
         `l`.`start_price` AS 'price',
@@ -56,19 +61,23 @@ $lot_info_id_sql = "SELECT
         `l`.`description` AS description,
         `c`.`name` `category_name`,
          MAX(`b`.`sum_bets`) `max_price`
-FROM `lots` `l`
-JOIN `categories` `c`
-ON `l`.`category_id` = `c`.`id`
-LEFT JOIN
+      FROM `lots` `l`
+      JOIN `categories` `c`
+        ON `l`.`category_id` = `c`.`id`
+      LEFT JOIN
         `bets` `b`
         ON `b`.`lot_id` = `l`.`id`
-WHERE `l`.`id` = $lot_id";
+      WHERE `l`.`id` = ?
+      GROUP BY `l`.`id`
+    ";
 
-$lot_info_id_result = mysqli_query($con, $lot_info_id_sql);
-        if ($lot_info_id_result) {
-           $lot_info_id = mysqli_fetch_assoc ($lot_info_id_result);
-        }
-    return $lot_info_id;
+    $stmt = db_get_prepare_stmt($con, $sql, [$lot_id]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    $lot = mysqli_fetch_assoc($res);
+
+    return $lot;
 }
 
 

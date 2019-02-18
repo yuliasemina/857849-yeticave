@@ -66,7 +66,7 @@
               <div class="lot-item__right">
                 <div class="lot-item__state">
                   <div class="lot-item__timer timer">
-                    10:54
+                    <?= time_interval($lot['date_end']); ?>
                   </div>
                   <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
@@ -88,10 +88,9 @@
                       </div>
                     </div>
                     <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
-                      <p class="lot-item__form-item form__item form__item--invalid">
+                      <p class="lot-item__form-item form__item">
                         <label for="cost">Ваша ставка</label>
                         <input id="cost" type="text" name="cost" placeholder="12 000">
-                        <span class="form__error">Введите наименование лота</span>
                       </p>
                       <button type="submit" class="button">Сделать ставку</button>
                     </form>
