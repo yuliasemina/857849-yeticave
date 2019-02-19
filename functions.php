@@ -1,5 +1,5 @@
 <?php
-
+require 'mysql_helper.php';
 /**
    *  Фукция шаблонизатор
    *  Функция принимает два аргумента: имя файла шаблона и ассоциативный массив с данными для этого шаблона.
@@ -47,6 +47,13 @@ function price_format($price) {
 };
 
 
+function price_cur($price) {
+  $price = ceil($price);
+  $price = number_format($price, 0, ".", " ");
+
+  return $price;
+};
+
 /**
    * Функция определяет время, оставшееся до определенного момента
    * @param int @time_now -- по умолчанию - текущее время.
@@ -68,5 +75,3 @@ function time_interval ($time_end) {
 
   return $time_lots;
 }
-
-?>

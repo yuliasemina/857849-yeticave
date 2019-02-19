@@ -2,61 +2,75 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?php print($title_name); ?></title>
-    <link href="css/normalize.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <title>404 Страница не найдена</title>
+    <link href="../css/normalize.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
+
 <div class="page-wrapper">
 
-<header class="main-header">
-    <div class="main-header__container container">
-        <h1 class="visually-hidden">YetiCave</h1>
-        <a class="main-header__logo">
-            <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
-        </a>
-        <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
-            <input type="search" name="search" placeholder="Поиск лота">
-            <input class="main-header__search-btn" type="submit" name="find" value="Найти">
-        </form>
-        <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
+    <header class="main-header">
+        <div class="main-header__container container">
+            <h1 class="visually-hidden">YetiCave</h1>
+            <a class="main-header__logo" href="index.html">
+                <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
+            </a>
+            <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
+                <input type="search" name="search" placeholder="Поиск лота">
+                <input class="main-header__search-btn" type="submit" name="find" value="Найти">
+            </form>
+            <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
+            <nav class="user-menu">
+                <?php if ($is_auth === 1): ?>
+             <div class="user-menu__logged">
+              <p>
+                <?php print("$user_name"); ?>
+              </p>
+            </div>
+            <?php else: ?>
+              <ul class="user-menu__list">
+                <li class="user-menu__item">
+                  <a href="sign-up.html">Регистрация</a>
+                </li>
+                <li class="user-menu__item">
+                  <a href="login.html">Вход</a>
+                </li>
+              </ul>
+            <?php endif; ?>
+            </nav>
+        </div>
+    </header>
 
-        <nav class="user-menu">
-                    <?php if ($is_auth === 1): ?>
-                     <div class="user-menu__logged">
-                        <p>
-                            <?php print($user_name); ?>
-                        </p>
-                    </div>
-                    
-                    <?php else: ?>
-                        <ul class="user-menu__list">
-                            <li class="user-menu__item">
-                              <a href="#">Регистрация</a>
-                          </li>
-                          <li class="user-menu__item">
-                              <a href="#">Вход</a>
-                          </li>
-                      </ul>
-                    <?php endif; ?>
-                </nav>
-    </div>
-</header>
-<main class="container">
-<?= $main_content; ?>
-</main>
+    <main>
+        <nav class="nav">
+            <ul class="nav__list container">
+            <?php foreach ($categories as $category): ?>
+              <li class="nav__item">
+                <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+              </li>
+            <?php endforeach ?>
+          </ul>
+        </nav>
+        <section class="lot-item container">
+            <h2>404 Страница не найдена</h2>
+            <p>Данной страницы не существует на сайте.</p>
+        </section>
+    </main>
+
 </div>
 
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-             <?php foreach ($categories as $category): ?>
-             <li class="nav__item">
-                <a href="pages/all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+           <?php foreach ($categories as $category): ?>
+
+            <li class="nav__item">
+              <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
             </li>
-        <?php endforeach ?>
+          <?php endforeach ?>
         </ul>
-    </nav>
+      </nav>
     <div class="main-footer__bottom container">
         <div class="main-footer__copyright">
             <p>© 2019, YetiCave</p>
@@ -83,7 +97,6 @@
                 <span class="visually-hidden">Вконтакте</span>
                 <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.666"/><path fill="#879296" d="M13.92 18.07c.142-.016.278-.074.39-.166.077-.107.118-.237.116-.37 0 0 0-1.13.516-1.296.517-.165 1.208 1.09 1.95 1.58.276.213.624.314.973.28h1.95s.973-.057.525-.837c-.38-.62-.865-1.17-1.432-1.626-1.208-1.1-1.043-.916.41-2.816.886-1.16 1.236-1.86 1.13-2.163-.108-.302-.76-.214-.76-.214h-2.164c-.092-.026-.19-.026-.282 0-.083.058-.15.135-.195.225-.224.57-.49 1.125-.8 1.656-.973 1.61-1.344 1.697-1.51 1.59-.37-.234-.272-.975-.272-1.433 0-1.56.243-2.202-.468-2.377-.32-.075-.647-.108-.974-.098-.604-.052-1.213.01-1.793.186-.243.116-.438.38-.32.4.245.018.474.13.642.31.152.303.225.638.214.975 0 0 .127 1.832-.302 2.056-.43.223-.692-.167-1.55-1.618-.29-.506-.547-1.03-.77-1.57-.038-.09-.098-.17-.174-.233-.1-.065-.214-.108-.332-.128H6.485s-.312 0-.42.137c-.106.135 0 .36 0 .36.87 2 2.022 3.868 3.42 5.543.923.996 2.21 1.573 3.567 1.598z"/></svg>
             </a>
-
         </div>
         <a class="main-footer__add-lot button" href="add-lot.html">Добавить лот</a>
         <div class="main-footer__developed-by">
