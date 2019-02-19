@@ -21,6 +21,9 @@ if (!isset($_GET['id'])) {
 $categories = get_categories($con);
 
 $lot = get_lot_by_id($con, intval($_GET['id']));
+$bets = get_bets_by_lot($con, intval($_GET['id']));
+
+
 
 if (is_null($lot['id'])){
 $layout_content = include_template('error.php', 
@@ -35,6 +38,7 @@ $layout_content = include_template('error.php',
 $layout_content = include_template('lot.php', 
   [
   'lot' => $lot, 
+  'bets' => $bets,
   'user_name' => $user_name, 
   'categories' => get_categories($con), 
   'is_auth' => $is_auth
