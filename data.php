@@ -98,7 +98,6 @@ if ($lot_bets_id_result) {
 
 function get_bets_by_lot ($con, $lot_id)
 {
-    $bet_list = [];
     $sql = 
     "
     SELECT `l`.`name` AS 'lot_name', 
@@ -120,7 +119,7 @@ function get_bets_by_lot ($con, $lot_id)
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
 
-    $bet_list = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    $bet_list = mysqli_fetch_all($res, MYSQLI_ASSOC) ?? [];
     
     return $bet_list;
 }
