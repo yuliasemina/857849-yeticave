@@ -81,21 +81,6 @@ function get_lot_by_id ($con, $lot_id)
     return $lot;
 }
 
-/*
-$lot_bets_id_sql = "SELECT `l`.`name`, `b`.`sum_bets` AS 'sum_bets', `b`.`bet_at` FROM `lots` `l`
-JOIN `bets` `b`
-ON `l`.`id` = `b`.`lot_id`
-WHERE `l`.`id` = $lot_id
-GROUP BY `l`.`id`
-ORDER BY `b`.`bet_at` DESC";
-
-$lot_bets_id_result = mysqli_query($con, $lot_bets_id_sql);
-if ($lot_bets_id_result) {
-   $lot_bets_id = mysqli_fetch_all($lot_bets_id_result, MYSQLI_ASSOC);
-} 
-
-*/
-
 function get_bets_by_lot ($con, $lot_id)
 {
     $sql = 
@@ -123,3 +108,32 @@ function get_bets_by_lot ($con, $lot_id)
     
     return $bet_list;
 }
+
+function get_categories_id($con, $name){
+    $sql = 
+    "
+    SELECT `id`
+    FROM `categories`
+    WHERE `categories`.`name` = ?
+    GROUP BY
+    `categories`.`id`
+    ";
+
+    $stmt = db_get_prepare_stmt($con, $sql, [$name]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    $cat = mysqli_fetch_assoc($res);
+    return $cat;
+}
+
+
+function add_lot ($con, $date_end, $name, $description, $image, $start_price, $bet_step, $user_id, $category_id)
+{
+    $sql= "
+    INSERT INTO `lots` (`date_end`, `name`, `description`, `image`, `start_price`, `bet_step`, `user_id`, `category_id`)
+    VALUES ($date_end, $name, $description, $image, $start_price, $bet_step, $user_id, $category_id)
+    ";
+
+    return $sql;
+}  

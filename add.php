@@ -14,7 +14,6 @@ $categories = get_categories($con);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $lot = $_POST;
-
   $required = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
   $dict = ['lot-name' => 'Наименование', 'category' => 'Категория', 'message' => 'Описание', 
           'lot-rate' => 'Начальная цена', 'lot-step' => 'Шаг ставки', 'lot-date' => 'Дата окончания торгов', 'img-file' => 'Изображение'];
@@ -45,6 +44,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else {
       $errors['img-file'] = 'Вы не загрузили файл';
     }
+
+    if (empty($errors)) {
+      $date_end  = $required['lot-date'];
+      $name = $required['lot-name'];
+      $description = $required['message'];
+      $image = 'uploads/' . $path;
+      $start_price = $required['lot-rate'];
+      $bet_step = $required['lot-step'];
+      $user_id = "1";
+      $categories = get_categories_id($con, $required['category']);
+      $category_id = $categories['id'];
+      
+      $new_lot = add_lot ($con, $date_end, $name, $description, $image, $start_price, $bet_step, $user_id, $category_id);
+    }
+
 }
 
 $layout_content = include_template('add.php', 
