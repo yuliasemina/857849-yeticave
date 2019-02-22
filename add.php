@@ -6,70 +6,55 @@ require 'functions.php';
 
 $is_auth = rand(0, 1);
 $user_name = 'Юлия';
-$lot = "";
-$errors = [];
-$dict =[];
 
 $categories = get_categories($con);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $lot = $_POST;
-  $required = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
-  $dict = ['lot-name' => 'Наименование', 'category' => 'Категория', 'message' => 'Описание', 
-          'lot-rate' => 'Начальная цена', 'lot-step' => 'Шаг ставки', 'lot-date' => 'Дата окончания торгов', 'img-file' => 'Изображение'];
-  foreach ($required as $key) {
-    if (empty($_POST[$key])) {
-            $errors[$key] = 'Это поле необходимо заполнить';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $errors = validate_form($_POST);
+//проверка пустой или нет
+// if пустой
+
+    $upload_dir = __DIR__ . '/uploads';
+    if (!is_dir($upload_dir)) {
+      mkdir($upload_dir, 0755);
     }
-  }
-    if (isset($_FILES['img-file']['name'])) {
-      $tmp_name = $_FILES['img-file']['tmp_name'];
-      $path = $_FILES['img-file']['name'];
-
-      $finfo = finfo_open(FILEINFO_MIME_TYPE);
-      $file_type = finfo_file($finfo, $tmp_name);
-
-      if ($file_size > 2097152) {
-          print("Максимальный размер файла: 2Мб");
-       }
-
-      if ($file_type !== "image/png") {
-        $errors['img-file'] = 'Загрузите фото в формате PNG или JPG';
-      }
-      else {
-        move_uploaded_file($tmp_name, 'uploads/' . $path);
-        $lot['path'] = $path;
-      }
-    }
-    else {
-      $errors['img-file'] = 'Вы не загрузили файл';
-    }
-
-    if (empty($errors)) {
-      $date_end  = $required['lot-date'];
-      $name = $required['lot-name'];
-      $description = $required['message'];
-      $image = 'uploads/' . $path;
-      $start_price = $required['lot-rate'];
-      $bet_step = $required['lot-step'];
-      $user_id = "1";
-      $categories = get_categories_id($con, $required['category']);
-      $category_id = $categories['id'];
-      
-      $new_lot = add_lot ($con, $date_end, $name, $description, $image, $start_price, $bet_step, $user_id, $category_id);
+         if (move_uploaded_file($_FILES['image']['tmp_name'],  $upload_dir . '/' . $_FILES['image']['name']))
+     {
+      $lot_id = save_lot(
+        $con,
+        [  
+          'date_end' => $_POST['date_end'],
+          'name' => $_POST['name'],
+          'description' => $_POST['description'],
+          'image' => $_FILES['image']['name'],
+          'start_price' => $_POST['start_price'],
+          'bet_step' => $_POST['bet_step'],
+          'user_id' => 1,
+          'category_id' => $_POST['category_id'],
+        ]
+      ); 
+      //редирект на страницу лота
     }
 
 }
 
-$layout_content = include_template('add.php', 
+$layout_content = include_template(
+  'add.php', 
   [
-    'lot' => $lot, 
-    'errors' => $errors, 
-    'dict' => $dict,
-  'content' => $page_content,
+    'lot' => [
+        'date_end' => $_POST['date_end'] ? htmlspecialchars($_POST['date_end']) : '',
+        'name' => $_POST['name'] ? htmlspecialchars($_POST['name']) : '',
+        'description' => $_POST['description'] ? htmlspecialchars($_POST['description']) : '',
+        'start_price' => $_POST['start_price'] ? htmlspecialchars($_POST['start_price']) : '',
+        'bet_step' => $_POST['bet_step'] ? htmlspecialchars($_POST['bet_step']) : '',
+        'user_id' => $_POST['user_id'] ? htmlspecialchars($_POST['user_id']) : '',
+        'category_id' => $_POST['category_id'] ? htmlspecialchars($_POST['category_id']) : ''
+    ],
+  
+  'errors' => $errors, 
   'user_name' => $user_name, 
   'is_auth' => $is_auth, 
   'categories' => get_categories($con)
 ]);
- 
+
 print($layout_content);

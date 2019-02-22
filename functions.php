@@ -75,3 +75,58 @@ function time_interval ($time_end) {
 
   return $time_lots;
 }
+
+function validate_form($post)
+{
+  $errors = [];
+  $required = ['name', 'category_id', 'description', 'date_end', 'start_price', 'bet_step'];
+  $numbers= ['start_price', 'bet_step'];
+
+  foreach ($required as $key) {
+    if (empty($post[$key])) {
+      $errors[$key] = 'Это поле необходимо заполнить';
+    }
+  }
+
+  foreach ($numbers as $key) {
+    if (!is_numeric($post[$key])) {
+       $errors[$key] = 'Только число';
+    }
+  }
+  
+  if (!isset($_FILES['image'])) {
+    $errors['image'] = 'Загрузите картинку лота';
+  } else if (in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) {
+    $errors['image'] = 'Только JPG или PNG';
+  }
+  
+  return $errors;
+}
+
+function save_lot($con, $data) {
+    $sql = "
+    INSERT INTO lots (`date_end`, `name`, `description`, `image`, `start_price`, `bet_step`, `user_id`, `category_id`) 
+    VALUES ('?', '?', '?', '?', ?, ?, ?, ?);
+    SELECT LAST_INSERT_ID()
+         ";
+    $stmt = db_get_prepare_stmt(
+         $con,
+         $sql,
+         [
+            $data['date_end'],
+            $data['name'],
+            $data['description'],
+            $data['image'],
+            $data['start_price'],
+            $data['bet_step'],
+            $data['user_id'],
+            $data['category_id']
+         ]
+    );
+  
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $lot_id = mysqli_fetch_assoc($res);
+    
+    return $lot_id;
+  }

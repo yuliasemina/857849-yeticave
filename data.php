@@ -109,31 +109,3 @@ function get_bets_by_lot ($con, $lot_id)
     return $bet_list;
 }
 
-function get_categories_id($con, $name){
-    $sql = 
-    "
-    SELECT `id`
-    FROM `categories`
-    WHERE `categories`.`name` = ?
-    GROUP BY
-    `categories`.`id`
-    ";
-
-    $stmt = db_get_prepare_stmt($con, $sql, [$name]);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-
-    $cat = mysqli_fetch_assoc($res);
-    return $cat;
-}
-
-
-function add_lot ($con, $date_end, $name, $description, $image, $start_price, $bet_step, $user_id, $category_id)
-{
-    $sql= "
-    INSERT INTO `lots` (`date_end`, `name`, `description`, `image`, `start_price`, `bet_step`, `user_id`, `category_id`)
-    VALUES ($date_end, $name, $description, $image, $start_price, $bet_step, $user_id, $category_id)
-    ";
-
-    return $sql;
-}  
