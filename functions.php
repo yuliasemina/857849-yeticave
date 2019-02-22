@@ -96,7 +96,7 @@ function validate_form($post)
   
   if (!isset($_FILES['image'])) {
     $errors['image'] = 'Загрузите картинку лота';
-  } else if (in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) {
+  } else if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) {
     $errors['image'] = 'Только JPG или PNG';
   }
   
@@ -107,9 +107,8 @@ function save_lot($con, $data) {
     $sql = "
     INSERT INTO lots (`date_end`, `name`, `description`, `image`, `start_price`, `bet_step`, `user_id`, `category_id`) 
     VALUES ('?', '?', '?', '?', ?, ?, ?, ?);
-    SELECT LAST_INSERT_ID()
          ";
-    $stmt = db_get_prepare_stmt(
+    $stmt = db_get_prepare_stmt (
          $con,
          $sql,
          [
@@ -124,9 +123,7 @@ function save_lot($con, $data) {
          ]
     );
   
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    $lot_id = mysqli_fetch_assoc($res);
+    //mysqli_stmt_execute($stmt);
     
     return $lot_id;
   }

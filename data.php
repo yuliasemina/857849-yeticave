@@ -4,7 +4,11 @@
 
 function get_categories($con){
     $categories = [];
-    $categories_sql = "SELECT `name` AS `category_name` FROM `categories`";
+    $categories_sql = "
+    SELECT 
+    `name` AS `category_name`,
+    `id` AS `id`
+     FROM `categories`";
 
     $categories_result = mysqli_query($con, $categories_sql);
     if ($categories_result) {

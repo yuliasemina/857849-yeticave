@@ -11,9 +11,8 @@ $categories = get_categories($con);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validate_form($_POST);
-//проверка пустой или нет
-// if пустой
 
+ if (empty($errors)) {
     $upload_dir = __DIR__ . '/uploads';
     if (!is_dir($upload_dir)) {
       mkdir($upload_dir, 0755);
@@ -30,11 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           'start_price' => $_POST['start_price'],
           'bet_step' => $_POST['bet_step'],
           'user_id' => 1,
-          'category_id' => $_POST['category_id'],
+          'category_id' => $_POST['category_id']
         ]
       ); 
       //редирект на страницу лота
-    }
+      } 
+    } 
 
 }
 
