@@ -132,41 +132,34 @@ $stmt = mysqli_prepare($con, $sql);
   }
 
 
-
-
 function validate_bet($post)
 {
   $errors = [];
   $required = ['sum_bets'];
   $numbers= ['sum_bets'];
 
-  foreach ($required as $key) {
-    if (empty($post[$key])) {
-      $errors[$key] = 'Это поле необходимо заполнить';
-    }
+    if (empty($post['sum_bets'])) {
+      $errors['sum_bets'] = 'Это поле необходимо заполнить';
   }
 
-  foreach ($numbers as $key) {
-    if (!is_numeric($post[$key])) {
-       $errors[$key] = 'Только число';
+    if (isset($post['sum_bets']) && !is_numeric($post['sum_bets'])) {
+       $errors['sum_bets'] = 'Только число';
     }
-  }
+
   return $errors;
 }
 
 
-
-
-  function save_bet($con, $sum_bet) {
+  function save_bet($con, $sum_bets, $user_id, $lot_id) {
 $sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
-        VALUES (?, ?, ?)";
+        VALUES (?, $user_id, $lot_id)";
     
 $stmt = mysqli_prepare($con, $sql);
 
     $stmt = db_get_prepare_stmt (
          $con,
          $sql,
-         [$sum_bet]
+         [$sum_bets]
     );
   
     mysqli_stmt_execute($stmt);

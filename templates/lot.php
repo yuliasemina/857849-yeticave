@@ -93,13 +93,13 @@
                       <?php endif; ?>
                     </div>
                   </div>
-                  <form class="lot-item__form" action="lot.php" method="post">
+                  <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
                     <p class="lot-item__form-item form__item">
                       <label for="cost">Ваша ставка</label>
                       <?php if ($lot['max_price']): ?>
-                        <input id="cost" type="text" name="cost" placeholder="<?= (price_cur($lot['max_price']+$lot['bet_step'])) ?>">
+                        <input id="cost" type="text" name="sum_bets" placeholder="<?= (price_cur($lot['max_price']+$lot['bet_step'])) ?>">
                         <?php else: ?>
-                          <input id="cost" type="text" name="cost" placeholder="<?= (price_cur($lot['price']+$lot['bet_step'])) ?>">
+                          <input id="cost" type="text" name="sum_bets" placeholder="<?= (price_cur($lot['price']+$lot['bet_step'])) ?>">
                         <?php endif; ?>
                       </p>
                       <button type="submit" class="button">Сделать ставку</button>
