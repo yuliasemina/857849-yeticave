@@ -93,14 +93,20 @@
                       <?php endif; ?>
                     </div>
                   </div>
+                  
                   <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
-                    <p class="lot-item__form-item form__item">
+                    <?php $classname = isset($errors) ? "form__item--invalid" : ""; ?> 
+                    <p class="lot-item__form-item form__item <?= $classname; ?>">                  
                       <label for="cost">Ваша ставка</label>
                       <?php if ($lot['max_price']): ?>
                         <input id="cost" type="text" name="sum_bets" placeholder="<?= (price_cur($lot['max_price']+$lot['bet_step'])) ?>">
                         <?php else: ?>
                           <input id="cost" type="text" name="sum_bets" placeholder="<?= (price_cur($lot['price']+$lot['bet_step'])) ?>">
                         <?php endif; ?>
+                        <?php $classname = isset($errors['sum_bets']) ? "form__item--invalid" : ""; ?> 
+                        <span class="form__error">
+                        <?= $errors['sum_bets'] ?? "" ?>
+                      </span>
                       </p>
                       <button type="submit" class="button">Сделать ставку</button>
                     </form>

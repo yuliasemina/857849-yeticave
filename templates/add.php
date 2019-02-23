@@ -60,7 +60,7 @@
       <div class="form__container-two">
 
         <?php $classname = isset($errors['lot-name']) ? "form__item--invalid" : ""; ?> 
-        <div class="form__item <?=$classname;?>"> <!-- form__item--invalid -->
+        <div class="form__item <?=$classname;?>"> 
           <label for="lot-name">Наименование</label>
           <input id="lot-name" type="text" name="name" value ="<?= $_POST['name'] ?? ''?>" placeholder="Введите наименование лота" required>
           <span class="form__error">
