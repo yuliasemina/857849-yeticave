@@ -18,22 +18,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       mkdir($upload_dir, 0755);
     }
          if (move_uploaded_file($_FILES['image']['tmp_name'],  $upload_dir . '/' . $_FILES['image']['name']))
+         $file_name = 'uploads/' . $_FILES['image']['name'];
      {
+
       $lot_id = save_lot(
         $con,
         [  
           'date_end' => $_POST['date_end'],
           'name' => $_POST['name'],
           'description' => $_POST['description'],
-          'image' => $_FILES['image']['name'],
+          'image' => $file_name,
           'start_price' => $_POST['start_price'],
           'bet_step' => $_POST['bet_step'],
           'user_id' => 1,
           'category_id' => $_POST['category_id']
         ]
       ); 
-      //редирект на страницу лота
+
       } 
+    
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+header("Location: /lot.php?id=$lot_id");
+}
     } 
 
 }

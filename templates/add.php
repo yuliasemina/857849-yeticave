@@ -20,7 +20,7 @@
           <input type="search" name="search" placeholder="Поиск лота">
           <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
-        <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
+        <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
         <nav class="user-menu">
           <ul class="user-menu__list">
            <?php if ($is_auth === 1): ?>
@@ -62,7 +62,7 @@
       <?php $classname = isset($errors['lot-name']) ? "form__item--invalid" : ""; ?> 
       <div class="form__item <?=$classname;?>"> <!-- form__item--invalid -->
         <label for="lot-name">Наименование</label>
-        <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" required>
+        <input id="lot-name" type="text" name="name" value ="<?= $_POST['name'] ?? ''?>" placeholder="Введите наименование лота" required>
         <span class="form__error">
         <?= $errors['name'] ?? "" ?>
         </span>
@@ -74,7 +74,8 @@
         <select id="category" name="category_id" required>
           <option value="" disabled selected>Выберите категорию</option>
           <?php foreach ($categories as $category): ?>
-          <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['category_name']) ?></option>
+          <option value="<?= $category['id'] ?? '' ?>" 
+            ><?= htmlspecialchars($category['category_name']) ?></option>
           <?php endforeach ?>
         </select>
         <span class="form__error">
@@ -86,7 +87,8 @@
     <?php $classname = isset($errors['message']) ? "form__item--invalid" : ""; ?> 
     <div class="form__item form__item--wide <?=$classname;?>">
       <label for="message">Описание</label>
-      <textarea id="message" name="description" placeholder="Напишите описание лота" required></textarea>
+      <textarea id="message" name="description" placeholder="Напишите описание лота" 
+       required><?= $_POST['description'] ?? ''?> </textarea>
       <span class="form__error"> <?= $errors['description'] ?? "" ?></span>
     </div>
 
@@ -111,21 +113,24 @@
       <?php $classname = isset($errors['lot-rate']) ? "form__item--invalid" : ""; ?> 
       <div class="form__item form__item--small <?=$classname;?>">
         <label for="lot-rate">Начальная цена</label>
-        <input id="lot-rate" type="number" name="start_price" placeholder="0" required>
+        <input id="lot-rate" type="number" name="start_price" 
+        value ="<?= $_POST['start_price'] ?? ''?>" placeholder="0" required>
         <span class="form__error"><?= $errors['start_price'] ?? "" ?></span>
       </div>
 
       <?php $classname = isset($errors['lot-step']) ? "form__item--invalid" : ""; ?> 
       <div class="form__item form__item--small <?=$classname;?>">
         <label for="lot-step">Шаг ставки</label>
-        <input id="lot-step" type="number" name="bet_step" placeholder="0" required>
+        <input id="lot-step" type="number" name="bet_step"
+         value ="<?= $_POST['bet_step'] ?? ''?>" placeholder="0" required>
         <span class="form__error"><?= $errors['bet_step'] ?? "" ?></span>
       </div>
 
       <?php $classname = isset($errors['lot-date']) ? "form__item--invalid" : ""; ?> 
       <div class="form__item <?=$classname;?>">
         <label for="lot-date">Дата окончания торгов</label>
-        <input class="form__input-date" id="lot-date" type="date" name="date_end" required>
+        <input class="form__input-date" id="lot-date" type="date" 
+        value ="<?= $_POST['date_end'] ?? ''?>" name="date_end" required>
         <span class="form__error"><?= $errors['date_end'] ?? "" ?></span>
       </div>
     </div>
@@ -176,7 +181,7 @@
         <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.666"/><path fill="#879296" d="M13.92 18.07c.142-.016.278-.074.39-.166.077-.107.118-.237.116-.37 0 0 0-1.13.516-1.296.517-.165 1.208 1.09 1.95 1.58.276.213.624.314.973.28h1.95s.973-.057.525-.837c-.38-.62-.865-1.17-1.432-1.626-1.208-1.1-1.043-.916.41-2.816.886-1.16 1.236-1.86 1.13-2.163-.108-.302-.76-.214-.76-.214h-2.164c-.092-.026-.19-.026-.282 0-.083.058-.15.135-.195.225-.224.57-.49 1.125-.8 1.656-.973 1.61-1.344 1.697-1.51 1.59-.37-.234-.272-.975-.272-1.433 0-1.56.243-2.202-.468-2.377-.32-.075-.647-.108-.974-.098-.604-.052-1.213.01-1.793.186-.243.116-.438.38-.32.4.245.018.474.13.642.31.152.303.225.638.214.975 0 0 .127 1.832-.302 2.056-.43.223-.692-.167-1.55-1.618-.29-.506-.547-1.03-.77-1.57-.038-.09-.098-.17-.174-.233-.1-.065-.214-.108-.332-.128H6.485s-.312 0-.42.137c-.106.135 0 .36 0 .36.87 2 2.022 3.868 3.42 5.543.923.996 2.21 1.573 3.567 1.598z"/></svg>
       </a>
     </div>
-    <a class="main-footer__add-lot button" href="add-lot.html">Добавить лот</a>
+    <a class="main-footer__add-lot button" href="add.php">Добавить лот</a>
     <div class="main-footer__developed-by">
       <span class="visually-hidden">Разработано:</span>
       <a class="logo-academy" href="https://htmlacademy.ru/intensive/php">
