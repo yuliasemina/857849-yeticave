@@ -108,7 +108,6 @@ $sql = "INSERT INTO lots (`date_end`, `name`, `description`, `image`,
 `start_price`, `bet_step`, `user_id`, `category_id`) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
-
 $stmt = mysqli_prepare($con, $sql);
 
     $stmt = db_get_prepare_stmt (
@@ -124,6 +123,50 @@ $stmt = mysqli_prepare($con, $sql);
             $data['user_id'],
             $data['category_id']
          ]
+    );
+  
+    mysqli_stmt_execute($stmt);
+    
+    return mysqli_insert_id($con);   
+ 
+  }
+
+
+
+
+function validate_bet($post)
+{
+  $errors = [];
+  $required = ['sum_bets'];
+  $numbers= ['sum_bets'];
+
+  foreach ($required as $key) {
+    if (empty($post[$key])) {
+      $errors[$key] = 'Это поле необходимо заполнить';
+    }
+  }
+
+  foreach ($numbers as $key) {
+    if (!is_numeric($post[$key])) {
+       $errors[$key] = 'Только число';
+    }
+  }
+  return $errors;
+}
+
+
+
+
+  function save_bet($con, $sum_bet) {
+$sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
+        VALUES (?, ?, ?)";
+    
+$stmt = mysqli_prepare($con, $sql);
+
+    $stmt = db_get_prepare_stmt (
+         $con,
+         $sql,
+         [$sum_bet]
     );
   
     mysqli_stmt_execute($stmt);
