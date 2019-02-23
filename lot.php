@@ -49,7 +49,7 @@ if (is_null($lot['id'])){
     [
       'lot' => $lot, 
       'bets' => $bets,
-      'errors' => $errors, 
+      'errors' => $errors_bets, 
       'user_name' => $user_name, 
       'categories' => get_categories($con), 
       'is_auth' => $is_auth

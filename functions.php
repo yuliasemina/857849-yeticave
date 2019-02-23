@@ -140,9 +140,7 @@ function validate_bet($post)
 
     if (empty($post['sum_bets'])) {
       $errors['sum_bets'] = 'Это поле необходимо заполнить';
-  }
-
-    if (isset($post['sum_bets']) && !is_numeric($post['sum_bets'])) {
+  } else if (!is_numeric($post['sum_bets'])) {
        $errors['sum_bets'] = 'Только число';
     }
 
