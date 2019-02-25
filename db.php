@@ -1,6 +1,4 @@
 <?php
-$link = mysqli_init();
-mysqli_options($link, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1); 
 
 $con = mysqli_connect('localhost', 'root', '', '857849-yeticave');
 
@@ -9,5 +7,6 @@ if ($con === false) {
 	exit();
 }
 
+mysqli_options($con, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1); 
 mysqli_set_charset($con, 'utf8');
 

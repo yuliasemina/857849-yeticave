@@ -24,7 +24,7 @@ function get_lot_list($con){
     `l`.`id`,
     `l`.`name` AS 'title',
     `l`.`start_price` AS 'price',
-    `l`.`image` AS 'url_img',
+    `l`.`image` AS 'image',
     `l`.`date_end` AS 'date_end',
     MAX(`b`.`sum_bets`) `max_price`,
     `c`.`name` AS `category`
@@ -60,7 +60,7 @@ function get_lot_by_id ($con, $lot_id)
     `l`.`id`,
     `l`.`name` AS 'title',
     `l`.`start_price` AS 'price',
-    `l`.`image` AS 'url_img',
+    `l`.`image` AS 'image',
     `l`.`date_end` AS 'date_end',
     `l`.`description` AS description,
     `c`.`name` AS `category_name`,
@@ -119,7 +119,7 @@ function get_lot_list_by_cat ($con, $cat_id){
     $sql = "SELECT
     `l`.`id`,
     `l`.`name` AS 'title',
-    `l`.`image` AS 'url_img',
+    `l`.`image` AS 'image',
     `l`.`start_price` AS 'price',
     `l`.`date_end` AS 'date_end',
     MAX(`b`.`sum_bets`) `max_price`,

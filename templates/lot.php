@@ -1,3 +1,8 @@
+<?php 
+$lot_price = $lot['max_price'] ?: $lot['price'];
+$min_bet = $lot_price + $lot['bet_step'];
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -58,7 +63,7 @@
           <div class="lot-item__content">
             <div class="lot-item__left">
               <div class="lot-item__image">
-                <img src="<?= htmlspecialchars($lot['url_img']) ?>" width="730" height="548" alt="Сноуборд">
+                <img src="<?= htmlspecialchars($lot['image']) ?>" width="730" height="548" alt="<?= htmlspecialchars($lot['title']) ?>">
               </div>
               <p class="lot-item__category">Категория: <span><?= htmlspecialchars($lot['category_name']) ?></span></p>
               <p class="lot-item__description"><?= htmlspecialchars($lot['description']) ?></p>
@@ -71,40 +76,27 @@
                 <div class="lot-item__cost-state">
                   <div class="lot-item__rate">
                     <span class="lot-item__amount">Текущая цена</span>
-                    <?php if ($lot['max_price']): ?>
                       <span class="lot-item__cost">
-                        <?= (price_cur($lot['max_price'])) ?>
+                      <?= (price_format($lot_price)) ?>
                       </span>
-                      <?php else: ?>
-
-                        <span class="lot-item__cost">
-                          <?= (price_cur($lot['price'])) ?>
-                        </span>
-                      <?php endif; ?>
-
+                    
                     </div>
                     <div class="lot-item__min-cost">
                       Мин. ставка <span>
-                       <?php if ($lot['max_price']): ?>
-                        <?= (price_cur($lot['max_price']+$lot['bet_step'])) ?> р
-                        <?php else: ?>
-                          <?= (price_cur($lot['price']+$lot['bet_step'])) ?> р
+                        <?= (price_format($min_bet)) ?> р
                         </span>
-                      <?php endif; ?>
                     </div>
                   </div>
                   
                   <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
-                    <?php $classname = isset($errors) ? "form__item--invalid" : ""; ?> 
-                    <p class="lot-item__form-item form__item <?= $classname; ?>">                  
+                    <p class="lot-item__form-item form__item <?= count($errors) > 0 ? "form__item--invalid" : "";  ?>                  
                       <label for="cost">Ваша ставка</label>
-                      <?php if ($lot['max_price']): ?>
-                        <input id="cost" type="text" name="sum_bets" placeholder="<?= (price_cur($lot['max_price']+$lot['bet_step'])) ?>">
-                        <?php else: ?>
-                          <input id="cost" type="text" name="sum_bets" placeholder="<?= (price_cur($lot['price']+$lot['bet_step'])) ?>">
-                        <?php endif; ?>
-                        <?php $classname = isset($errors['sum_bets']) ? "form__item--invalid" : ""; ?> 
-                        <span class="form__error">
+                        <input id="cost" 
+                               type="text" 
+                               name="sum_bets" 
+                               placeholder="<?= (price_format($min_bet)) ?>"
+                        > 
+                        <span class="form__error isset($errors['sum_bets']) ? "form__item--invalid" : """>
                         <?= $errors['sum_bets'] ?? "" ?>
                       </span>
                       </p>
@@ -117,7 +109,7 @@
                       <?php foreach ($bets as $bet): ?>
                         <tr class="history__item">
                           <td class="history__name"><?= htmlspecialchars($bet['user_name']) ?></td>
-                          <td class="history__price"><?= price_cur($bet['sum_bets']) ?> р</td>
+                          <td class="history__price"><?= price_format($bet['sum_bets']) ?> р</td>
                           <td class="history__time"><?= htmlspecialchars($bet['time']) ?></td>
                         </tr>
                       <?php endforeach ?>
