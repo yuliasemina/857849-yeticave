@@ -46,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $layout_content = include_template(
   'add.php', 
   [
-    /*
+    
     'lot' => [
-      'date_end' => $_POST['date_end'] ? htmlspecialchars($_POST['date_end']) : '',
+    /*  'date_end' => $_POST['date_end'] ? htmlspecialchars($_POST['date_end']) : '',
       'name' => $_POST['name'] ? htmlspecialchars($_POST['name']) : '',
       'description' => $_POST['description'] ? htmlspecialchars($_POST['description']) : '',
       'start_price' => $_POST['start_price'] ? htmlspecialchars($_POST['start_price']) : '',
@@ -65,5 +65,4 @@ $layout_content = include_template(
     'is_auth' => $is_auth, 
     'categories' => get_categories($con)
   ]);
-
 print($layout_content);

@@ -27,8 +27,7 @@ $min_bet = $lot_price + $lot['bet_step'];
         </form>
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
         <nav class="user-menu">
-          <ul class="user-menu__list">
-           <?php if ($is_auth === 1): ?>
+          <?php if ($is_auth === 1): ?>
              <div class="user-menu__logged">
               <p>
                 <?php print("$user_name"); ?>

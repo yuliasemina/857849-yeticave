@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sum_bets'])) {
   } 
 
   if (empty($errors_bets)) {
-    $sum_bets = $_POST['sum_bets'];
+    
     $lot_id = $lot['id'];
     save_bet ($con, $sum_bets, 1, $lot_id); 
     header("Location: /lot.php?id=$lot_id");

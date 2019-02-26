@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Все лоты</title>
-  <link href="css/normalize.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <title>Регистрация</title>
+  <link href="../css/normalize.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -16,79 +16,84 @@
       <a class="main-header__logo" href="index.php">
         <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
       </a>
-      <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
+      <form class="main-header__search" method="get" action="sign_up.php">
         <input type="search" name="search" placeholder="Поиск лота">
         <input class="main-header__search-btn" type="submit" name="find" value="Найти">
       </form>
-      <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
+      <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
       <nav class="user-menu">
-           <?php if ($is_auth === 1): ?>
-             <div class="user-menu__logged">
-              <p>
-                <?php print("$user_name"); ?>
-              </p>
-            </div>
-            <?php else: ?>
-              <ul class="user-menu__list">
-                <li class="user-menu__item">
-                  <a href="sign-up.html">Регистрация</a>
-                </li>
-                <li class="user-menu__item">
-                  <a href="login.html">Вход</a>
-                </li>
-              </ul>
-            <?php endif; ?>
-          
-      </nav>
+                    <?php if ($is_auth === 1): ?>
+                     <div class="user-menu__logged">
+                        <p>
+                            <?php print($user_name); ?>
+                        </p>
+                    </div>
+                    
+                    <?php else: ?>
+                        <ul class="user-menu__list">
+                            <li class="user-menu__item">
+                              <a href="#">Регистрация</a>
+                          </li>
+                          <li class="user-menu__item">
+                              <a href="#">Вход</a>
+                          </li>
+                      </ul>
+                    <?php endif; ?>
+                </nav>
     </div>
   </header>
 
   <main>
     <nav class="nav">
-      <ul class="nav__list container">
-        <?php foreach ($categories as $category): ?>
-           <li class="nav__item">
-            <a href="all_lots.php?id=<?= intval($category['id']) ?>"><?= htmlspecialchars($category['category_name']) ?></a>
-          </li>
-        <?php endforeach ?>
-      </ul>
+     <ul class="nav__list container">
+            <?php foreach ($categories as $category): ?>
+              <li class="nav__item">
+                <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+              </li>
+            <?php endforeach ?>
+          </ul>
     </nav>
-    <div class="container">
-      <section class="lots">
-        <h2>Все лоты в категории <span>«Доски и лыжи»</span></h2>
-        <ul class="lots__list">
-           <?php foreach ($lots as $lot): ?>
-          <li class="lots__item lot">
-            <div class="lot__image">
-              <img src="<?= htmlspecialchars($lot['image']) ?>" width="350" height="260" alt="<?= htmlspecialchars($lot['image']) ?>">
-            </div>
-            <div class="lot__info">
-              <span class="lot__category"><?= htmlspecialchars($lot['category']) ?></span>
-              <h3 class="lot__title"><a class="text-link" href="lot.php?id=<?= intval($lot['id']) ?>">
-                <?= htmlspecialchars($lot['title']) ?></a></h3>
-              <div class="lot__state">
-                <div class="lot__rate">
-                  <span class="lot__amount">Стартовая цена</span>
-                  <span class="lot__cost"><?= price_cur($lot['price']) ?><b class="rub">р</b></span>
-                </div>
-                <div class="lot__timer timer">
-                   <?= time_interval($lot['date_end']); ?>
-                </div>
-              </div>
-            </div>
-          </li>
-          <?php endforeach ?>
-        </ul>
-      </section>
-      <ul class="pagination-list">
-        <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
-        <li class="pagination-item pagination-item-active"><a>1</a></li>
-        <li class="pagination-item"><a href="#">2</a></li>
-        <li class="pagination-item"><a href="#">3</a></li>
-        <li class="pagination-item"><a href="#">4</a></li>
-        <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
-      </ul>
-    </div>
+    <form class="form container  <?= isset($errors) ? "form--invalid" : "" ?> " action="sign_up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
+      <h2>Регистрация нового аккаунта</h2>
+      <div class="form__item <?= isset($errors['email']) ? "form__item--invalid" : "" ?>"> <!-- form__item--invalid -->
+        <label for="email">E-mail*</label>
+        <input id="email" type="text" name="email" value = "<?=$values['email'] ?? ''; ?>" placeholder="Введите e-mail" required>
+        <span class="form__error">Введите e-mail</span>
+      </div>
+      <div class="form__item <?= isset($errors['password']) ? "form__item--invalid" : "" ?>">
+        <label for="password">Пароль*</label>
+        <input id="password" type="text" name="password" value = "<?=$values['password'] ?? ''; ?>" placeholder="Введите пароль" required>
+        <span class="form__error">Введите пароль</span>
+      </div>
+      <div class="form__item <?= isset($errors['name']) ? "form__item--invalid" : "" ?>">
+        <label for="name">Имя*</label>
+        <input id="name" type="text" name="name" value = "<?=$values['name'] ?? ''; ?>" placeholder="Введите имя" required>
+        <span class="form__error">Введите имя</span>
+      </div>
+      <div class="form__item">
+        <label for="message">Контактные данные*</label>
+        <textarea id="message" name="message" value = "<?=$values['message'] ?? ''; ?>" placeholder="Напишите как с вами связаться" required></textarea>
+        <span class="form__error">Напишите как с вами связаться</span>
+      </div>
+      <div class="form__item form__item--file form__item--last">
+        <label>Аватар</label>
+        <div class="preview">
+          <button class="preview__remove" type="button">x</button>
+          <div class="preview__img">
+            <img src="img/avatar.jpg" width="113" height="113" alt="Ваш аватар">
+          </div>
+        </div>
+        <div class="form__input-file">
+          <input class="visually-hidden" type="file" id="photo2" value="">
+          <label for="photo2">
+            <span>+ Добавить</span>
+          </label>
+        </div>
+      </div>
+      <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+      <button type="submit" class="button">Зарегистрироваться</button>
+      <a class="text-link" href="#">Уже есть аккаунт</a>
+    </form>
   </main>
 
 </div>
@@ -96,12 +101,13 @@
 <footer class="main-footer">
   <nav class="nav">
     <ul class="nav__list container">
-      <?php foreach ($categories as $category): ?>
-        <li class="nav__item">
-          <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
-        </li>
-      <?php endforeach ?>
-    </ul>
+             <?php foreach ($categories as $category): ?>
+
+              <li class="nav__item">
+                <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+              </li>
+            <?php endforeach ?>
+          </ul>
   </nav>
   <div class="main-footer__bottom container">
     <div class="main-footer__copyright">
