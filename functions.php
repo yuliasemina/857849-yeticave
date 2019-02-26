@@ -75,3 +75,93 @@ function time_interval ($time_end) {
 
   return $time_lots;
 }
+
+function validate_form($post)
+{
+  $errors = [];
+  $required = ['name', 'category_id', 'description', 'date_end', 'start_price', 'bet_step'];
+  $numbers= ['start_price', 'bet_step'];
+
+  foreach ($required as $key) {
+    if (empty($post[$key])) {
+      $errors[$key] = 'Это поле необходимо заполнить';
+    }
+  }
+
+  foreach ($numbers as $key) {
+    if (!is_numeric($post[$key])) {
+       $errors[$key] = 'Только число';
+    }
+  }
+  if (!isset($_FILES['image'])) {
+    $errors['image'] = 'Загрузите картинку лота';
+  } 
+  else if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) 
+      {
+          $errors['image'] = 'Только JPG или PNG';
+      }
+  return $errors;
+}
+
+function save_lot($con, $data = []) {
+$sql = "INSERT INTO lots (`date_end`, `name`, `description`, `image`, 
+`start_price`, `bet_step`, `user_id`, `category_id`) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+$stmt = mysqli_prepare($con, $sql);
+
+    $stmt = db_get_prepare_stmt (
+         $con,
+         $sql,
+         [
+            $data['date_end'],
+            $data['name'],
+            $data['description'],
+            $data['image'],
+            $data['start_price'],
+            $data['bet_step'],
+            $data['user_id'],
+            $data['category_id']
+         ]
+    );
+  
+    mysqli_stmt_execute($stmt);
+    
+    return mysqli_insert_id($con);   
+ 
+  }
+
+
+function validate_bet($post)
+{
+  $errors = [];
+  $required = ['sum_bets'];
+  $numbers= ['sum_bets'];
+
+    if (empty($post['sum_bets'])) {
+      $errors['sum_bets'] = 'Это поле необходимо заполнить';
+  } else if (!is_numeric($post['sum_bets'])) {
+       $errors['sum_bets'] = 'Только число';
+    }
+
+  return $errors;
+}
+
+
+  function save_bet($con, $sum_bets, $user_id, $lot_id) {
+$sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
+        VALUES (?, $user_id, $lot_id)";
+    
+$stmt = mysqli_prepare($con, $sql);
+
+    $stmt = db_get_prepare_stmt (
+         $con,
+         $sql,
+         [$sum_bets]
+    );
+  
+    mysqli_stmt_execute($stmt);
+    
+    return mysqli_insert_id($con);   
+ 
+  }
