@@ -23,6 +23,8 @@ $categories = get_categories($con);
 $lot = get_lot_by_id($con, intval($_GET['id']));
 $bets = get_bets_by_lot($con, intval($_GET['id']));
 $errors_bets = [];
+
+$lot_price = $lot['max_price'] ?: $lot['price'];
 $min_bet = $lot_price + $lot['bet_step'];
 
 

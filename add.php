@@ -46,12 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $layout_content = include_template(
   'add.php', 
   [
+    /*
     'lot' => [
       'date_end' => $_POST['date_end'] ? htmlspecialchars($_POST['date_end']) : '',
       'name' => $_POST['name'] ? htmlspecialchars($_POST['name']) : '',
       'description' => $_POST['description'] ? htmlspecialchars($_POST['description']) : '',
       'start_price' => $_POST['start_price'] ? htmlspecialchars($_POST['start_price']) : '',
       'bet_step' => $_POST['bet_step'] ? htmlspecialchars($_POST['bet_step']) : '',
+    */
+
+
       'user_id' => 1, // $_POST['user_id'] ? htmlspecialchars($_POST['user_id']) : '',
       'category_id' => $_POST['category_id'] ?? 0
     ],
