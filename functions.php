@@ -179,7 +179,6 @@ $stmt = mysqli_prepare($con, $sql);
       $errors[$key] = $dict[$key];
     }
   }
-
         if (empty($errors)) {
           $email = mysqli_real_escape_string($con, $_POST['email']);
           $sql = "SELECT `id` FROM `users` WHERE `email` = '$email'";
@@ -187,29 +186,28 @@ $stmt = mysqli_prepare($con, $sql);
 
           if (mysqli_num_rows($res) > 0) {
             $errors ['email'] = 'Пользователь с таким email уже зарегистрирован';
-          } 
-          else {
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $sql = "INSERT INTO `users` (`email`, `name`, `password`, `contact`)
-            VALUES (?, ?, ?, ?)";
-
-            $stmt = db_get_prepare_stmt($con, $sql, [
-              $_POST['email'], 
-              $_POST['name'], 
-              $password, 
-              $_POST['contact']
-            ]);
-            $res = mysqli_stmt_execute($stmt);
-
-          }
+          }          
         }
-
-  if (isset($_FILES['image'])) {
-    
-      if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) 
-      {
-          $errors['image'] = 'Только JPG или PNG';
-      }
-    }
+  
   return $errors;
 }
+
+
+function save_user($con, $data = []) {
+$sql = "INSERT INTO `users` (`email`, `name`, `password`, `avatar`, `contact`)
+            VALUES (?, ?, ?, ?, ?)";
+
+$stmt = mysqli_prepare($con, $sql);
+            $stmt = db_get_prepare_stmt($con, $sql, 
+              [
+              $data['email'], 
+              $data['name'], 
+              $data['password'], 
+              $data['image'],
+              $data['contact']
+            ]);
+
+    mysqli_stmt_execute($stmt);
+    return mysqli_insert_id($con);   
+ 
+  }
