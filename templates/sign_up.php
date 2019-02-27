@@ -58,17 +58,22 @@
       <div class="form__item <?= isset($errors['email']) ? "form__item--invalid" : "" ?>"> <!-- form__item--invalid -->
         <label for="email">E-mail*</label>
         <input id="email" type="text" name="email" value="<?= $_POST['email'] ?? ''?>" placeholder="Введите e-mail" required>
-        <span class="form__error">Введите e-mail</span>
+        <span class="form__error">
+              <?= $errors['email'] ?? "" ?>
+        </span>
+
       </div>
       <div class="form__item <?= isset($errors['password']) ? "form__item--invalid" : "" ?>">
         <label for="password">Пароль*</label>
         <input id="password" type="text" name="password" value="<?= $_POST['password'] ?? ''?>" placeholder="Введите пароль" required>
-        <span class="form__error">Введите пароль</span>
+        <span class="form__error">
+              <?= $errors['password'] ?? "" ?>
       </div>
       <div class="form__item <?= isset($errors['name']) ? "form__item--invalid" : "" ?>">
         <label for="name">Имя*</label>
         <input id="name" type="text" name="name" value="<?= $_POST['name'] ?? ''?>" placeholder="Введите имя" required>
-        <span class="form__error">Введите имя</span>
+        <span class="form__error">
+              <?= $errors['name'] ?? "" ?>
       </div>
       <div class="form__item <?= isset($errors['contact']) ? "form__item--invalid" : "" ?>">
         <label for="message">Контактные данные*</label>
