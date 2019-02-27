@@ -15,8 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 		
 		if (isset($_FILES['image'])) {
-			if (!in_array(mime_content_type($_FILES['image']['tmp_name']),
-				['image/png', 'image/jpeg', 'image.jpg'])) {
+			if (!in_array(
+				mime_content_type(
+				$_FILES['image']['tmp_name']),
+				['image/png', 'image/jpeg', 'image.jpg'])
+		      ) {
 				$errors['image'] = 'Только JPG или PNG';
 		} else
 			$file_name = uniqid() . $_FILES['image']['name'];
@@ -38,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	if ($res && empty($errors)) {
 		if ($user_id > 0) {
-			header("Location: /sign_up.php");
+			header("Location: /index.php");
 			exit();
 		}
 	}
