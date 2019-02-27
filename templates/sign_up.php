@@ -57,22 +57,22 @@
       <h2>Регистрация нового аккаунта</h2>
       <div class="form__item <?= isset($errors['email']) ? "form__item--invalid" : "" ?>"> <!-- form__item--invalid -->
         <label for="email">E-mail*</label>
-        <input id="email" type="text" name="email" value = "<?=$values['email'] ?? ''; ?>" placeholder="Введите e-mail" required>
+        <input id="email" type="text" name="email" value="<?= $_POST['email'] ?? ''?>" placeholder="Введите e-mail" required>
         <span class="form__error">Введите e-mail</span>
       </div>
       <div class="form__item <?= isset($errors['password']) ? "form__item--invalid" : "" ?>">
         <label for="password">Пароль*</label>
-        <input id="password" type="text" name="password" value = "<?=$values['password'] ?? ''; ?>" placeholder="Введите пароль" required>
+        <input id="password" type="text" name="password" value="<?= $_POST['password'] ?? ''?>" placeholder="Введите пароль" required>
         <span class="form__error">Введите пароль</span>
       </div>
       <div class="form__item <?= isset($errors['name']) ? "form__item--invalid" : "" ?>">
         <label for="name">Имя*</label>
-        <input id="name" type="text" name="name" value = "<?=$values['name'] ?? ''; ?>" placeholder="Введите имя" required>
+        <input id="name" type="text" name="name" value="<?= $_POST['name'] ?? ''?>" placeholder="Введите имя" required>
         <span class="form__error">Введите имя</span>
       </div>
-      <div class="form__item">
+      <div class="form__item <?= isset($errors['contact']) ? "form__item--invalid" : "" ?>">
         <label for="message">Контактные данные*</label>
-        <textarea id="message" name="message" value = "<?=$values['message'] ?? ''; ?>" placeholder="Напишите как с вами связаться" required></textarea>
+        <textarea id="message" name="contact" value = "<?= $_POST['contact'] ?? ''?>" placeholder="Напишите как с вами связаться" required></textarea>
         <span class="form__error">Напишите как с вами связаться</span>
       </div>
       <div class="form__item form__item--file form__item--last">
@@ -90,7 +90,9 @@
           </label>
         </div>
       </div>
-      <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+      <?php if (!empty($errors)): ?>
+         <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+       <?php endif; ?>
       <button type="submit" class="button">Зарегистрироваться</button>
       <a class="text-link" href="#">Уже есть аккаунт</a>
     </form>
