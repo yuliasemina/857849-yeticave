@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>404 Страница не найдена</title>
+    <title>403 Необходима авторизация</title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -54,8 +54,8 @@
           </ul>
         </nav>
         <section class="lot-item container">
-            <h2>404 Страница не найдена</h2>
-            <p>Данной страницы не существует на сайте.</p>
+            <h2>403 Необходима авторизация</h2>
+            <p>Для добавления лота необходимо авторизоваться на сайте.</p>
         </section>
     </main>
 

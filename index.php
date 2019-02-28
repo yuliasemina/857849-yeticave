@@ -5,8 +5,6 @@ require 'data.php';
 require 'functions.php';
 session_start();
 
-$is_auth = 0;
-
 $title_name = 'Главная';
 
 $user_name = '';
@@ -21,8 +19,8 @@ $lot_list = get_lot_list($con);
 
 $page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lot_list]);
 
-$layout_content = include_template('layout.php', ['main_content'=> $page_content, 'title_name' => $title_name, 'user_name' => $user_name, 'categories' => $categories, 
-	'is_auth' => $is_auth]);
+$layout_content = include_template('layout.php', ['main_content'=> $page_content, 'title_name' => $title_name, 
+	'user_name' => $user_name, 'categories' => $categories]);
 
 print($layout_content);
 
