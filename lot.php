@@ -3,8 +3,9 @@
 require 'db.php';
 require 'data.php';
 require 'functions.php';
+session_start();
 
-$is_auth = rand(0, 1);
+$is_auth = 0;
 $user_name = 'Юлия';
 
 if (!isset($_GET['id'])) {
@@ -23,6 +24,8 @@ $categories = get_categories($con);
 $lot = get_lot_by_id($con, intval($_GET['id']));
 $bets = get_bets_by_lot($con, intval($_GET['id']));
 $errors_bets = [];
+
+$lot_price = $lot['max_price'] ?: $lot['price'];
 $min_bet = $lot_price + $lot['bet_step'];
 
 
@@ -44,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sum_bets'])) {
   } 
 
   if (empty($errors_bets)) {
-    $sum_bets = $_POST['sum_bets'];
+    
     $lot_id = $lot['id'];
     save_bet ($con, $sum_bets, 1, $lot_id); 
     header("Location: /lot.php?id=$lot_id");

@@ -27,8 +27,7 @@ $min_bet = $lot_price + $lot['bet_step'];
         </form>
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
         <nav class="user-menu">
-          <ul class="user-menu__list">
-           <?php if ($is_auth === 1): ?>
+          <?php if ($is_auth === 1): ?>
              <div class="user-menu__logged">
               <p>
                 <?php print("$user_name"); ?>
@@ -37,7 +36,7 @@ $min_bet = $lot_price + $lot['bet_step'];
             <?php else: ?>
               <ul class="user-menu__list">
                 <li class="user-menu__item">
-                  <a href="sign-up.html">Регистрация</a>
+                  <a href="sign_up.php">Регистрация</a>
                 </li>
                 <li class="user-menu__item">
                   <a href="login.html">Вход</a>
@@ -53,7 +52,7 @@ $min_bet = $lot_price + $lot['bet_step'];
           <ul class="nav__list container">
             <?php foreach ($categories as $category): ?>
               <li class="nav__item">
-                <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+                <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
               </li>
             <?php endforeach ?>
           </ul>
@@ -129,7 +128,7 @@ $min_bet = $lot_price + $lot['bet_step'];
              <?php foreach ($categories as $category): ?>
 
               <li class="nav__item">
-                <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+                <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
               </li>
             <?php endforeach ?>
           </ul>
