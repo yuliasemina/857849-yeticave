@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (empty($errors)) {
     $upload_dir = __DIR__ . '/uploads';
-    if (!is_dir($upload_dir)) {
-      mkdir($upload_dir, 0755);
-    }
+        if (!is_dir($upload_dir)) {
+          mkdir($upload_dir, 0755);
+        }
 
     $file_name = uniqid() . $_FILES['image']['name'];
     if (move_uploaded_file($_FILES['image']['tmp_name'],  $upload_dir . '/' . $file_name)) {
@@ -36,12 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'user_id' => 1,
         'category_id' => $_POST['category_id']
       ]
-     ); 
-         if ($lot_id > 0) {
-        header("Location: /lot.php?id=$lot_id");
-        } 
-     } 
-  }
+    ); 
+     if ($lot_id > 0) {
+      header("Location: /lot.php?id=$lot_id");
+    } 
+  } 
+}
 }
 
 $layout_content = include_template(

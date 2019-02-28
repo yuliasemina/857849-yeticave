@@ -16,34 +16,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (empty($errors)) {			
 		$password = password_hash($_POST['password'], PASSWORD_DEFAULT);		
 
+        $upload_dir = __DIR__ . '/uploads';
+        if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755);
+    }
 		
 		$file_name = uniqid() . $_FILES['image']['name'];
 		if (move_uploaded_file($_FILES['image']['tmp_name'],  $upload_dir . '/' . $file_name)) {
 			$file_path = 'uploads/' . $file_name;
 		}
-			$user_id = save_user(		
-				$con,	
-				[   	
-					'email' => $_POST['email'], 
-					'name' =>  $_POST['name'], 
-					'password' =>  $password, 
-					'image' => $file_path,
-					'contact' =>  $_POST['contact']
-				]	
-			);		
+		$user_id = save_user(		
+			$con,	
+			[   	
+				'email' => $_POST['email'], 
+				'name' =>  $_POST['name'], 
+				'password' =>  $password, 
+				'image' => $file_path,
+				'contact' =>  $_POST['contact']
+			]	
+		);		
 
-			if ($user_id > 0) {		
-				header("Location: /pages/login.html");	
-				exit();	
-			}		
-		}			
-	}				
+		if ($user_id > 0) {		
+			header("Location: /pages/login.html");	
+			exit();	
+		}		
+	}			
+}				
 
-	$layout_content = include_template('sign_up.php', 				
-		[   			
-			'errors' => $errors,		
-			'categories' => get_categories($con), 		
-			'is_auth' => $is_auth		
-		]);			
 
-	print($layout_content);				
+$layout_content = include_template('sign_up.php', 				
+	[   			
+		'errors' => $errors,		
+		'categories' => get_categories($con), 		
+		'is_auth' => $is_auth		
+	]);			
+
+print($layout_content);				
