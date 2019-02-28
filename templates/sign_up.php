@@ -27,6 +27,7 @@
                         <p>
                             <?php print($user_name); ?>
                         </p>
+                        <a href="logout.php">Выйти</a>
                     </div>
                     
                     <?php else: ?>
@@ -35,7 +36,7 @@
                               <a href="#">Регистрация</a>
                           </li>
                           <li class="user-menu__item">
-                              <a href="#">Вход</a>
+                              <a href="login.php">Вход</a>
                           </li>
                       </ul>
                     <?php endif; ?>

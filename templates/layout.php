@@ -24,9 +24,8 @@
         <nav class="user-menu">
                     <?php if ($is_auth === 1): ?>
                      <div class="user-menu__logged">
-                        <p>
-                            <?php print($user_name); ?>
-                        </p>
+                        <p><?php print($user_name); ?></p>
+                        <a href="logout.php">Выйти</a>
                     </div>
                     
                     <?php else: ?>
@@ -35,7 +34,7 @@
                               <a href="sign_up.php">Регистрация</a>
                           </li>
                           <li class="user-menu__item">
-                              <a href="#">Вход</a>
+                              <a href="login.php">Вход</a>
                           </li>
                       </ul>
                     <?php endif; ?>

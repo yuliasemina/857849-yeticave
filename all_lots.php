@@ -6,7 +6,13 @@ require 'functions.php';
 session_start();
 
 $is_auth = 0;
-$user_name = 'Юлия';
+$user_name = '';
+if (isset($_SESSION['user'])) {
+    $is_auth = 1; 
+  $user = $_SESSION['user'];  
+  $user_name = $user['name'];
+}  
+
 
 if (!isset($_GET['id'])) {
   echo include_template('error.php', 

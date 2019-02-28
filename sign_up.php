@@ -37,8 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		);		
 
 		if ($user_id > 0) {		
-			header("Location: /pages/login.html");	
-			exit();	
+			header("Location: /login.php");	
 		}		
 	}			
 }				

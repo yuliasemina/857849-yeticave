@@ -32,6 +32,7 @@ $min_bet = $lot_price + $lot['bet_step'];
               <p>
                 <?php print("$user_name"); ?>
               </p>
+              <a href="logout.php">Выйти</a>
             </div>
             <?php else: ?>
               <ul class="user-menu__list">
@@ -39,7 +40,7 @@ $min_bet = $lot_price + $lot['bet_step'];
                   <a href="sign_up.php">Регистрация</a>
                 </li>
                 <li class="user-menu__item">
-                  <a href="login.html">Вход</a>
+                  <a href="login.php">Вход</a>
                 </li>
               </ul>
             <?php endif; ?>
