@@ -5,7 +5,7 @@ require 'data.php';
 require 'functions.php';
 session_start();
 
-$is_auth = rand(0, 1);
+$is_auth = 0;
 $user_name = 'Юлия';
 
 if (!isset($_GET['id'])) {
