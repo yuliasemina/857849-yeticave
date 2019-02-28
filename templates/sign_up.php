@@ -48,7 +48,7 @@
      <ul class="nav__list container">
             <?php foreach ($categories as $category): ?>
               <li class="nav__item">
-                <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+                <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
               </li>
             <?php endforeach ?>
           </ul>
@@ -65,7 +65,7 @@
       </div>
       <div class="form__item <?= isset($errors['password']) ? "form__item--invalid" : "" ?>">
         <label for="password">Пароль*</label>
-        <input id="password" type="text" name="password" value="<?= $_POST['password'] ?? ''?>" placeholder="Введите пароль" required>
+        <input id="password" type="password" name="password" value="" placeholder="Введите пароль" required>
         <span class="form__error">
               <?= $errors['password'] ?? "" ?>
         </span>
@@ -79,7 +79,8 @@
       </div>
       <div class="form__item <?= isset($errors['contact']) ? "form__item--invalid" : "" ?>">
         <label for="message">Контактные данные*</label>
-        <textarea id="message" name="contact" value = "<?= $_POST['contact'] ?? ''?>" placeholder="Напишите как с вами связаться" required></textarea>
+        <textarea id="message" name="contact" placeholder="Напишите как с вами связаться" required
+        ><?= isset($_POST['contact']) ? htmlspecialchars($_POST['contact']) : ''?></textarea>
         <span class="form__error">
               <?= $errors['contact'] ?? "" ?>
         </span>
@@ -118,7 +119,7 @@
              <?php foreach ($categories as $category): ?>
 
               <li class="nav__item">
-                <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+                <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
               </li>
             <?php endforeach ?>
           </ul>

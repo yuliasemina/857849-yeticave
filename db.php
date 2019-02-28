@@ -1,8 +1,6 @@
 <?php
 
 $con = mysqli_connect('localhost', 'root', '', '857849-yeticave');
-session_start();
-
 
 if ($con === false) {
 	print('Ошибка подключения: '. mysqli_connect_error());

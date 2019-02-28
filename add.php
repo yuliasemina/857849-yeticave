@@ -3,6 +3,7 @@
 require 'db.php';
 require 'data.php';
 require 'functions.php';
+session_start();
 
 $is_auth = rand(0, 1);
 $user_name = 'Юлия';
@@ -20,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $file_name = uniqid() . $_FILES['image']['name'];
-
     if (move_uploaded_file($_FILES['image']['tmp_name'],  $upload_dir . '/' . $file_name)) {
      $file_path = 'uploads/' . $file_name;
+     
      $lot_id = save_lot(
       $con,
       [  
@@ -48,16 +49,13 @@ $layout_content = include_template(
   [
     
     'lot' => [
-    /*  'date_end' => $_POST['date_end'] ? htmlspecialchars($_POST['date_end']) : '',
-      'name' => $_POST['name'] ? htmlspecialchars($_POST['name']) : '',
-      'description' => $_POST['description'] ? htmlspecialchars($_POST['description']) : '',
-      'start_price' => $_POST['start_price'] ? htmlspecialchars($_POST['start_price']) : '',
-      'bet_step' => $_POST['bet_step'] ? htmlspecialchars($_POST['bet_step']) : '',
-    */
-
-
+      'date_end' => isset($_POST['date_end']) ? htmlspecialchars($_POST['date_end']) : '',
+      'name' => isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '',
+      'description' => isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '',
+      'start_price' => isset($_POST['start_price']) ? htmlspecialchars($_POST['start_price']) : '',
+      'bet_step' => isset($_POST['bet_step']) ? htmlspecialchars($_POST['bet_step']) : '',
       'user_id' => 1, // $_POST['user_id'] ? htmlspecialchars($_POST['user_id']) : '',
-      'category_id' => $_POST['category_id'] ?? 0
+      'category_id' => isset($_POST['category_id']) ? intval($_POST['category_id']) : ''
     ],
     
     'errors' => $errors, 
@@ -65,4 +63,5 @@ $layout_content = include_template(
     'is_auth' => $is_auth, 
     'categories' => get_categories($con)
   ]);
+
 print($layout_content);

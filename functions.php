@@ -90,47 +90,47 @@ function validate_form($post)
 
   foreach ($numbers as $key) {
     if (!is_numeric($post[$key])) {
-       $errors[$key] = 'Только число';
-    }
-  }
-  if (!isset($_FILES['image'])) {
-    $errors['image'] = 'Загрузите картинку лота';
-  } 
-  else if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) 
-      {
-          $errors['image'] = 'Только JPG или PNG';
-      }
-  return $errors;
+     $errors[$key] = 'Только число';
+   }
+ }
+ if (!isset($_FILES['image']) || empty($_FILES['image']['tmp_name'])) {
+  $errors['image'] = 'Загрузите картинку лота';
+} 
+else if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) 
+{
+  $errors['image'] = 'Только JPG или PNG';
+}
+return $errors;
 }
 
 
 function save_lot($con, $data = []) {
-$sql = "INSERT INTO lots (`date_end`, `name`, `description`, `image`, 
-`start_price`, `bet_step`, `user_id`, `category_id`) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    
-$stmt = mysqli_prepare($con, $sql);
+  $sql = "INSERT INTO lots (`date_end`, `name`, `description`, `image`, 
+  `start_price`, `bet_step`, `user_id`, `category_id`) 
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $stmt = db_get_prepare_stmt (
-         $con,
-         $sql,
-         [
-            $data['date_end'],
-            $data['name'],
-            $data['description'],
-            $data['image'],
-            $data['start_price'],
-            $data['bet_step'],
-            $data['user_id'],
-            $data['category_id']
-         ]
-    );
+  $stmt = mysqli_prepare($con, $sql);
+
+  $stmt = db_get_prepare_stmt (
+   $con,
+   $sql,
+   [
+    $data['date_end'],
+    $data['name'],
+    $data['description'],
+    $data['image'],
+    $data['start_price'],
+    $data['bet_step'],
+    $data['user_id'],
+    $data['category_id']
+  ]
+);
   
-    mysqli_stmt_execute($stmt);
-    
-    return mysqli_insert_id($con);   
- 
-  }
+  mysqli_stmt_execute($stmt);
+
+  return mysqli_insert_id($con);   
+
+}
 
 
 function validate_bet($post)
@@ -139,75 +139,89 @@ function validate_bet($post)
   $required = ['sum_bets'];
   $numbers= ['sum_bets'];
 
-    if (empty($post['sum_bets'])) {
-      $errors['sum_bets'] = 'Это поле необходимо заполнить';
+  if (empty($post['sum_bets'])) {
+    $errors['sum_bets'] = 'Это поле необходимо заполнить';
   } else if (!is_numeric($post['sum_bets'])) {
-       $errors['sum_bets'] = 'Только число';
-    }
+   $errors['sum_bets'] = 'Только число';
+ }
 
-  return $errors;
+ return $errors;
 }
 
 
-  function save_bet($con, $sum_bets, $user_id, $lot_id) {
-$sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
-        VALUES (?, $user_id, $lot_id)";
-    
-$stmt = mysqli_prepare($con, $sql);
+function save_bet($con, $sum_bets, $user_id, $lot_id) {
+  $sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
+  VALUES (?, $user_id, $lot_id)";
 
-    $stmt = db_get_prepare_stmt (
-         $con,
-         $sql,
-         [$sum_bets]
-    );
+  $stmt = mysqli_prepare($con, $sql);
+
+  $stmt = db_get_prepare_stmt (
+   $con,
+   $sql,
+   [$sum_bets]
+ );
   
-    mysqli_stmt_execute($stmt);
-    
-    return mysqli_insert_id($con);   
- 
-  }
+  mysqli_stmt_execute($stmt);
 
-  function validate_reg_form ($con, $post)
+  return mysqli_insert_id($con);   
+
+}
+
+function validate_reg_form ($con, $post)
 {
   $errors = [];
   $rec_fields = ['email', 'password', 'name', 'contact'];
   $dict = ['email' => 'Введите e-mail', 'password' => 'Введите пароль', 
-   'name' => 'Введите имя',  'contact' => 'Напишите как с вами связаться'];
+  'name' => 'Введите имя',  'contact' => 'Напишите как с вами связаться'];
   
   foreach ($rec_fields as $key) {
     if (empty($post[$key])) {
       $errors[$key] = $dict[$key];
     }
   }
-        if (empty($errors)) {
-          $email = mysqli_real_escape_string($con, $_POST['email']);
-          $sql = "SELECT `id` FROM `users` WHERE `email` = '$email'";
-          $res = mysqli_query ($con, $sql);
 
-          if (mysqli_num_rows($res) > 0) {
-            $errors ['email'] = 'Пользователь с таким email уже зарегистрирован';
-          }          
-        }
+  if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
+    $errors ['email'] = 'Введите корректный email';
+  }
+
+  if (empty($errors)) {
+    $email = mysqli_real_escape_string($con, $post['email']);
+    $sql = "SELECT `id` FROM `users` WHERE `email` = '$email'";
+    $res = mysqli_query ($con, $sql);
+
+    if (mysqli_num_rows($res) > 0) {
+      $errors ['email'] = 'Пользователь с таким email уже зарегистрирован';
+    }          
+  }
   
+  if (!isset($_FILES['image']) || empty($_FILES['image']['tmp_name'])) {
+  // $errors['image'] = 'Загрузите аватар';   -- необязательное поле
+  } else 
+     if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) 
+  {
+    $errors['image'] = 'Только JPG или PNG';
+  }
+  
+
   return $errors;
 }
 
 
 function save_user($con, $data = []) {
-$sql = "INSERT INTO `users` (`email`, `name`, `password`, `avatar`, `contact`)
-            VALUES (?, ?, ?, ?, ?)";
+  $sql = "INSERT INTO `users` (`email`, `name`, `password`, `avatar`, `contact`)
+  VALUES (?, ?, ?, ?, ?)";
 
-$stmt = mysqli_prepare($con, $sql);
-            $stmt = db_get_prepare_stmt($con, $sql, 
-              [
-              $data['email'], 
-              $data['name'], 
-              $data['password'], 
-              $data['image'],
-              $data['contact']
-            ]);
+  $stmt = mysqli_prepare($con, $sql);
+  $stmt = db_get_prepare_stmt($con, $sql, 
+    [
+      $data['email'], 
+      $data['name'], 
+      $data['password'], 
+      $data['image'],
+      $data['contact']
+    ]);
 
-    mysqli_stmt_execute($stmt);
-    return mysqli_insert_id($con);   
- 
-  }
+  mysqli_stmt_execute($stmt);
+  return mysqli_insert_id($con);   
+
+}

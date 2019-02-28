@@ -3,6 +3,7 @@
 require 'db.php';
 require 'data.php';
 require 'functions.php';
+session_start();
 
 $is_auth = rand(0, 1);
 

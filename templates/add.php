@@ -31,7 +31,7 @@
             <?php else: ?>
               <ul class="user-menu__list">
                 <li class="user-menu__item">
-                  <a href="sign-up.html">Регистрация</a>
+                  <a href="sign_up.php">Регистрация</a>
                 </li>
                 <li class="user-menu__item">
                   <a href="login.html">Вход</a>
@@ -47,7 +47,7 @@
         <ul class="nav__list container">
          <?php foreach ($categories as $category): ?>
            <li class="nav__item">
-            <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+            <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
           </li>
         <?php endforeach ?>
       </ul>
@@ -71,8 +71,9 @@
             <?php foreach ($categories as $category): ?>
               <option 
                 value="<?= $category['id'] ?>" 
-                <? $category['id'] === (int) $lot['category_id'] ? 'selected' : ''  ?>
-                ><?= htmlspecialchars($category['category_name']) ?>    
+                <?= $category['id'] === (int) $lot['category_id'] ? 'selected' : ''  ?>
+              >
+                <?= htmlspecialchars($category['category_name']) ?>    
               </option>
               <?php endforeach ?>
             </select>
@@ -151,7 +152,7 @@
     <ul class="nav__list container">
       <?php foreach ($categories as $category): ?>
         <li class="nav__item">
-          <a href="all-lots.html"><?= htmlspecialchars($category['category_name']) ?></a>
+          <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
         </li>
       <?php endforeach ?>
     </ul>
