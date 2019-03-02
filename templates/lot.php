@@ -69,7 +69,7 @@ $min_bet = $lot_price + $lot['bet_step'];
             <p class="lot-item__description"><?= htmlspecialchars($lot['description']) ?></p>
           </div>
           <div class="lot-item__right">
-            <?php if (isset($_SESSION['user'])): ?>
+           
             <div class="lot-item__state">
               <div class="lot-item__timer timer">
                 <?= time_interval($lot['date_end']); ?>
@@ -86,23 +86,24 @@ $min_bet = $lot_price + $lot['bet_step'];
                     <?= (price_format($min_bet)) ?> р
                   </span>
                 </div>
-            </div>
-              <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
-                <p class="lot-item__form-item form__item <?= count($errors) > 0 ? "form__item--invalid" : "";  ?>                  
-                <label for="cost">Ваша ставка</label>
-                <input id="cost" 
-                type="text" 
-                name="sum_bets" 
-                placeholder="<?= (price_format($min_bet)) ?>"
-                > 
-                <span class="form__error isset($errors['sum_bets']) ? "form__item--invalid" : """>
-                  <?= $errors['sum_bets'] ?? "" ?>
-                </span>
-              </p>
-              <button type="submit" class="button">Сделать ставку</button>
-            </form>
+              </div>
+              <?php if (isset($_SESSION['user'])): ?>
+                <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
+                  <p class="lot-item__form-item form__item <?= count($errors) > 0 ? "form__item--invalid" : "";  ?>                  
+                  <label for="cost">Ваша ставка</label>
+                  <input id="cost" 
+                  type="text" 
+                  name="sum_bets" 
+                  placeholder="<?= (price_format($min_bet)) ?>"
+                  > 
+                  <span class="form__error isset($errors['sum_bets']) ? "form__item--invalid" : """>
+                    <?= $errors['sum_bets'] ?? "" ?>
+                  </span>
+                </p>
+                <button type="submit" class="button">Сделать ставку</button>
+              </form>
+            <?php endif; ?>
           </div>
-          <?php endif; ?>
           <div class="history">
             <h3>История ставок (<span><?php echo count($bets) ?></span>)</h3>
             <table class="history__list">
