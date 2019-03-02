@@ -1,4 +1,6 @@
-<?php							
+<?php	
+require 'db.php';				
+
 session_start();				
 
 unset($_SESSION['user']);
