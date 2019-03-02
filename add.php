@@ -79,5 +79,5 @@ $layout_content = include_template(
     'categories' => get_categories($con)
   ]);
 }
-print($user_id);
+
 print($layout_content);

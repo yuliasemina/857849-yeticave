@@ -1,7 +1,7 @@
 <?php 
 $lot_price = $lot['max_price'] ?: $lot['price'];
 $min_bet = $lot_price + $lot['bet_step'];
-$rub = 'rub';
+
 
 $user_id = '';
 if (isset($_SESSION['user'])) {
@@ -85,12 +85,12 @@ if (isset($_SESSION['user'])) {
                 <div class="lot-item__rate">
                   <span class="lot-item__amount">Текущая цена</span>
                   <span class="lot-item__cost">
-                    <?= (price_format($lot_price, $rub)) ?>
+                    <?= (price_format($lot_price)) ?>
                   </span>
                 </div>
                 <div class="lot-item__min-cost">
                   Мин. ставка <span>
-                    <?= (price_format($min_bet, '')) ?> р
+                    <?= (price_format($min_bet)) ?> р
                   </span>
                 </div>
               </div>
@@ -101,7 +101,7 @@ if (isset($_SESSION['user'])) {
                   <input id="cost" 
                   type="text" 
                   name="sum_bets" 
-                  placeholder="<?= (price_format($min_bet, '')) ?>"
+                  placeholder="<?= (price_format($min_bet)) ?>"
                   > 
                   <span class="form__error isset($errors['sum_bets']) ? "form__item--invalid" : """>
                     <?= $errors['sum_bets'] ?? "" ?>
@@ -117,7 +117,7 @@ if (isset($_SESSION['user'])) {
               <?php foreach ($bets as $bet): ?>
                 <tr class="history__item">
                   <td class="history__name"><?= htmlspecialchars($bet['user_name']) ?></td>
-                  <td class="history__price"><?= price_format($bet['sum_bets'], '') ?> р</td>
+                  <td class="history__price"><?= price_format($bet['sum_bets']) ?> р</td>
                   <td class="history__time"><?= htmlspecialchars($bet['time']) ?></td>
                 </tr>
               <?php endforeach ?>

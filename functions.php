@@ -38,13 +38,11 @@ function include_template($name, $data) {
    *
    */
 
-function price_format($price, $rub) {
+function price_format($price) {
   $price = ceil($price);
   $price = number_format($price, 0, ".", " ");
-
-  if($rub==='rub') {
   $price .= " ₽";
-}
+
   return $price;
 };
 
