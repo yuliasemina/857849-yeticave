@@ -1,6 +1,13 @@
 <?php 
 $lot_price = $lot['max_price'] ?: $lot['price'];
 $min_bet = $lot_price + $lot['bet_step'];
+$rub = 'rub';
+
+$user_id = '';
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user']; 
+  $user_id = $user['id'];
+} 
 ?>
 
 <!DOCTYPE html>
@@ -78,23 +85,23 @@ $min_bet = $lot_price + $lot['bet_step'];
                 <div class="lot-item__rate">
                   <span class="lot-item__amount">Текущая цена</span>
                   <span class="lot-item__cost">
-                    <?= (price_format($lot_price)) ?>
+                    <?= (price_format($lot_price, $rub)) ?>
                   </span>
                 </div>
                 <div class="lot-item__min-cost">
                   Мин. ставка <span>
-                    <?= (price_format($min_bet)) ?> р
+                    <?= (price_format($min_bet, '')) ?> р
                   </span>
                 </div>
               </div>
-              <?php if (isset($_SESSION['user'])): ?>
+              <?php if ((isset($_SESSION['user'])) && ($lot['user_id'] != $user_id)): ?>
                 <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
                   <p class="lot-item__form-item form__item <?= count($errors) > 0 ? "form__item--invalid" : "";  ?>                  
                   <label for="cost">Ваша ставка</label>
                   <input id="cost" 
                   type="text" 
                   name="sum_bets" 
-                  placeholder="<?= (price_format($min_bet)) ?>"
+                  placeholder="<?= (price_format($min_bet, '')) ?>"
                   > 
                   <span class="form__error isset($errors['sum_bets']) ? "form__item--invalid" : """>
                     <?= $errors['sum_bets'] ?? "" ?>
@@ -110,7 +117,7 @@ $min_bet = $lot_price + $lot['bet_step'];
               <?php foreach ($bets as $bet): ?>
                 <tr class="history__item">
                   <td class="history__name"><?= htmlspecialchars($bet['user_name']) ?></td>
-                  <td class="history__price"><?= price_format($bet['sum_bets']) ?> р</td>
+                  <td class="history__price"><?= price_format($bet['sum_bets'], '') ?> р</td>
                   <td class="history__time"><?= htmlspecialchars($bet['time']) ?></td>
                 </tr>
               <?php endforeach ?>

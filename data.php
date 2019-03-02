@@ -62,10 +62,11 @@ function get_lot_by_id ($con, $lot_id)
     `l`.`start_price` AS 'price',
     `l`.`image` AS 'image',
     `l`.`date_end` AS 'date_end',
-    `l`.`description` AS description,
+    `l`.`description` AS 'description',
+    `l`.`user_id` AS 'user_id',
     `c`.`name` AS `category_name`,
     MAX(`b`.`sum_bets`) `max_price`,
-    `l`.`bet_step` AS bet_step
+    `l`.`bet_step` AS 'bet_step'
     FROM `lots` `l`
     JOIN `categories` `c`
         ON `l`.`category_id` = `c`.`id`

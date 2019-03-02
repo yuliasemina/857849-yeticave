@@ -38,11 +38,13 @@ function include_template($name, $data) {
    *
    */
 
-function price_format($price) {
+function price_format($price, $rub) {
   $price = ceil($price);
   $price = number_format($price, 0, ".", " ");
-  $price .= " ₽";
 
+  if($rub==='rub') {
+  $price .= " ₽";
+}
   return $price;
 };
 
@@ -93,6 +95,14 @@ function validate_form($post)
      $errors[$key] = 'Только число';
    }
  }
+
+$date_current = strtotime("now");
+$date_end = strtotime ($post['date_end']);
+
+if ($date_end < $date_current) {
+   $errors['date_end'] = 'Дата должна быть больше текущей';
+}
+
  if (!isset($_FILES['image']) || empty($_FILES['image']['tmp_name'])) {
   $errors['image'] = 'Загрузите картинку лота';
 } 
