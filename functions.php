@@ -197,7 +197,7 @@ function validate_reg_form ($con, $post)
   if (!isset($_FILES['image']) || empty($_FILES['image']['tmp_name'])) {
   // $errors['image'] = 'Загрузите аватар';   -- необязательное поле
   } else 
-     if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) 
+  if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png', 'image/jpeg', 'image.jpg'])) 
   {
     $errors['image'] = 'Только JPG или PNG';
   }
@@ -224,4 +224,43 @@ function save_user($con, $data = []) {
   mysqli_stmt_execute($stmt);
   return mysqli_insert_id($con);   
 
+}
+
+function validate_login ($con, $post)
+{
+  $errors = [];
+  $rec_fields = ['email', 'password'];
+  $dict = ['email' => 'Введите e-mail', 'password' => 'Введите пароль'];
+  
+  foreach ($rec_fields as $key) {
+    if (empty($post[$key])) {
+      $errors[$key] = $dict[$key];
+    }
+  }
+
+  if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
+    $errors ['email'] = 'Введите корректный email';
+  }
+
+  if (empty($errors)) {
+    $email = mysqli_real_escape_string($con, $post['email']);
+    $sql = "SELECT * FROM `users` WHERE `email` = '$email'";
+    $res = mysqli_query ($con, $sql);
+
+    $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
+    if (!count($errors) and $user) {
+      if (password_verify($post['password'], $user['password'])){
+        $_SESSION['user'] = $user;
+      } else {
+        $errors['password'] = 'Неверный пароль';
+      }
+    }
+    else {
+      $errors['email'] = 'Такой пользователь не найден';
+    }
+    
+  }
+  
+
+  return $errors;
 }

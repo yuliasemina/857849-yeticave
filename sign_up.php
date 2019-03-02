@@ -4,8 +4,7 @@ require 'db.php';
 require 'data.php';				
 require 'functions.php';				
 session_start();				
-
-$is_auth = 0;				
+			
 $tpl_data = [];				
 $file_path ="";				
 $errors = [];				
@@ -37,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		);		
 
 		if ($user_id > 0) {		
-			header("Location: /pages/login.html");	
-			exit();	
+			header("Location: /login.php");	
 		}		
 	}			
 }				
@@ -47,8 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $layout_content = include_template('sign_up.php', 				
 	[   			
 		'errors' => $errors,		
-		'categories' => get_categories($con), 		
-		'is_auth' => $is_auth		
+		'categories' => get_categories($con)		
 	]);			
 
 print($layout_content);				

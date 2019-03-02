@@ -5,15 +5,18 @@ require 'data.php';
 require 'functions.php';
 session_start();
 
-$is_auth = 0;
-$user_name = 'Юлия';
+$user_name = '';
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user'];  
+  $user_name = $user['name'];
+}  
+
 
 if (!isset($_GET['id'])) {
   echo include_template('error.php', 
     [
       'user_name' => $user_name, 
-      'categories' => get_categories($con), 
-      'is_auth' => $is_auth
+      'categories' => get_categories($con)
     ]
   );
   exit;
@@ -28,8 +31,7 @@ if (is_null($cat['id'])){
   $layout_content = include_template('error.php', 
     [
       'user_name' => $user_name, 
-      'categories' => get_categories($con), 
-      'is_auth' => $is_auth
+      'categories' => get_categories($con)
     ]);
 
 } else {
@@ -37,8 +39,7 @@ if (is_null($cat['id'])){
     [
       'lots' => $lot_list, 
       'user_name' => $user_name, 
-      'categories' => get_categories($con), 
-      'is_auth' => $is_auth
+      'categories' => get_categories($con)
     ]);
 
 }
