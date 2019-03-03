@@ -41,7 +41,7 @@ function include_template($name, $data) {
 function price_format($price) {
   $price = ceil($price);
   $price = number_format($price, 0, ".", " ");
- // $price .= " ₽";
+  $price .= " ₽";
 
   return $price;
 };

@@ -49,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sum_bets'])) {
   }
   else if ($sum_bets < $min_bet) {
  $errors_bets['sum_bets'] = 'Ставка не может быть ниже минимальной';
- print($min_bet);
   } 
 
   if (empty($errors_bets)) {
@@ -81,5 +80,5 @@ if (is_null($lot['id'])){
     ]);
 
 }
-
+print($bets['user_id']);
 print($layout_content);
