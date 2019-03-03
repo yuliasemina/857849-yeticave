@@ -41,7 +41,7 @@ foreach ($bets as $bet){
         </form>
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
         <nav class="user-menu">
-          <?php if (isset($_SESSION['user'])): ?>
+          <?php if (isset($user_id)): ?>
            <div class="user-menu__logged">
              <p>
                <?php print("$user_name"); ?>
@@ -101,7 +101,7 @@ foreach ($bets as $bet){
                   </span>
                 </div>
               </div>
-              <?php if ((isset($_SESSION['user'])) && ($lot['user_id'] != $user_id) 
+              <?php if ((isset($user_id)) && ($lot['user_id'] != $user_id) 
               && (strtotime(($lot['date_end'])) > strtotime('now')) && !$isbet): ?>
 
             <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
