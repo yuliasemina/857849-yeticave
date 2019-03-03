@@ -93,6 +93,7 @@ function get_bets_by_lot ($con, $lot_id)
     SELECT `l`.`name` AS 'lot_name', 
     `b`.`sum_bets` AS 'sum_bets', 
     `b`.`bet_at` AS 'time',
+    DATE_FORMAT(`b`.`bet_at`, '%d.%m.%y' ' в ' '%H:%i') AS 'time2',
     `u`.`name` AS 'user_name'
     FROM `lots` `l`
     JOIN 

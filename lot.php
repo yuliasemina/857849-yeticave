@@ -81,4 +81,5 @@ if (is_null($lot['id'])){
     ]);
 
 }
+
 print($layout_content);
