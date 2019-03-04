@@ -12,16 +12,6 @@ if (isset($_SESSION['user'])) {
 }  
 
 
-if (!isset($_GET['id'])) {
-  echo include_template('error.php', 
-    [
-      'user_name' => $user_name, 
-      'categories' => get_categories($con)
-    ]
-  );
-  exit;
-}
-
 $categories = get_categories($con);
 
 
@@ -29,32 +19,28 @@ $categories = get_categories($con);
     $page_items = 3;  
     $offset = ($cur_page - 1) * $page_items;
 
-$lot_list = get_lot_list_by_cat ($con, intval($_GET['id']), $page_items, $offset);
 $cat = get_cat_by_id($con, intval($_GET['id']));
+
+$lot_list = [];
+$search = $_GET['q'] ?? '';
+if ($search) {
+$lot_list = get_lot_list_search($con, $search);
 $items_count = count($lot_list);
 $pages_count = ceil($items_count / $page_items);
 $pages = range(1, $pages_count);
 
+}
 
 
-if (is_null($cat['id'])){
-  $layout_content = include_template('error.php', 
-    [
-      'user_name' => $user_name, 
-      'categories' => get_categories($con)
-    ]);
-
-} else {
-$layout_content = include_template('all_lots.php', 
+$layout_content = include_template('search.php', 
     [
       'pages' => $pages,
       'pages_count' => $pages_count,
       'cur_page' => $cur_page,
-      'cat' => $cat,
       'lots' => $lot_list, 
       'user_name' => $user_name, 
       'categories' => get_categories($con)
     ]);
 
-}
+
 print($layout_content);

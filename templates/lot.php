@@ -67,7 +67,7 @@ foreach ($bets as $bet){
         <ul class="nav__list container">
           <?php foreach ($categories as $category): ?>
             <li class="nav__item">
-              <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
+              <a href="all_lots.php?id=<?= intval($category['id']) ?>"><?= htmlspecialchars($category['category_name']) ?></a>
             </li>
           <?php endforeach ?>
         </ul>
@@ -168,7 +168,7 @@ foreach ($bets as $bet){
       <?php foreach ($categories as $category): ?>
 
         <li class="nav__item">
-          <a href="all_lots.php"><?= htmlspecialchars($category['category_name']) ?></a>
+          <a href="all_lots.php?id=<?= intval($category['id']) ?>"><?= htmlspecialchars($category['category_name']) ?></a>
         </li>
       <?php endforeach ?>
     </ul>
