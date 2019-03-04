@@ -80,5 +80,4 @@ if (is_null($lot['id'])){
     ]);
 
 }
-print($bets['user_id']);
 print($layout_content);
