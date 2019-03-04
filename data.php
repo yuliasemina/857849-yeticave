@@ -117,7 +117,7 @@ function get_bets_by_lot ($con, $lot_id)
     return $bet_list;
 }
 
-function get_lot_list_by_cat ($con, $cat_id){
+function get_lot_list_by_cat ($con, $cat_id, $page_items, $offset){
 
     $lot_list = [];
     $sql = "SELECT
@@ -145,10 +145,52 @@ function get_lot_list_by_cat ($con, $cat_id){
     GROUP BY
     `l`.`id`
     ORDER BY
-    `l`.`start_at` DESC";
+    `l`.`start_at` DESC LIMIT $page_items OFFSET $offset";
 
 
     $stmt = db_get_prepare_stmt($con, $sql, [$cat_id]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    $lot_list = mysqli_fetch_all($res, MYSQLI_ASSOC) ?? [];
+
+   return $lot_list;
+}
+
+
+function get_lot_list_search ($con, $search){
+
+    $lot_list = [];
+    $sql = "SELECT
+    `l`.`id`,
+    `l`.`name` AS 'title',
+    `l`.`description` AS 'description',
+    `l`.`image` AS 'image',
+    `l`.`start_price` AS 'price',
+    `l`.`date_end` AS 'date_end',
+    MAX(`b`.`sum_bets`) `max_price`,
+    `c`.`id` AS `id_cat`,
+    `c`.`name` AS `category`
+    
+    FROM
+    `lots` `l`
+    INNER JOIN
+    `categories` `c`
+    ON `l`.`category_id` = `c`.`id`
+    LEFT JOIN
+    `bets` `b`
+    ON `b`.`lot_id` = `l`.`id`
+    WHERE
+    `l`.`date_end` > CURDATE(),
+    AND `l`.`winner_id` IS NULL
+    AND MATCH(title, description) AGAINST(?)
+    GROUP BY
+    `l`.`id`
+    ORDER BY
+    `l`.`start_at` DESC";
+
+
+    $stmt = db_get_prepare_stmt($con, $sql, [$search]);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
 

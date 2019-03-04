@@ -45,3 +45,5 @@ CREATE TABLE users (
 
 CREATE UNIQUE INDEX `cat_name` ON `categories`(`name`);
 CREATE UNIQUE INDEX `user_email` ON `users`(`email`);
+
+CREATE FULLTEXT INDEX lot_search ON lots (`name`, `description`);
