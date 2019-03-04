@@ -6,6 +6,7 @@ require 'functions.php';
 session_start();
 
 $user_name = '';
+$user_id = '';
 
 if (!isset($_SESSION['user'])) {
   header('add error: 403');
@@ -20,6 +21,7 @@ if (!isset($_SESSION['user'])) {
   if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];  
     $user_name = $user['name'];
+    $user_id = $user['id'];
   }
 
   $categories = get_categories($con);
@@ -47,7 +49,7 @@ if (!isset($_SESSION['user'])) {
           'image' => $file_path,
           'start_price' => $_POST['start_price'],
           'bet_step' => $_POST['bet_step'],
-          'user_id' => 1,
+          'user_id' => $user_id,
           'category_id' => $_POST['category_id']
         ]
       ); 
@@ -77,4 +79,5 @@ $layout_content = include_template(
     'categories' => get_categories($con)
   ]);
 }
+
 print($layout_content);

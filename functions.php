@@ -47,13 +47,13 @@ function price_format($price) {
 };
 
 
-function price_cur($price) {
+/*function price_cur($price) {
   $price = ceil($price);
   $price = number_format($price, 0, ".", " ");
 
   return $price;
 };
-
+*/
 /**
    * Функция определяет время, оставшееся до определенного момента
    * @param int @time_now -- по умолчанию - текущее время.
@@ -93,6 +93,14 @@ function validate_form($post)
      $errors[$key] = 'Только число';
    }
  }
+
+$date_current = strtotime("now")+'60';
+$date_end = strtotime ($post['date_end']);
+
+if ($date_end < $date_current) {
+   $errors['date_end'] = 'Дата должна быть больше текущей минимум на 1 день';
+}
+
  if (!isset($_FILES['image']) || empty($_FILES['image']['tmp_name'])) {
   $errors['image'] = 'Загрузите картинку лота';
 } 
@@ -263,4 +271,28 @@ function validate_login ($con, $post)
   
 
   return $errors;
+}
+
+function nounEnding($number, $words = ['one', 'two', 'many'])
+{
+    $number = (int) $number;
+    $mod10 = $number % 10;
+    $mod100 = $number % 100;
+
+    switch (true) {
+        case ($mod100 >= 11 && $mod100 <= 20):
+            return $words[2];
+        
+        case ($mod10 > 5):
+            return $words[2];
+        
+        case ($mod10 === 1):
+            return $words[0];
+        
+        case ($mod10 === 2 || $mod10 === 3 || $mod10 === 4):
+            return $words[1];
+        
+        default:
+            return $words[2];
+    }
 }
