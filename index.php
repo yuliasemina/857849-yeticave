@@ -9,7 +9,7 @@ $title_name = 'Главная';
 
 $user_name = '';
 if (isset($_SESSION['user'])) {
-    $is_auth = 1;	
+	$is_auth = 1;	
 	$user = $_SESSION['user'];	
 	$user_name = $user['name'];
 }  
@@ -19,8 +19,18 @@ $lot_list = get_lot_list($con);
 
 $page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lot_list]);
 
-$layout_content = include_template('layout.php', ['main_content'=> $page_content, 'title_name' => $title_name, 
-	'user_name' => $user_name, 'categories' => $categories]);
+$layout_content = include_template('layout.php', [
+	'pages' => $pages,
+	'pages_count' => $pages_count,
+	'cur_page' => $cur_page,
+	'$items_count' => $items_count,
+	
+	
+	'main_content'=> $page_content, 
+	'title_name' => $title_name, 
+	'user_name' => $user_name, 
+	'categories' => $categories
+]);
 
 print($layout_content);
 

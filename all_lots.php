@@ -51,6 +51,7 @@ if (is_null($cat['id'])){
       'pages' => $pages,
       'pages_count' => $pages_count,
       'cur_page' => $cur_page,
+      '$items_count' => $items_count,
       'cat' => $cat,
       'lots' => $lot_list, 
       'user_name' => $user_name, 
@@ -58,4 +59,5 @@ if (is_null($cat['id'])){
     ]);
 
 }
+
 print($layout_content);
