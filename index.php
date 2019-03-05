@@ -20,12 +20,6 @@ $lot_list = get_lot_list($con);
 $page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lot_list]);
 
 $layout_content = include_template('layout.php', [
-	'pages' => $pages,
-	'pages_count' => $pages_count,
-	'cur_page' => $cur_page,
-	'$items_count' => $items_count,
-	
-	
 	'main_content'=> $page_content, 
 	'title_name' => $title_name, 
 	'user_name' => $user_name, 
