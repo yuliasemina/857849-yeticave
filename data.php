@@ -145,8 +145,7 @@ function get_lot_list_by_cat ($con, $cat_id, $page_items, $offset){
     GROUP BY
     `l`.`id`
     ORDER BY
-    `l`.`start_at` DESC LIMIT $page_items OFFSET $offset";
-
+    `l`.`start_at` DESC LIMIT ". $page_items. " OFFSET " . $offset;
 
     $stmt = db_get_prepare_stmt($con, $sql, [$cat_id]);
     mysqli_stmt_execute($stmt);
@@ -155,6 +154,39 @@ function get_lot_list_by_cat ($con, $cat_id, $page_items, $offset){
     $lot_list = mysqli_fetch_all($res, MYSQLI_ASSOC) ?? [];
 
    return $lot_list;
+}
+
+
+
+function get_lot_list_by_cat_result ($con, $cat_id){
+
+    $lot_list = [];
+    $sql = "SELECT *
+    
+    FROM
+    `lots` `l`
+    INNER JOIN
+    `categories` `c`
+    ON `l`.`category_id` = `c`.`id`
+    LEFT JOIN
+    `bets` `b`
+    ON `b`.`lot_id` = `l`.`id`
+    WHERE
+    `l`.`date_end` > CURDATE()
+    AND `l`.`winner_id` IS NULL
+    AND `c`.`id` = ?
+    ORDER BY
+    `l`.`start_at` DESC";
+
+    $stmt = db_get_prepare_stmt($con, $sql, [$cat_id]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    
+    $result = mysqli_fetch_all($res, MYSQLI_ASSOC) ?? [];
+
+  //  $lot_list = mysqli_fetch_all($res, MYSQLI_ASSOC) ?? [];
+
+   return $result;
 }
 
 
