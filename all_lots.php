@@ -30,7 +30,7 @@ $cur_page = $_GET['page'] ?? 1;
 $page_items = 3;  
 $offset = ($cur_page - 1) * $page_items;
 
-$items_count = count(get_lot_list_by_cat_result($con, intval($_GET['id'])));
+$items_count = get_lot_list_by_cat_total($con, intval($_GET['id']));
 
 $pages_count = ceil($items_count / $page_items);
 $pages = range(1, $pages_count);
@@ -51,7 +51,7 @@ if (is_null($cat['id'])){
       'pages' => $pages,
       'pages_count' => $pages_count,
       'cur_page' => $cur_page,
-      '$items_count' => $items_count,
+      'items_count' => $items_count,
       'cat' => $cat,
       'lots' => $lot_list, 
       'user_name' => $user_name, 

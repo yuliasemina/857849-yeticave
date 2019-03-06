@@ -111,36 +111,6 @@ else if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png'
 return $errors;
 }
 
-
-function save_lot($con, $data = []) {
-  $sql = "INSERT INTO lots (`date_end`, `name`, `description`, `image`, 
-  `start_price`, `bet_step`, `user_id`, `category_id`) 
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-  $stmt = mysqli_prepare($con, $sql);
-
-  $stmt = db_get_prepare_stmt (
-   $con,
-   $sql,
-   [
-    $data['date_end'],
-    $data['name'],
-    $data['description'],
-    $data['image'],
-    $data['start_price'],
-    $data['bet_step'],
-    $data['user_id'],
-    $data['category_id']
-  ]
-);
-  
-  mysqli_stmt_execute($stmt);
-
-  return mysqli_insert_id($con);   
-
-}
-
-
 function validate_bet($post)
 {
   $errors = [];
@@ -154,25 +124,6 @@ function validate_bet($post)
  }
 
  return $errors;
-}
-
-
-function save_bet($con, $sum_bets, $user_id, $lot_id) {
-  $sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
-  VALUES (?, $user_id, $lot_id)";
-
-  $stmt = mysqli_prepare($con, $sql);
-
-  $stmt = db_get_prepare_stmt (
-   $con,
-   $sql,
-   [$sum_bets]
- );
-  
-  mysqli_stmt_execute($stmt);
-
-  return mysqli_insert_id($con);   
-
 }
 
 function validate_reg_form ($con, $post)
@@ -212,26 +163,6 @@ function validate_reg_form ($con, $post)
   
 
   return $errors;
-}
-
-
-function save_user($con, $data = []) {
-  $sql = "INSERT INTO `users` (`email`, `name`, `password`, `avatar`, `contact`)
-  VALUES (?, ?, ?, ?, ?)";
-
-  $stmt = mysqli_prepare($con, $sql);
-  $stmt = db_get_prepare_stmt($con, $sql, 
-    [
-      $data['email'], 
-      $data['name'], 
-      $data['password'], 
-      $data['image'],
-      $data['contact']
-    ]);
-
-  mysqli_stmt_execute($stmt);
-  return mysqli_insert_id($con);   
-
 }
 
 function validate_login ($con, $post)

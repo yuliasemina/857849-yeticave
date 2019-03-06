@@ -9,7 +9,7 @@ $user_name = '';
 $user_id = '';
 
 if (!isset($_SESSION['user'])) {
-  header('add error: 403');
+  //header('add error: 403');
   $layout_content = include_template('error403.php', 
     [
       'user_name' => $user_name, 
@@ -64,16 +64,7 @@ $layout_content = include_template(
   'add.php', 
   [
 
-    'lot' => [
-      'date_end' => isset($_POST['date_end']) ? htmlspecialchars($_POST['date_end']) : '',
-      'name' => isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '',
-      'description' => isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '',
-      'start_price' => isset($_POST['start_price']) ? htmlspecialchars($_POST['start_price']) : '',
-      'bet_step' => isset($_POST['bet_step']) ? htmlspecialchars($_POST['bet_step']) : '',
-      'user_id' => 1, // $_POST['user_id'] ? htmlspecialchars($_POST['user_id']) : '',
-      'category_id' => isset($_POST['category_id']) ? intval($_POST['category_id']) : ''
-    ],
-    
+    'lot' => $lot_id,    
     'errors' => $errors, 
     'user_name' => $user_name, 
     'categories' => get_categories($con)
