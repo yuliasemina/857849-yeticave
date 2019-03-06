@@ -1,76 +1,238 @@
+<?php 
+$lot_price = $lot['max_price'] ?: $lot['price'];
+$min_bet = $lot_price + $lot['bet_step'];
+
+
+$user_id = null;
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user']; 
+  $user_id = $user['id'];
+} 
+
+$isbet=false;
+foreach ($bets as $bet){
+  if(($bet['bet_user_id']===$user_id) && ($bet['bet_lot_id']===$lot['id'])){
+    $isbet=true;
+  };
+};
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Вход</title>
-  <link href="css/normalize.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <title><?= htmlspecialchars($lot['title']) ?></title>
+  <link href="../css/normalize.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="page-wrapper">
+  <div class="page-wrapper">
 
-  <header class="main-header">
-    <div class="main-header__container container">
-      <h1 class="visually-hidden">YetiCave</h1>
-      <a class="main-header__logo" href="index.php">
-        <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
-      </a>
-      <form class="main-header__search" method="get" action="search.php">
-        <input type="search" name="search" placeholder="Поиск лота">
-        <input class="main-header__search-btn" type="submit" name="find" value="Найти">
-      </form>
-      <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-      <nav class="user-menu">
-         <?php if (isset($_SESSION['user'])): ?>
-             <div class="user-menu__logged">
-              <p>
-                <?php print("$user_name"); ?>
-              </p>
-              <a href="logout.php">Выйти</a>
-            </div>
-            <?php else: ?>
-              <ul class="user-menu__list">
-                <li class="user-menu__item">
-                  <a href="sign_up.php">Регистрация</a>
-                </li>
-                <li class="user-menu__item">
-                  <a href="login.php">Вход</a>
-                </li>
-              </ul>
-            <?php endif; ?>
-      </nav>
-    </div>
-  </header>
+    <header class="main-header">
+      <div class="main-header__container container">
+        <h1 class="visually-hidden">YetiCave</h1>
+        <a class="main-header__logo" href="index.php">
+          <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
+        </a>
+        <form class="main-header__search" method="get" action="search.php">
+          <input type="search" name="search" placeholder="Поиск лота">
+          <input class="main-header__search-btn" type="submit" name="find" value="Найти">
+        </form>
+        <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
+        <nav class="user-menu">
+          <?php if (isset($user_id)): ?>
+           <div class="user-menu__logged">
+             <p>
+               <?php print("$user_name"); ?>
+             </p>
+             <a href="logout.php">Выйти</a>
+           </div>
+           <?php else: ?>
+            <ul class="user-menu__list">
+              <li class="user-menu__item">
+                <a href="sign_up.php">Регистрация</a>
+              </li>
+              <li class="user-menu__item">
+                <a href="login.php">Вход</a>
+              </li>
+            </ul>
+          <?php endif; ?>
+        </nav>
+      </div>
+    </header>
 
   <main>
     <nav class="nav">
       <ul class="nav__list container">
-         <?php foreach ($categories as $category): ?>
-           <li class="nav__item">
-            <a href="all_lots.php?id=<?= intval($category['id']) ?>"><?= htmlspecialchars($category['category_name']) ?></a>
-          </li>
-        <?php endforeach ?>
+        <li class="nav__item">
+          <a href="all-lots.html">Доски и лыжи</a>
+        </li>
+        <li class="nav__item">
+          <a href="all-lots.html">Крепления</a>
+        </li>
+        <li class="nav__item">
+          <a href="all-lots.html">Ботинки</a>
+        </li>
+        <li class="nav__item">
+          <a href="all-lots.html">Одежда</a>
+        </li>
+        <li class="nav__item">
+          <a href="all-lots.html">Инструменты</a>
+        </li>
+        <li class="nav__item">
+          <a href="all-lots.html">Разное</a>
+        </li>
       </ul>
     </nav>
-    <form class="form container <?= isset($errors) ? "form--invalid" : "" ?>" action="login.php" method="post"> 
-      <h2>Вход</h2>
-      <div class="form__item <?= isset($errors['email']) ? "form__item--invalid" : "" ?>"> <!-- form__item--invalid -->
-        <label for="email">E-mail*</label>
-        <input id="email" type="text" name="email" value="<?= $_POST['email'] ?? ''?>" placeholder="Введите e-mail" required>
-        <span class="form__error">
-              <?= $errors['email'] ?? "" ?>
-        </span>
-      </div>
-      <div class="form__item form__item--last <?= isset($errors['password']) ? "form__item--invalid" : "" ?>">
-        <label for="password">Пароль*</label>
-        <input id="password" type="password" name="password" placeholder="Введите пароль" required>
-         <span class="form__error">
-              <?= $errors['password'] ?? "" ?>
-        </span>
-      </div>
-      <button type="submit" class="button">Войти</button>
-    </form>
+    <section class="rates container">
+      <h2>Мои ставки</h2>
+      <table class="rates__list">
+        <tr class="rates__item">
+          <td class="rates__info">
+            <div class="rates__img">
+              <img src="img/rate1.jpg" width="54" height="40" alt="Сноуборд">
+            </div>
+            <h3 class="rates__title"><a href="lot.html">2014 Rossignol District Snowboard</a></h3>
+          </td>
+          <td class="rates__category">
+            Доски и лыжи
+          </td>
+          <td class="rates__timer">
+            <div class="timer timer--finishing">07:13:34</div>
+          </td>
+          <td class="rates__price">
+            10 999 р
+          </td>
+          <td class="rates__time">
+            5 минут назад
+          </td>
+        </tr>
+        <tr class="rates__item">
+          <td class="rates__info">
+            <div class="rates__img">
+              <img src="img/rate2.jpg" width="54" height="40" alt="Сноуборд">
+            </div>
+            <h3 class="rates__title"><a href="lot.html">DC Ply Mens 2016/2017 Snowboard</a></h3>
+          </td>
+          <td class="rates__category">
+            Доски и лыжи
+          </td>
+          <td class="rates__timer">
+            <div class="timer timer--finishing">07:13:34</div>
+          </td>
+          <td class="rates__price">
+            10 999 р
+          </td>
+          <td class="rates__time">
+            20 минут назад
+          </td>
+        </tr>
+        <tr class="rates__item rates__item--win">
+          <td class="rates__info">
+            <div class="rates__img">
+              <img src="img/rate3.jpg" width="54" height="40" alt="Крепления">
+            </div>
+            <div>
+              <h3 class="rates__title"><a href="lot.html">Крепления Union Contact Pro 2015 года размер L/XL</a></h3>
+              <p>Телефон +7 900 667-84-48, Скайп: Vlas92. Звонить с 14 до 20</p>
+            </div>
+          </td>
+          <td class="rates__category">
+            Крепления
+          </td>
+          <td class="rates__timer">
+            <div class="timer timer--win">Ставка выиграла</div>
+          </td>
+          <td class="rates__price">
+            10 999 р
+          </td>
+          <td class="rates__time">
+            Час назад
+          </td>
+        </tr>
+        <tr class="rates__item">
+          <td class="rates__info">
+            <div class="rates__img">
+              <img src="img/rate4.jpg" width="54" height="40" alt="Ботинки">
+            </div>
+            <h3 class="rates__title"><a href="lot.html">Ботинки для сноуборда DC Mutiny Charocal</a></h3>
+          </td>
+          <td class="rates__category">
+            Ботинки
+          </td>
+          <td class="rates__timer">
+            <div class="timer">07:13:34</div>
+          </td>
+          <td class="rates__price">
+            10 999 р
+          </td>
+          <td class="rates__time">
+            Вчера, в 21:30
+          </td>
+        </tr>
+        <tr class="rates__item rates__item--end">
+          <td class="rates__info">
+            <div class="rates__img">
+              <img src="img/rate5.jpg" width="54" height="40" alt="Куртка">
+            </div>
+            <h3 class="rates__title"><a href="lot.html">Куртка для сноуборда DC Mutiny Charocal</a></h3>
+          </td>
+          <td class="rates__category">
+            Одежда
+          </td>
+          <td class="rates__timer">
+            <div class="timer timer--end">Торги окончены</div>
+          </td>
+          <td class="rates__price">
+            10 999 р
+          </td>
+          <td class="rates__time">
+            Вчера, в 21:30
+          </td>
+        </tr>
+        <tr class="rates__item rates__item--end">
+          <td class="rates__info">
+            <div class="rates__img">
+              <img src="img/rate6.jpg" width="54" height="40" alt="Маска">
+            </div>
+            <h3 class="rates__title"><a href="lot.html">Маска Oakley Canopy</a></h3>
+          </td>
+          <td class="rates__category">
+            Разное
+          </td>
+          <td class="rates__timer">
+            <div class="timer timer--end">Торги окончены</div>
+          </td>
+          <td class="rates__price">
+            10 999 р
+          </td>
+          <td class="rates__time">
+            19.03.17 в 08:21
+          </td>
+        </tr>
+        <tr class="rates__item rates__item--end">
+          <td class="rates__info">
+            <div class="rates__img">
+              <img src="img/rate7.jpg" width="54" height="40" alt="Сноуборд">
+            </div>
+            <h3 class="rates__title"><a href="lot.html">DC Ply Mens 2016/2017 Snowboard</a></h3>
+          </td>
+          <td class="rates__category">
+            Доски и лыжи
+          </td>
+          <td class="rates__timer">
+            <div class="timer timer--end">Торги окончены</div>
+          </td>
+          <td class="rates__price">
+            10 999 р
+          </td>
+          <td class="rates__time">
+            19.03.17 в 08:21
+          </td>
+        </tr>
+      </table>
+    </section>
   </main>
 
 </div>
@@ -79,6 +241,7 @@
   <nav class="nav">
     <ul class="nav__list container">
       <?php foreach ($categories as $category): ?>
+
         <li class="nav__item">
           <a href="all_lots.php?id=<?= intval($category['id']) ?>"><?= htmlspecialchars($category['category_name']) ?></a>
         </li>
@@ -112,7 +275,7 @@
         <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.666"/><path fill="#879296" d="M13.92 18.07c.142-.016.278-.074.39-.166.077-.107.118-.237.116-.37 0 0 0-1.13.516-1.296.517-.165 1.208 1.09 1.95 1.58.276.213.624.314.973.28h1.95s.973-.057.525-.837c-.38-.62-.865-1.17-1.432-1.626-1.208-1.1-1.043-.916.41-2.816.886-1.16 1.236-1.86 1.13-2.163-.108-.302-.76-.214-.76-.214h-2.164c-.092-.026-.19-.026-.282 0-.083.058-.15.135-.195.225-.224.57-.49 1.125-.8 1.656-.973 1.61-1.344 1.697-1.51 1.59-.37-.234-.272-.975-.272-1.433 0-1.56.243-2.202-.468-2.377-.32-.075-.647-.108-.974-.098-.604-.052-1.213.01-1.793.186-.243.116-.438.38-.32.4.245.018.474.13.642.31.152.303.225.638.214.975 0 0 .127 1.832-.302 2.056-.43.223-.692-.167-1.55-1.618-.29-.506-.547-1.03-.77-1.57-.038-.09-.098-.17-.174-.233-.1-.065-.214-.108-.332-.128H6.485s-.312 0-.42.137c-.106.135 0 .36 0 .36.87 2 2.022 3.868 3.42 5.543.923.996 2.21 1.573 3.567 1.598z"/></svg>
       </a>
     </div>
-    <a class="main-footer__add-lot button" href="add.php">Добавить лот</a>
+    <a class="main-footer__add-lot button" href="add-lot.html">Добавить лот</a>
     <div class="main-footer__developed-by">
       <span class="visually-hidden">Разработано:</span>
       <a class="logo-academy" href="https://htmlacademy.ru/intensive/php">
