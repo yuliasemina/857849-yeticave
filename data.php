@@ -448,7 +448,7 @@ function save_user($con, $data = []) {
 function get_lot_list_by_bets ($con, $user_id){
 
    $lot_list = [];
-    $lot_list_sql = "SELECT
+    $sql = "SELECT
     `l`.`id`,
     `l`.`name` AS `title`,
     `l`.`start_price` AS `price`,
@@ -473,24 +473,21 @@ function get_lot_list_by_bets ($con, $user_id){
     `bets` `b`
     ON `b`.`lot_id` = `l`.`id`
     WHERE
-    `b`.`user_id` = $user_id
+    `b`.`user_id` = ?
     GROUP BY
     `b`.`id`
     ORDER BY
     `l`.`date_end` DESC";
 
-    $lot_list_result = mysqli_query($con, $lot_list_sql);
-    if( $lot_list_result !==false) {
-       $lot_list = mysqli_fetch_all($lot_list_result, MYSQLI_ASSOC);
-   }
-
-  /*  $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
+   
+   $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
-    if( $res !==false) {
-        $lot_list = mysqli_fetch_assoc($res);
+
+    if( $res!==false) {
+        $lot_list = mysqli_fetch_all($res, MYSQLI_ASSOC) ?? []; 
     }
-    */
+    
     
    
    return $lot_list;
