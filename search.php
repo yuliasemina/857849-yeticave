@@ -43,11 +43,6 @@ if (strlen($search)>=3) {
 			'categories' => get_categories($con)
 		]);
 
-} 
-else {
-	header("Location: /index.php");
-}
-
-
-
 print($layout_content);
+}
+header("Location: /index.php");
