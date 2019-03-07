@@ -76,6 +76,13 @@ function time_interval ($time_end) {
   return $time_lots;
 }
 
+/**
+   * Функция проверяет правильность заполнения формы с полями для добавления лота
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
 function validate_form($post)
 {
   $errors = [];
@@ -111,6 +118,15 @@ else if (!in_array(mime_content_type($_FILES['image']['tmp_name']), ['image/png'
 return $errors;
 }
 
+
+
+/**
+   * Функция проверяет правильность заполнения формы с полями для добавления ставки
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
 function validate_bet($post)
 {
   $errors = [];
@@ -125,6 +141,15 @@ function validate_bet($post)
 
  return $errors;
 }
+
+/**
+   * Функция проверяет правильность заполнения формы регистрации нового пользователя
+   * @param $con mysqli Ресурс соединения
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
 
 function validate_reg_form ($con, $post)
 {
@@ -165,6 +190,16 @@ function validate_reg_form ($con, $post)
   return $errors;
 }
 
+
+/**
+   * Функция проверяет правильность заполнения полей формы входа на сайт
+   * @param $con mysqli Ресурс соединения
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
+
 function validate_login ($con, $post)
 {
   $errors = [];
@@ -203,6 +238,15 @@ function validate_login ($con, $post)
 
   return $errors;
 }
+
+
+/**
+   * Функция модифицирует окончание формы множественного числа существительного (часы, минуты и т.д.)
+   * @param int $number -- число
+   * @param [] $words - массив подстановок существительного в разных формах
+   * @return string- возвращает строку с подходящей формой существительного.
+   *
+   */
 
 function nounEnding($number, $words = ['one', 'two', 'many'])
 {

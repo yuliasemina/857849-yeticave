@@ -445,6 +445,14 @@ function save_user($con, $data = []) {
 
 }
 
+
+/**
+   * Функция возвращает строку с параметрами категории по ее id
+   * @param $con mysqli Ресурс соединения
+   * @param $user_id - id авторизованного на сайте пользователя
+   * 
+   * @return возвращает массив ставок с параметрами лота и пользователя
+   */
 function get_lot_list_by_bets ($con, $user_id){
 
    $lot_list = [];
