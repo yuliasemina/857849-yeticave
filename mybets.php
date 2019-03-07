@@ -17,12 +17,13 @@ if (isset($_SESSION['user'])) {
 }  
 
 $categories = get_categories($con);
-$lot_list = get_lot_list($con);
+$lot_list = get_lot_list_by_bets($con, $user_id);
 
-$page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lot_list]);
 
-$layout_content = include_template('layout.php', [
-	'main_content'=> $page_content, 
+$layout_content = include_template('mybets.php', [
+
+	'categories' => $categories, 
+	'lots' => $lot_list,
 	'title_name' => $title_name, 
 	'user_name' => $user_name, 
 	'categories' => $categories

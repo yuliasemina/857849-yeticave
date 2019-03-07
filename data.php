@@ -246,47 +246,6 @@ function get_lot_list_by_cat ($con, $cat_id, $page_items, $offset){
     return $lot_list;
 }
 
-function get_lot_list_by_user ($con, $user_id){
-
-    $sql = "SELECT
-    `l`.`id`,
-    `l`.`name` AS `title`,
-    `l`.`image` AS `image`,
-    `l`.`start_price` AS `price`,
-    `l`.`date_end` AS `date_end`,
-    `u`.`id` AS `user_id`
-    MAX(`b`.`sum_bets`) `max_price`,
-    `c`.`id` AS `id_cat`,
-    `c`.`name` AS `category`
-    
-    FROM
-    `lots` `l`
-    INNER JOIN
-    `categories` `c`
-    ON `l`.`category_id` = `c`.`id`
-    JOIN
-    `users` `u`
-    ON `l`.`user_id` = `u`.`id`
-    LEFT JOIN
-    `bets` `b`
-    ON `b`.`lot_id` = `l`.`id`
-    WHERE
-    `l`.`date_end` > CURDATE()
-    AND `l`.`winner_id` IS NULL
-    AND `u`.`id` = '1'
-    GROUP BY
-    `l`.`id`
-    ORDER BY
-    `l`.`start_at` DESC ";
-
-   $result = mysqli_query($con, $sql);
-    
-        $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    
-    return $lots;
-  }
-
-
 /**
    * Функция возвращает количество найденных элементов в результате поиска
    * @param $con mysqli Ресурс соединения
@@ -484,4 +443,55 @@ function save_user($con, $data = []) {
   mysqli_stmt_execute($stmt);
   return mysqli_insert_id($con);   
 
+}
+
+function get_lot_list_by_bets ($con, $user_id){
+
+   $lot_list = [];
+    $lot_list_sql = "SELECT
+    `l`.`id`,
+    `l`.`name` AS `title`,
+    `l`.`start_price` AS `price`,
+    `l`.`image` AS `image`,
+    `l`.`date_end` AS `date_end`,
+    `l`.`winner_id` AS `winner_id`,
+    MAX(`b`.`sum_bets`) `max_price`,
+    `b`.`bet_at` AS `time`,
+     DATE_FORMAT(`b`.`bet_at`, '%d.%m.%y' ' в ' '%H:%i') AS 'time2',
+    `c`.`name` AS `category`,
+    `u`.`contact` AS `user_contact`,
+    `u`.`email` AS `user_email`
+    FROM
+    `lots` `l`
+    INNER JOIN
+    `categories` `c`
+    ON `l`.`category_id` = `c`.`id`
+    LEFT JOIN
+    `users` `u`
+    ON `l`.`user_id` = `u`.`id`
+    LEFT JOIN
+    `bets` `b`
+    ON `b`.`lot_id` = `l`.`id`
+    WHERE
+    `b`.`user_id` = $user_id
+    GROUP BY
+    `b`.`id`
+    ORDER BY
+    `l`.`date_end` DESC";
+
+    $lot_list_result = mysqli_query($con, $lot_list_sql);
+    if( $lot_list_result !==false) {
+       $lot_list = mysqli_fetch_all($lot_list_result, MYSQLI_ASSOC);
+   }
+
+  /*  $stmt = db_get_prepare_stmt($con, $sql, [$user_id]);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    if( $res !==false) {
+        $lot_list = mysqli_fetch_assoc($res);
+    }
+    */
+    
+   
+   return $lot_list;
 }
