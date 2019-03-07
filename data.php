@@ -246,6 +246,46 @@ function get_lot_list_by_cat ($con, $cat_id, $page_items, $offset){
     return $lot_list;
 }
 
+function get_lot_list_by_user ($con, $user_id){
+
+    $sql = "SELECT
+    `l`.`id`,
+    `l`.`name` AS `title`,
+    `l`.`image` AS `image`,
+    `l`.`start_price` AS `price`,
+    `l`.`date_end` AS `date_end`,
+    `u`.`id` AS `user_id`
+    MAX(`b`.`sum_bets`) `max_price`,
+    `c`.`id` AS `id_cat`,
+    `c`.`name` AS `category`
+    
+    FROM
+    `lots` `l`
+    INNER JOIN
+    `categories` `c`
+    ON `l`.`category_id` = `c`.`id`
+    JOIN
+    `users` `u`
+    ON `l`.`user_id` = `u`.`id`
+    LEFT JOIN
+    `bets` `b`
+    ON `b`.`lot_id` = `l`.`id`
+    WHERE
+    `l`.`date_end` > CURDATE()
+    AND `l`.`winner_id` IS NULL
+    AND `u`.`id` = '1'
+    GROUP BY
+    `l`.`id`
+    ORDER BY
+    `l`.`start_at` DESC ";
+
+   $result = mysqli_query($con, $sql);
+    
+        $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    
+    return $lots;
+  }
+
 
 /**
    * Функция возвращает количество найденных элементов в результате поиска

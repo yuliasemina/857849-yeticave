@@ -1,6 +1,6 @@
 <?php 
-$lot_price = $lot['max_price'] ?: $lot['price'];
-$min_bet = $lot_price + $lot['bet_step'];
+$lot_price = $lots['max_price'] ?: $lots['price'];
+$min_bet = $lot_price + $lots['bet_step'];
 
 
 $user_id = null;
@@ -30,7 +30,7 @@ if (isset($_SESSION['user'])) {
         <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
       </a>
       <form class="main-header__search" method="get" action="search.php">
-        <input type="search" name="search" placeholder="Поиск лота">
+        <input type="search" name="search" placeholder="<?= $_GET['search'] ?>">
         <input class="main-header__search-btn" type="submit" name="find" value="Найти">
       </form>
       <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
