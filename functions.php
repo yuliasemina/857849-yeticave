@@ -76,6 +76,13 @@ function time_interval ($time_end) {
   return $time_lots;
 }
 
+/**
+   * Функция проверяет правильность заполнения формы с полями для добавления лота
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
 function validate_form($post)
 {
   $errors = [];
@@ -112,35 +119,14 @@ return $errors;
 }
 
 
-function save_lot($con, $data = []) {
-  $sql = "INSERT INTO lots (`date_end`, `name`, `description`, `image`, 
-  `start_price`, `bet_step`, `user_id`, `category_id`) 
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-  $stmt = mysqli_prepare($con, $sql);
-
-  $stmt = db_get_prepare_stmt (
-   $con,
-   $sql,
-   [
-    $data['date_end'],
-    $data['name'],
-    $data['description'],
-    $data['image'],
-    $data['start_price'],
-    $data['bet_step'],
-    $data['user_id'],
-    $data['category_id']
-  ]
-);
-  
-  mysqli_stmt_execute($stmt);
-
-  return mysqli_insert_id($con);   
-
-}
-
-
+/**
+   * Функция проверяет правильность заполнения формы с полями для добавления ставки
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
 function validate_bet($post)
 {
   $errors = [];
@@ -156,24 +142,14 @@ function validate_bet($post)
  return $errors;
 }
 
-
-function save_bet($con, $sum_bets, $user_id, $lot_id) {
-  $sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
-  VALUES (?, $user_id, $lot_id)";
-
-  $stmt = mysqli_prepare($con, $sql);
-
-  $stmt = db_get_prepare_stmt (
-   $con,
-   $sql,
-   [$sum_bets]
- );
-  
-  mysqli_stmt_execute($stmt);
-
-  return mysqli_insert_id($con);   
-
-}
+/**
+   * Функция проверяет правильность заполнения формы регистрации нового пользователя
+   * @param $con mysqli Ресурс соединения
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
 
 function validate_reg_form ($con, $post)
 {
@@ -215,24 +191,14 @@ function validate_reg_form ($con, $post)
 }
 
 
-function save_user($con, $data = []) {
-  $sql = "INSERT INTO `users` (`email`, `name`, `password`, `avatar`, `contact`)
-  VALUES (?, ?, ?, ?, ?)";
-
-  $stmt = mysqli_prepare($con, $sql);
-  $stmt = db_get_prepare_stmt($con, $sql, 
-    [
-      $data['email'], 
-      $data['name'], 
-      $data['password'], 
-      $data['image'],
-      $data['contact']
-    ]);
-
-  mysqli_stmt_execute($stmt);
-  return mysqli_insert_id($con);   
-
-}
+/**
+   * Функция проверяет правильность заполнения полей формы входа на сайт
+   * @param $con mysqli Ресурс соединения
+   * @param [] @post -- массив $_POST
+   * 
+   * @return [] - возвращает массив с ошибками.
+   *
+   */
 
 function validate_login ($con, $post)
 {
@@ -272,6 +238,15 @@ function validate_login ($con, $post)
 
   return $errors;
 }
+
+
+/**
+   * Функция модифицирует окончание формы множественного числа существительного (часы, минуты и т.д.)
+   * @param int $number -- число
+   * @param [] $words - массив подстановок существительного в разных формах
+   * @return string- возвращает строку с подходящей формой существительного.
+   *
+   */
 
 function nounEnding($number, $words = ['one', 'two', 'many'])
 {

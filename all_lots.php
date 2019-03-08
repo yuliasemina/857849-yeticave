@@ -23,19 +23,20 @@ if (!isset($_GET['id'])) {
 }
 
 $categories = get_categories($con);
-
-
-    $cur_page = $_GET['page'] ?? 1;
-    $page_items = 3;  
-    $offset = ($cur_page - 1) * $page_items;
-
-$lot_list = get_lot_list_by_cat ($con, intval($_GET['id']), $page_items, $offset);
 $cat = get_cat_by_id($con, intval($_GET['id']));
-$items_count = count($lot_list);
+
+
+$cur_page = $_GET['page'] ?? 1;
+$page_items = 3;  
+$offset = ($cur_page - 1) * $page_items;
+
+$items_count = get_lot_list_by_cat_total($con, intval($_GET['id']));
+
 $pages_count = ceil($items_count / $page_items);
 $pages = range(1, $pages_count);
 
 
+$lot_list = get_lot_list_by_cat ($con, intval($_GET['id']), $page_items, $offset);
 
 if (is_null($cat['id'])){
   $layout_content = include_template('error.php', 
@@ -45,11 +46,12 @@ if (is_null($cat['id'])){
     ]);
 
 } else {
-$layout_content = include_template('all_lots.php', 
+  $layout_content = include_template('all_lots.php', 
     [
       'pages' => $pages,
       'pages_count' => $pages_count,
       'cur_page' => $cur_page,
+      'items_count' => $items_count,
       'cat' => $cat,
       'lots' => $lot_list, 
       'user_name' => $user_name, 
@@ -57,4 +59,5 @@ $layout_content = include_template('all_lots.php',
     ]);
 
 }
+
 print($layout_content);

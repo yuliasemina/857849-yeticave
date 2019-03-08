@@ -1,3 +1,16 @@
+<?php 
+$lot_price = $lots['max_price'] ?: $lots['price'];
+$min_bet = $lot_price + $lots['bet_step'];
+
+
+$user_id = null;
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user']; 
+  $user_id = $user['id'];
+} 
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,11 +26,11 @@
   <header class="main-header">
     <div class="main-header__container container">
       <h1 class="visually-hidden">YetiCave</h1>
-      <a class="main-header__logo" href="index.html">
+      <a class="main-header__logo" href="index.php">
         <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
       </a>
-      <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
-        <input type="search" name="search" placeholder="Поиск лота">
+      <form class="main-header__search" method="get" action="search.php">
+        <input type="search" name="search" placeholder="<?= $_GET['search'] ?>">
         <input class="main-header__search-btn" type="submit" name="find" value="Найти">
       </form>
       <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
@@ -55,8 +68,11 @@
     </nav>
     <div class="container">
       <section class="lots">
-        <h2>Результаты поиска по запросу «<span>Union</span>»</h2>
+        <h2>Результаты поиска по запросу «<span><?= $_GET['search'] ?></span>»</h2>
         <ul class="lots__list">
+         <?php if (empty($lots)): ?>
+         <h3 class="lot__title"> Ничего не найдено по вашему запросу</h3>
+ <?php else: ?>
           <?php foreach ($lots as $lot): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
@@ -78,16 +94,38 @@
                     </div>
                 </li>
             <?php endforeach ?>
+            <?php endif; ?>
         </ul>
       </section>
+
+
+<?php if ($pages_count > 1): ?>
       <ul class="pagination-list">
-        <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
-        <li class="pagination-item pagination-item-active"><a>1</a></li>
-        <li class="pagination-item"><a href="#">2</a></li>
-        <li class="pagination-item"><a href="#">3</a></li>
-        <li class="pagination-item"><a href="#">4</a></li>
-        <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
+        <li class="pagination-item pagination-item-prev">
+          <?php if (($cur_page-'1') > '0'): ?>
+          <a href="search.php?search=<?= $search ?>&page=<?=$cur_page-'1' ?>">Назад</a>
+          <?php else: ?>
+            <a>Назад</a>
+          <?php endif; ?>
+        </li>
+      <?php foreach ($pages as $page): ?>
+          <li class="pagination-item  
+          <?php if ($page == $cur_page): ?>pagination-item-active<?php endif; ?>
+          "><a href="search.php?search=<?= $search ?>&page=<?=$page ?>"><?=$page;?></a>
+        </li>
+      <?php endforeach; ?>
+      <li class="pagination-item pagination-item-next">
+        <?php if (($cur_page+'1') <= $pages_count): ?>
+          <a href="search.php?search=<?= $search ?>&page=<?=$cur_page+'1' ?>">Вперед</a>
+          <?php else: ?>
+            <a>Вперед</a>
+          <?php endif; ?>
+        </li>
       </ul>
+    <?php endif; ?>
+  
+
+
     </div>
   </main>
 

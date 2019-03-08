@@ -16,7 +16,7 @@
         <a class="main-header__logo" href="index.php">
           <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
-        <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
+        <form class="main-header__search" method="get" action="search.php">
           <input type="search" name="search" placeholder="Поиск лота">
           <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
@@ -49,7 +49,7 @@
         <ul class="nav__list container">
           <?php foreach ($categories as $category): ?>
            <li class="nav__item">
-            <a href="all_lots.php?id=<?= intval($category['id']) ?>"><?= htmlspecialchars($category['category_name']) ?></a>
+            <a href="all_lots.php?id=<?= intval($category['id']) ?>&page=<?='1' ?>"><?= htmlspecialchars($category['category_name']) ?></a>
           </li>
         <?php endforeach ?>
       </ul>
@@ -83,14 +83,26 @@
      </section>
      <?php if ($pages_count > 1): ?>
       <ul class="pagination-list">
-        <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
-        <?php foreach ($pages as $page): ?>
+        <li class="pagination-item pagination-item-prev">
+          <?php if (($cur_page-'1') > '0'): ?>
+          <a href="all_lots.php?id=<?= $cat['id'] ?>&page=<?=$cur_page-'1' ?>">Назад</a>
+          <?php else: ?>
+            <a>Назад</a>
+          <?php endif; ?>
+        </li>
+      <?php foreach ($pages as $page): ?>
           <li class="pagination-item  
           <?php if ($page == $cur_page): ?>pagination-item-active<?php endif; ?>
           "><a href="all_lots.php?id=<?= $cat['id'] ?>&page=<?=$page ?>"><?=$page;?></a>
         </li>
-        <?php endforeach; ?>
-        <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
+      <?php endforeach; ?>
+      <li class="pagination-item pagination-item-next">
+        <?php if (($cur_page+'1') <= $pages_count): ?>
+          <a href="all_lots.php?id=<?= $cat['id'] ?>&page=<?=$cur_page+'1' ?>">Вперед</a>
+          <?php else: ?>
+            <a>Вперед</a>
+          <?php endif; ?>
+        </li>
       </ul>
     <?php endif; ?>
   </div>
