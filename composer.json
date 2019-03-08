@@ -1,0 +1,13 @@
+{
+    "name": "yulia/857849_yeticave",
+    "description": "857849-yeticave",
+    "authors": [
+        {
+            "name": "Yulia Semina",
+            "email": "semina.yulia@bk.ru"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.1"
+    }
+}
