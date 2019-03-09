@@ -5,6 +5,7 @@ require 'functions.php';
 
 $user_name = '';
 $user_id = '';
+$layout_content ='';
 
 if (isset($_SESSION['user'])) {
   $user = $_SESSION['user'];  
@@ -67,10 +68,9 @@ if (is_null($lot['id'])){
 
 } else {
 $title_name = htmlspecialchars($lot['title']);
- 
 
 $page_content = include_template('lot.php', [
-       'lot' => $lot,
+      'lot' => $lot,
       '$user_id' => $user_id, 
       'bets' => $bets,
       'errors' => $errors_bets, 
@@ -84,7 +84,6 @@ $layout_content = include_template('layout_inner.php', [
   'title_name' => $title_name
 ]);
 
-
-
 }
+
 print($layout_content);

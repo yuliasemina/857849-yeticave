@@ -8,6 +8,14 @@ foreach ($bets as $bet){
     $isbet=true;
   };
 };
+
+$user_id = null;
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user']; 
+  $user_id = $user['id'];
+
+} 
+
 ?>
       <nav class="nav">
         <ul class="nav__list container">

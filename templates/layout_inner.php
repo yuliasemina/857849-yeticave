@@ -1,13 +1,3 @@
-<?php 
-
-$user_id = null;
-if (isset($_SESSION['user'])) {
-  $user = $_SESSION['user']; 
-  $user_id = $user['id'];
-} 
-
-?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>

@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $page_content = include_template('add.php', [
-    'lot' => $lot_id,    
+      'lot' => $lot_id,    
     'errors' => $errors, 
     'user_name' => $user_name, 
     'categories' => get_categories($con)
