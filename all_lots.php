@@ -48,7 +48,6 @@ if (is_null($cat['id'])){
 
   $title_name ='Все лоты «'.htmlspecialchars($cat['name']).'»';
 
-
 $page_content = include_template('all_lots.php', [
     'pages' => $pages,
       'pages_count' => $pages_count,
