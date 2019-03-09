@@ -553,6 +553,6 @@ function set_winner($con, $lot_id, $user_id) {
   );
 
   mysqli_stmt_execute($stmt);
-  return mysqli_insert_id($con);   
+  return mysqli_affected_rows ($con);   
 
 }
