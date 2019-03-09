@@ -1,6 +1,5 @@
 <?php
 
-
 $errors = validate_form($_POST);
 
 if (empty($errors)) {

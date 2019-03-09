@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/swiftmailer/swiftmailer/lib/swift_required.php';
 
 $transport = new Swift_SmtpTransport('phpdemo.ru', 25);
 $transport->setUsername('keks@phpdemo.ru');

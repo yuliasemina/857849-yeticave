@@ -2,7 +2,6 @@
 
 session_start();
 require 'db.php';
-require 'data.php';
 require 'functions.php';
 
 $user_name = '';

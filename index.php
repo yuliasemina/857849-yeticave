@@ -2,9 +2,8 @@
 session_start();
 require_once 'vendor/autoload.php';
 require 'db.php';
-require 'data.php';
 require 'functions.php';
-require_once 'getwinner.php';
+//require_once 'getwinner.php';
 
 $title_name = 'Главная';
 
