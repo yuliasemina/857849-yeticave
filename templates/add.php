@@ -26,7 +26,7 @@
             <?php foreach ($categories as $category): ?>
               <option 
                 value="<?= $category['id'] ?>" 
-                <?= $category['id'] === (int) $lot['category_id'] ? 'selected' : ''  ?>
+                <?= $category['id'] === (int) $_POST['category_id'] ? 'selected' : ''  ?>
               >
                 <?= htmlspecialchars($category['category_name']) ?>    
               </option>
@@ -41,7 +41,7 @@
         <div class="form__item form__item--wide <?= isset($errors['description']) ? "form__item--invalid" : "" ?>">
           <label for="message">Описание</label>
           <textarea id="message" name="description" placeholder="Напишите описание лота" 
-          required><?= htmlspecialchars($lot['description']) ?></textarea>
+          required><?= htmlspecialchars($_POST['description']) ?? '' ?></textarea>
           <span class="form__error">
             <?= $errors['description'] ?? "" ?>
           </span>
