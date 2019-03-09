@@ -29,11 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   require 'add_processor.php';
 }
 
-
 $page_content = include_template('add.php', [
-  'categories' => $categories, 
-  'lots' => $lot_list,    
-  'errors' => $errors]);
+    'lot' => $lot_id,    
+    'errors' => $errors, 
+    'user_name' => $user_name, 
+    'categories' => get_categories($con)
+]);
 
 $layout_content = include_template('layout_inner.php', [
   'categories' => $categories, 

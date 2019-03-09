@@ -41,21 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }				
 
 
-$layout_content = include_template('sign_up.php', 				
-	[   			
-		'errors' => $errors,		
-		'categories' => get_categories($con)		
-	]);			
-
-
-
-
 $page_content = include_template('sign_up.php', [
-  'categories' => $categories,   
+  'categories' => get_categories($con),   
   'errors' => $errors]);
 
 $layout_content = include_template('layout_inner.php', [
-  'categories' => $categories, 
+  'categories' => get_categories($con), 
   'main_content'=> $page_content, 
   'title_name' => $title_name
 ]);

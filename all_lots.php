@@ -21,6 +21,7 @@ if (!isset($_GET['id'])) {
   exit;
 }
 
+$layout_content ='';
 $categories = get_categories($con);
 $cat = get_cat_by_id($con, intval($_GET['id']));
 
@@ -46,7 +47,7 @@ if (is_null($cat['id'])){
 
 } else {
 
-  $title_name ='Все лоты «'.htmlspecialchars($cat['name']).'»';
+$title_name ='Все лоты «'.htmlspecialchars($cat['name']).'»';
 
 $page_content = include_template('all_lots.php', [
     'pages' => $pages,
