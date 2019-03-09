@@ -1,5 +1,4 @@
 <?php
-require_once 'vendor/swiftmailer/swiftmailer/lib/swift_required.php';
 
 $transport = new Swift_SmtpTransport('phpdemo.ru', 25);
 $transport->setUsername('keks@phpdemo.ru');
@@ -21,14 +20,11 @@ print('1');
 			'lot'=> $lot['id'], 
 			'title'=> $lot['title']
 		]);
-print('2');
 		$message->setTo(['semina.yulia@bk.ru' => 'Юлия']);
-		print('3');
+		
 		$message->setBody($layout_content);
-		// Отправка сообщения
-print('4');
+		
 		$mailer->send($message);
-print('--------------5');
 	}
 
 }
