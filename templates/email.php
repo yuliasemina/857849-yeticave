@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
 <h1>Поздравляем с победой</h1>
 <p>Здравствуйте, <?= $user_name ?></p>
 <p>Ваша ставка для лота <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/lot.php?id=<?= $lot ?>"><?= $title ?></a> победила.</p>
@@ -5,3 +11,6 @@
 чтобы связаться с автором объявления</p>
 
 <small>Интернет Аукцион "YetiCave"</small>
+
+</body>
+</html>
