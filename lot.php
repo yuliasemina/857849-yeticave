@@ -71,7 +71,7 @@ $title_name = htmlspecialchars($lot['title']);
 
 $page_content = include_template('lot.php', [
       'lot' => $lot,
-      '$user_id' => $user_id, 
+      'user_id' => $user_id, 
       'bets' => $bets,
       'errors' => $errors_bets, 
        'categories' => get_categories($con)

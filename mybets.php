@@ -9,7 +9,7 @@ $user_name = '';
 $user_id = null;
 
 if (!isset($_SESSION['user'])) {
-  //header('add error: 403');
+  http_response_code(403);
   $layout_content = include_template('error403.php', 
     [
       'user_name' => $user_name, 
@@ -27,7 +27,7 @@ $categories = get_categories($con);
 $lot_list = get_lot_list_by_bets($con, $user_id);
 
 $page_content = include_template('mybets.php', [
-           'lots' => $lot_list, 
+       'lots' => $lot_list, 
 		   'categories' => get_categories($con)
 		]);
 

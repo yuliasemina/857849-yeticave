@@ -32,7 +32,7 @@ function include_template($name, $data) {
    * Фукция для вывода цены в формате с делением на разряды и добавлением знака рубля
    * функция принимает один аргумент — целое число.
    * 
-   * @param int $price - исходящая цена лота.
+   * @param  $price int - исходящая цена лота.
    * @return int - возвращает округленное разделенное на разряды число.
    *
    */
@@ -45,17 +45,10 @@ function price_format($price) {
   return $price;
 };
 
-/*function price_cur($price) {
-  $price = ceil($price);
-  $price = number_format($price, 0, ".", " ");
 
-  return $price;
-};
-*/
 /**
    * Функция определяет время, оставшееся до определенного момента
-   * @param int @time_now -- по умолчанию - текущее время.
-   * @param int @time_end -- задает дату, до которой нужно посчитать интервал времени
+   * @param  $time_end int -- задает дату, до которой нужно посчитать интервал времени
    * 
    * @return string - возвращает строку "часы:минуты".
    *
@@ -76,9 +69,9 @@ function time_interval ($time_end) {
 
 /**
    * Функция проверяет правильность заполнения формы с полями для добавления лота
-   * @param [] @post -- массив $_POST
+   * @param $post array -- массив $_POST
    * 
-   * @return [] - возвращает массив с ошибками.
+   * @return array - возвращает массив с ошибками.
    *
    */
 function validate_form($post)
@@ -99,10 +92,9 @@ function validate_form($post)
    }
  }
 
-$date_current = strtotime("now")+'60';
 $date_end = strtotime ($post['date_end']);
 
-if ($date_end < $date_current) {
+if ($date_end - time() < 86400) {
    $errors['date_end'] = 'Дата должна быть больше текущей минимум на 1 день';
 }
 
@@ -118,17 +110,15 @@ return $errors;
 
 /**
    * Функция проверяет правильность заполнения формы с полями для добавления ставки
-   * @param [] @post -- массив $_POST
+   * @param  @post array -- массив $_POST
    * 
-   * @return [] - возвращает массив с ошибками.
+   * @return array - возвращает массив с ошибками.
    *
    */
 function validate_bet($post)
 {
   $errors = [];
-  $required = ['sum_bets'];
-  $numbers= ['sum_bets'];
-
+  
   if (empty($post['sum_bets'])) {
     $errors['sum_bets'] = 'Это поле необходимо заполнить';
   } else if (!is_numeric($post['sum_bets'])) {
@@ -141,9 +131,9 @@ function validate_bet($post)
 /**
    * Функция проверяет правильность заполнения формы регистрации нового пользователя
    * @param $con mysqli Ресурс соединения
-   * @param [] @post -- массив $_POST
+   * @param  $post array -- массив $_POST
    * 
-   * @return [] - возвращает массив с ошибками.
+   * @return array - возвращает массив с ошибками.
    *
    */
 
@@ -189,9 +179,9 @@ function validate_reg_form ($con, $post)
 /**
    * Функция проверяет правильность заполнения полей формы входа на сайт
    * @param $con mysqli Ресурс соединения
-   * @param [] @post -- массив $_POST
+   * @param  $post array -- массив $_POST
    * 
-   * @return [] - возвращает массив с ошибками.
+   * @return array - возвращает массив с ошибками.
    *
    */
 
@@ -236,8 +226,8 @@ function validate_login ($con, $post)
 
 /**
    * Функция модифицирует окончание формы множественного числа существительного (часы, минуты и т.д.)
-   * @param int $number -- число
-   * @param [] $words - массив подстановок существительного в разных формах
+   * @param  $number int -- число
+   * @param  $words array - массив подстановок существительного в разных формах
    * @return string- возвращает строку с подходящей формой существительного.
    *
    */
@@ -270,7 +260,7 @@ function nounEnding($number, $words = ['one', 'two', 'many'])
    * Функция получает список категорий из бд
    * @param $con mysqli Ресурс соединения
    * 
-   * @return string - возвращает массив со списком категорий.
+   * @return array - возвращает массив со списком категорий.
    *
    */
 function get_categories($con){
@@ -292,7 +282,7 @@ function get_categories($con){
    * Функция получает список лотов из бд
    * @param $con mysqli Ресурс соединения
    * 
-   * @return string - возвращает массив со списком действующих лотов.
+   * @return array - возвращает массив со списком действующих лотов.
    *
    */
 function get_lot_list($con){
@@ -333,11 +323,11 @@ function get_lot_list($con){
 /**
    * Функция получает список лотов полученных из поиска
    * @param $con mysqli Ресурс соединения
-   * @param $search - искомое слово
-   * @param $page_items - количество лотов показанных на экране
-   * @param $offset - смещение лотов для показа на следующей странице
+   * @param $search string - искомое слово
+   * @param $page_items int - количество лотов показанных на экране
+   * @param $offset int - смещение лотов для показа на следующей странице
    *
-   * @return string - возвращает массив со списком лотов.
+   * @return array - возвращает массив со списком лотов.
    *
    */
 function get_search_lot_list ($con, $search, $page_items, $offset){
@@ -382,9 +372,9 @@ function get_search_lot_list ($con, $search, $page_items, $offset){
 /**
    * Функция получает параметры лота по его id
    * @param $con mysqli Ресурс соединения
-   * @param $lot_id - id лота
+   * @param $lot_id int - id лота
    * 
-   * @return string - возвращает массив с параметрами лота.
+   * @return array - возвращает массив с параметрами одного лота.
    *
    */
 function get_lot_by_id ($con, $lot_id)
@@ -424,13 +414,14 @@ function get_lot_by_id ($con, $lot_id)
 /**
    * Функция получает ставки лота по его id
    * @param $con mysqli Ресурс соединения
-   * @param $lot_id - id лота
+   * @param $lot_id int- id лота
    * 
-   * @return string - возвращает массив списком ставок лота.
+   * @return array - возвращает массив списком ставок лота.
    *
    */
 function get_bets_by_lot ($con, $lot_id)
 {
+  $bet_list =[];
   $sql = 
   "
   SELECT `l`.`name` AS `lot_name`, 
@@ -466,15 +457,15 @@ function get_bets_by_lot ($con, $lot_id)
 /**
    * Функция получает список лотов из категории
    * @param $con mysqli Ресурс соединения
-   * @param $cat_id - id категории
-   * @param $page_items - количество лотов показанных на экране
-   * @param $offset - смещение лотов для показа на следующей странице
+   * @param $cat_id int- id категории
+   * @param $page_items int - количество лотов для показа на экране
+   * @param $offset int - смещение лотов для показа на следующей странице
    *
-   * @return string - возвращает массив со списком лотов.
+   * @return array - возвращает массив со списком лотов.
    *
    */
 function get_lot_list_by_cat ($con, $cat_id, $page_items, $offset){
-
+$lot_list =[];
   $sql = "SELECT
   `l`.`id`,
   `l`.`name` AS `title`,
@@ -514,14 +505,13 @@ function get_lot_list_by_cat ($con, $cat_id, $page_items, $offset){
 /**
    * Функция возвращает количество найденных элементов в результате поиска
    * @param $con mysqli Ресурс соединения
-   * @param $search - искомое слово
+   * @param $search string - искомое слово
    * 
    * @return int - возвращает число найденных элементов.
    *
    */
 function get_lot_list_search_total($con, $search){
   $total = null;
-  $lot_list = [];
   $sql = "SELECT
   `l`.`id`,
   `l`.`name` AS `title`,
@@ -559,13 +549,13 @@ function get_lot_list_search_total($con, $search){
 /**
    * Функция возвращает количество лотов в категории
    * @param $con mysqli Ресурс соединения
-   * @param $cat_id - id категории
+   * @param $cat_id int - id категории
    * 
    * @return int - возвращает число лотов в категории.
    */
 
 function get_lot_list_by_cat_total ($con, $cat_id){
-  $total = null;
+  $total = 0;
   $sql = "SELECT `l`.`id`
   FROM
   `lots` `l`
@@ -596,9 +586,9 @@ function get_lot_list_by_cat_total ($con, $cat_id){
 /**
    * Функция возвращает строку с параметрами категории по ее id
    * @param $con mysqli Ресурс соединения
-   * @param $cat_id - id категории
+   * @param $cat_id int - id категории
    * 
-   * @return возвращает массив с параметрами категори
+   * @return array - возвращает массив с параметрами категори
    */
 
 function get_cat_by_id ($con, $cat_id)
@@ -621,17 +611,15 @@ function get_cat_by_id ($con, $cat_id)
 /**
    * Функция добавляет новую запись в таблице лотов lots
    * @param $con mysqli Ресурс соединения
-   * @param $data = [] - массив данных для добавления нового лота
+   * @param $data array - массив данных для добавления нового лота
    * 
-   * @return возвращает id добавленного лота
+   * @return int -возвращает id добавленного лота
    */
 
 function save_lot($con, $data = []) {
   $sql = "INSERT INTO lots (`date_end`, `name`, `description`, `image`, 
   `start_price`, `bet_step`, `user_id`, `category_id`) 
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-  $stmt = mysqli_prepare($con, $sql);
 
   $stmt = db_get_prepare_stmt (
    $con,
@@ -657,18 +645,16 @@ function save_lot($con, $data = []) {
 /**
    * Функция добавляет новую запись в таблице ставок bets
    * @param $con mysqli Ресурс соединения
-   * @param $sum_bets = сумма ставки
-   * @param $user_id = id пользователя, который сделал ставку
-   * @param $lot_id = id лота, в котором была сделана ставка
+   * @param $sum_bets int - сумма ставки
+   * @param $user_id int - id пользователя, который сделал ставку
+   * @param $lot_id int - id лота, в котором была сделана ставка
    * 
-   * @return возвращает id добавленной ставки
+   * @return int - возвращает id добавленной ставки
    */
 
 function save_bet($con, $sum_bets, $user_id, $lot_id) {
   $sql = "INSERT INTO bets (`sum_bets`, `user_id`, `lot_id`) 
   VALUES (?, $user_id, $lot_id)";
-
-  $stmt = mysqli_prepare($con, $sql);
 
   $stmt = db_get_prepare_stmt (
    $con,
@@ -684,16 +670,15 @@ function save_bet($con, $sum_bets, $user_id, $lot_id) {
 /**
    * Функция добавляет новую запись в таблице пользователей users
    * @param $con mysqli Ресурс соединения
-   * @param $data = [] - массив данных для добавления нового пользователя
+   * @param $data array - массив данных для добавления нового пользователя
    * 
-   * @return возвращает id добавленного пользователя
+   * @return int возвращает id добавленного пользователя
    */
 
 function save_user($con, $data = []) {
   $sql = "INSERT INTO `users` (`email`, `name`, `password`, `avatar`, `contact`)
   VALUES (?, ?, ?, ?, ?)";
 
-  $stmt = mysqli_prepare($con, $sql);
   $stmt = db_get_prepare_stmt($con, $sql, 
     [
       $data['email'], 
@@ -705,15 +690,14 @@ function save_user($con, $data = []) {
 
   mysqli_stmt_execute($stmt);
   return mysqli_insert_id($con);   
-
 }
 
 /**
    * Функция возвращает строку с параметрами категории по ее id
    * @param $con mysqli Ресурс соединения
-   * @param $user_id - id авторизованного на сайте пользователя
+   * @param $user_id int - id авторизованного на сайте пользователя
    * 
-   * @return возвращает массив ставок с параметрами лота и пользователя
+   * @return array - возвращает массив ставок с параметрами лота и пользователя
    */
 function get_lot_list_by_bets ($con, $user_id){
 
@@ -765,7 +749,7 @@ return $lot_list;
    * Функция возвращает массив пользователей, чьи ставки выйграли
    * @param $con mysqli Ресурс соединения
    * 
-   * @return возвращает массив победителей
+   * @return array возвращает массив победителей
    */
 function get_lot_winner($con){
 
@@ -806,8 +790,10 @@ function get_lot_winner($con){
 /**
    * Функция обновляет запись в таблице лотов, устанавливает в строке лота id победителя
    * @param $con mysqli Ресурс соединения
-   * 
-   * @return возвращает колличество обновленных строк
+   * @param $lot_id int - id лота
+   * @param $user_id int - id победителя
+   *
+   * @return int возвращает колличество обновленных строк
    */
 function set_winner($con, $lot_id, $user_id) {
 
@@ -816,7 +802,6 @@ function set_winner($con, $lot_id, $user_id) {
   WHERE `l`.`id` = ?
   ";
 
-  $stmt = mysqli_prepare($con, $sql);
   $stmt = db_get_prepare_stmt(
     $con, 
     $sql, 

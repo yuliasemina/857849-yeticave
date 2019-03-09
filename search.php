@@ -37,22 +37,20 @@ $page_content = include_template('search.php', [
 			'pages_count' => $pages_count,
 			'cur_page' => $cur_page,
 			'items_count' => $items_count,
-			'search' => $search,
+			
 			'lots' => $lot_list, 
 			'categories' => get_categories($con)
 		]);
 
 $layout_content = include_template('layout_inner.php', [
   'user_name' => $user_name, 
+  'search' => $search,
   'categories' => $categories, 
   'main_content'=> $page_content, 
   'title_name' => $title_name
 ]);
 
-
-
-
-
 print($layout_content);
+exit;
 }
 header("Location: /index.php");

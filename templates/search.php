@@ -1,18 +1,4 @@
-<?php 
-$lot_price = $lots['max_price'] ?: $lots['price'];
-$min_bet = $lot_price + $lots['bet_step'];
-
-$user_id = null;
-if (isset($_SESSION['user'])) {
-  $user = $_SESSION['user']; 
-  $user_id = $user['id'];
-
-} 
-
-
-?>
-
-    <nav class="nav">
+<nav class="nav">
      <ul class="nav__list container">
          <?php foreach ($categories as $category): ?>
            <li class="nav__item">

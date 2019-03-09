@@ -8,7 +8,7 @@ $user_name = '';
 $user_id = '';
 $title_name = 'Добавление лота';
 if (!isset($_SESSION['user'])) {
-  http_response_code('403');
+  http_response_code(403);
   $layout_content = include_template('error403.php', 
     [
       'user_name' => $user_name, 
