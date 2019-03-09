@@ -1,9 +1,9 @@
 <?php
 
+session_start();
 require 'db.php';
 require 'data.php';
 require 'functions.php';
-session_start();
 
 $user_name = '';
 if (isset($_SESSION['user'])) {

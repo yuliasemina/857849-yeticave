@@ -1,9 +1,8 @@
 <?php				
-
+session_start();	
 require 'db.php';				
 require 'data.php';				
-require 'functions.php';				
-session_start();				
+require 'functions.php';							
 			
 $tpl_data = [];				
 $file_path ="";				

@@ -514,7 +514,7 @@ function get_lot_winner($con){
   `b`.`sum_bets` AS `maxbet`,
   `u`.`name` AS `user_name`,
   `u`.`id` AS `user_id`,
-  `u`.`email` AS `user_email`,
+  `u`.`email` AS `user_email`
   
   FROM `bets` `b`
   JOIN 
@@ -542,14 +542,14 @@ function set_winner($con, $lot_id, $user_id) {
 
   $sql = "UPDATE `lots` `l`
   SET `l`.`winner_id` = ?
-  WHERE `l`.`id` = $lot_id
+  WHERE `l`.`id` = ?
   ";
 
   $stmt = mysqli_prepare($con, $sql);
   $stmt = db_get_prepare_stmt(
     $con, 
     $sql, 
-    [$user_id]
+    [$user_id, $lot_id]
   );
 
   mysqli_stmt_execute($stmt);

@@ -1,10 +1,9 @@
 <?php				
-
+session_start();	
 require 'db.php';				
 require 'data.php';				
 require 'functions.php';				
-session_start();				
-				
+			
 $tpl_data = [];				
 $errors = [];				
 

@@ -1,9 +1,8 @@
 <?php
-
+session_start();
 require 'db.php';
 require 'data.php';
 require 'functions.php';
-session_start();
 
 $title_name = 'Главная';
 
