@@ -6,7 +6,7 @@ require 'functions.php';
 
 $user_name = '';
 $user_id = '';
-
+$title_name = 'Добавление лота';
 if (!isset($_SESSION['user'])) {
   http_response_code('403');
   $layout_content = include_template('error403.php', 
@@ -29,14 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   require 'add_processor.php';
 }
 
-$layout_content = include_template(
-  'add.php', 
-  [
 
-    'lot' => $lot_id,    
-    'errors' => $errors, 
-    'user_name' => $user_name, 
-    'categories' => get_categories($con)
-  ]);
+$page_content = include_template('add.php', [
+  'categories' => $categories, 
+  'lots' => $lot_list,    
+  'errors' => $errors]);
+
+$layout_content = include_template('layout_inner.php', [
+  'categories' => $categories, 
+  'main_content'=> $page_content, 
+  'title_name' => $title_name, 
+  'user_name' => $user_name
+]);
+
 
 print($layout_content);

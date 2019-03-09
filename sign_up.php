@@ -6,6 +6,7 @@ require 'functions.php';
 $tpl_data = [];				
 $file_path ="";				
 $errors = [];				
+$title_name = 'Регистрация';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$errors = validate_reg_form($con, $_POST);			
@@ -45,5 +46,18 @@ $layout_content = include_template('sign_up.php',
 		'errors' => $errors,		
 		'categories' => get_categories($con)		
 	]);			
+
+
+
+
+$page_content = include_template('sign_up.php', [
+  'categories' => $categories,   
+  'errors' => $errors]);
+
+$layout_content = include_template('layout_inner.php', [
+  'categories' => $categories, 
+  'main_content'=> $page_content, 
+  'title_name' => $title_name
+]);
 
 print($layout_content);				

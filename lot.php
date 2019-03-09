@@ -66,16 +66,25 @@ if (is_null($lot['id'])){
     ]);
 
 } else {
+$title_name = htmlspecialchars($lot['title']);
+ 
 
-  $layout_content = include_template('lot.php', 
-    [
-      'lot' => $lot,
+$page_content = include_template('lot.php', [
+       'lot' => $lot,
       '$user_id' => $user_id, 
       'bets' => $bets,
       'errors' => $errors_bets, 
-      'user_name' => $user_name, 
-      'categories' => get_categories($con)
+       'categories' => get_categories($con)
     ]);
+
+$layout_content = include_template('layout_inner.php', [
+  'user_name' => $user_name, 
+  'categories' => $categories, 
+  'main_content'=> $page_content, 
+  'title_name' => $title_name
+]);
+
+
 
 }
 print($layout_content);
