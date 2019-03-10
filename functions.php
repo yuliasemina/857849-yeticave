@@ -44,7 +44,6 @@ function price_format($price) {
   $price = number_format($price, 0, ".", " ");
   $price .= " ₽";
 
-
   return $price;
 };
 
@@ -59,7 +58,7 @@ function price_format($price) {
 
 function time_interval ($time_end) {
 
-  $time_lots = '';
+  $time_lots = ' -- : --';
 
   $date_cur = time();
   $date_end = strtotime($time_end); 
@@ -73,9 +72,6 @@ function time_interval ($time_end) {
     $minutes = ceil(($interval - $hours*3600)/60);
     $time_lots = $hours . ":" . $minutes;
   } 
-  else {
-    $time_lots = ' -- : --';
-  }
 
   return $time_lots;
 }
