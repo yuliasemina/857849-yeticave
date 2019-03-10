@@ -33,14 +33,17 @@ function include_template($name, $data) {
    * функция принимает один аргумент — целое число.
    * 
    * @param  $price int - исходящая цена лота.
-   * @return int - возвращает округленное разделенное на разряды число.
+   * @return string - возвращает строку с округленным, разделенными на разряды число со знаком ₽.
    *
    */
 
 function price_format($price) {
+
+
   $price = ceil($price);
   $price = number_format($price, 0, ".", " ");
   $price .= " ₽";
+
 
   return $price;
 };
@@ -55,14 +58,24 @@ function price_format($price) {
    */
 
 function time_interval ($time_end) {
-  $time_now = strtotime('now');
-  $time_end = strtotime($time_end);
 
-  $interval = $time_end - $time_now;
-  $hours = floor($interval/3600);
-  $minutes = ceil(($interval - $hours*3600)/60);
-  $time_lots = $hours . ":" . $minutes;
+  $time_lots = '';
 
+  $date_cur = time();
+  $date_end = strtotime($time_end); 
+  $date_dif = $date_cur - $date_end;
+
+  if ($date_dif<0) {
+    $time_now = strtotime('now');
+    $time_end = strtotime($time_end);
+    $interval = $time_end - $time_now;
+    $hours = floor($interval/3600);
+    $minutes = ceil(($interval - $hours*3600)/60);
+    $time_lots = $hours . ":" . $minutes;
+  } 
+  else {
+    $time_lots = ' -- : --';
+  }
 
   return $time_lots;
 }
@@ -87,8 +100,8 @@ function validate_form($post)
   }
 
   foreach ($numbers as $key) {
-    if (!is_numeric($post[$key]) || intval($post[$key]) <= 0) {
-     $errors[$key] = 'Только число больше 0 ';
+    if (!is_numeric($post[$key]) || intval($post[$key]) <= 0 || ($post[$key]) != floor($post[$key])) {
+     $errors[$key] = 'Число должно быть целым, больше 0 ';
    }
  }
 
