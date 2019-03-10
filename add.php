@@ -7,6 +7,7 @@ require 'functions.php';
 $user_name = '';
 $user_id = '';
 $title_name = 'Добавление лота';
+$lot=[];
 if (!isset($_SESSION['user'])) {
   http_response_code(403);
   $layout_content = include_template('error403.php', 
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $page_content = include_template('add.php', [
-      'lot' => $lot_id,    
+     'lot' => $lot,    
     'errors' => $errors, 
     'user_name' => $user_name, 
     'categories' => get_categories($con)

@@ -13,7 +13,7 @@
  
         <div class="form__item <?= isset($errors['name']) ? "form__item--invalid" : "" ?>"> 
           <label for="lot-name">Наименование</label>
-          <input id="lot-name" type="text" name="name" value ="<?= $_POST['name'] ?? ''?>" placeholder="Введите наименование лота" required>
+          <input id="lot-name" type="text" name="name" value ="<?= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''?>" placeholder="Введите наименование лота" required>
           <span class="form__error">
             <?= $errors['name'] ?? "" ?>
           </span>
@@ -26,7 +26,7 @@
             <?php foreach ($categories as $category): ?>
               <option 
                 value="<?= $category['id'] ?>" 
-                <?= $category['id'] === (int) $_POST['category_id'] ? 'selected' : ''  ?>
+                <?= $category['id'] === (int) ($_POST['category_id'] ?? 0) ? 'selected' : ''  ?>
               >
                 <?= htmlspecialchars($category['category_name']) ?>    
               </option>
@@ -41,7 +41,7 @@
         <div class="form__item form__item--wide <?= isset($errors['description']) ? "form__item--invalid" : "" ?>">
           <label for="message">Описание</label>
           <textarea id="message" name="description" placeholder="Напишите описание лота" 
-          required><?= htmlspecialchars($_POST['description']) ?? '' ?></textarea>
+          required><?= isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '' ?></textarea>
           <span class="form__error">
             <?= $errors['description'] ?? "" ?>
           </span>
@@ -70,7 +70,7 @@
           <div class="form__item form__item--small <?= isset($errors['start_price']) ? "form__item--invalid" : "" ?>">
             <label for="lot-rate">Начальная цена</label>
             <input id="lot-rate" type="number" name="start_price" 
-            value ="<?= $_POST['start_price'] ?? ''?>" placeholder="0" required>
+            value ="<?= isset($_POST['start_price']) ? htmlspecialchars($_POST['start_price']) : ''?>" placeholder="0" required>
             <span class="form__error">
               <?= $errors['start_price'] ?? "" ?>
             </span>
@@ -79,14 +79,14 @@
           <div class="form__item form__item--small <?= isset($errors['bet_step']) ? "form__item--invalid" : "" ?>">
             <label for="lot-step">Шаг ставки</label>
             <input id="lot-step" type="number" name="bet_step"
-            value ="<?= $_POST['bet_step'] ?? ''?>" placeholder="0" required>
+            value ="<?= isset($_POST['bet_step']) ? htmlspecialchars($_POST['bet_step']) : ''?>" placeholder="0" required>
             <span class="form__error"><?= $errors['bet_step'] ?? "" ?></span>
           </div>
 
           <div class="form__item <?= isset($errors['date_end']) ? "form__item--invalid" : "" ?>">
             <label for="lot-date">Дата окончания торгов</label>
             <input class="form__input-date" id="lot-date" type="date" 
-            value ="<?= $_POST['date_end'] ?? ''?>" name="date_end" required>
+            value ="<?= isset($_POST['date_end']) ? htmlspecialchars($_POST['date_end']) : '' ?>" name="date_end" required>
             <span class="form__error">
               <?= $errors['date_end'] ?? "" ?>
             </span>
