@@ -25,7 +25,7 @@
           <?php if (isset($_SESSION['user'])): ?>
              <div class="user-menu__logged">
               <p>
-                <?php print(htmlspecialchars("$user_name")); ?>
+                <?php print(htmlspecialchars($_SESSION['user']['name'])); ?>
               </p>
               <a href="logout.php">Выйти</a>
             </div>

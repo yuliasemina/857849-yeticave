@@ -16,7 +16,7 @@
             <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
         <form class="main-header__search" method="get" action="search.php">
-            <input type="search" name="search" placeholder="Поиск лота" value="<?= htmlspecialchars($search) ?>">
+          <input type="search" name="search" placeholder="Поиск лота" value="<?= htmlspecialchars($search ?? '') ?>">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
@@ -24,7 +24,7 @@
         <nav class="user-menu">
                     <?php if (isset($_SESSION['user'])): ?>
                      <div class="user-menu__logged">
-                        <p><?php print(htmlspecialchars($user_name)); ?></p>
+                        <p><?php print(htmlspecialchars($_SESSION['user']['name'])); ?></p>
                         <a href="logout.php">Выйти</a>
                     </div>
                     

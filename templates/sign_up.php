@@ -7,11 +7,11 @@
             <?php endforeach ?>
           </ul>
     </nav>
-    <form class="form container  <?= isset($errors) ? "form--invalid" : "" ?> " action="sign_up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
+    <form class="form container  <?= isset($errors) ? "form--invalid" : "" ?> " action="sign_up.php" method="post" enctype="multipart/form-data"> 
       <h2>Регистрация нового аккаунта</h2>
-      <div class="form__item <?= isset($errors['email']) ? "form__item--invalid" : "" ?>"> <!-- form__item--invalid -->
+      <div class="form__item <?= isset($errors['email']) ? "form__item--invalid" : "" ?>">
         <label for="email">E-mail*</label>
-        <input id="email" type="text" name="email" value="<?= $_POST['email'] ?? ''?>" placeholder="Введите e-mail" required>
+        <input id="email" type="text" name="email" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''?>" placeholder="Введите e-mail" required>
         <span class="form__error">
               <?= $errors['email'] ?? "" ?>
         </span>
@@ -26,7 +26,7 @@
       </div>
       <div class="form__item <?= isset($errors['name']) ? "form__item--invalid" : "" ?>">
         <label for="name">Имя*</label>
-        <input id="name" type="text" name="name" value="<?= $_POST['name'] ?? ''?>" placeholder="Введите имя" required>
+        <input id="name" type="text" name="name" value="<?= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''?>" placeholder="Введите имя" required>
         <span class="form__error">
               <?= $errors['name'] ?? "" ?>
         </span>

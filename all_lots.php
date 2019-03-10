@@ -38,7 +38,7 @@ $pages = range(1, $pages_count);
 
 $lot_list = get_lot_list_by_cat ($con, intval($_GET['id']), $page_items, $offset);
 
-if (is_null($cat['id'])){
+if (!isset($cat['id'])){
   $layout_content = include_template('error.php', 
     [
       'user_name' => $user_name, 

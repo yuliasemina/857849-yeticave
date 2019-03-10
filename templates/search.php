@@ -9,7 +9,7 @@
     </nav>
     <div class="container">
       <section class="lots">
-        <h2>Результаты поиска по запросу «<span><?= $_GET['search'] ?></span>»</h2>
+        <h2>Результаты поиска по запросу «<span><?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?></span>»</h2>
         <ul class="lots__list">
          <?php if (empty($lots)): ?>
          <h3 class="lot__title"> Ничего не найдено по вашему запросу</h3>

@@ -54,7 +54,7 @@ if (isset($_SESSION['user'])) {
                   </span>
                 </div>
               </div>
-              <?php if ((isset($user_id)) && ($lot['user_id'] != $user_id) 
+              <?php if ((isset($user_id)) && (intval($lot['user_id']) !== intval($user_id)) 
               && (strtotime(($lot['date_end'])) > strtotime('now')) && !$isbet): ?>
 
             <form class="lot-item__form" action="lot.php?id=<?= ($lot['id']) ?>" method="post">
@@ -80,29 +80,8 @@ if (isset($_SESSION['user'])) {
             <tr class="history__item">
               <td class="history__name"><?= htmlspecialchars($bet['user_name']) ?></td>
               <td class="history__price"><?= price_format($bet['sum_bets']) ?></td>
+              <td class="history__time"><?= get_date_format($bet['time']) ?></td>
 
-              <?php if ((strtotime('now')-strtotime(htmlspecialchars($bet['time'])))<'60'): ?>
-              <td class="history__time"><?= nounEnding(htmlspecialchars($bet['time']), 
-              ["только что", "только что", "только что"]) ?></td>
-
-              <?php elseif ((strtotime('now')-strtotime(htmlspecialchars($bet['time'])) >='60') && 
-              (strtotime('now')-strtotime(htmlspecialchars($bet['time'])) <'3600')): ?>
-              <td class="history__time"><?= 
-              (floor((strtotime('now')-strtotime(htmlspecialchars($bet['time'])))/'60')) .' '.
-              nounEnding(floor((strtotime('now')-strtotime(htmlspecialchars($bet['time'])))/'60'), 
-              ["минута назад", "минуты назад", "минут назад"]) ?></td>
-
-              <?php elseif ((strtotime('now')-strtotime(htmlspecialchars($bet['time'])) >='3600') && 
-              (strtotime('now')-strtotime(htmlspecialchars($bet['time'])) <'86400')): ?>
-              <td class="history__time"><?= 
-              (floor((strtotime('now')-strtotime(htmlspecialchars($bet['time'])))/'3600')) .' '.
-              nounEnding(floor((strtotime('now')-strtotime(htmlspecialchars($bet['time'])))/'3600'), 
-              ["час назад", "часа назад", "часов назад"]) ?></td>
-
-              <?php else: ?>
-                <td class="history__time"><?= htmlspecialchars($bet['time2']) ?></td>
-
-              <?php endif; ?>
             </tr>
           <?php endforeach ?>
         </table>

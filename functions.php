@@ -85,7 +85,7 @@ function validate_form($post)
       $errors[$key] = 'Это поле необходимо заполнить';
     }
   }
-var_dump($_POST);
+
   foreach ($numbers as $key) {
     if (!is_numeric($post[$key]) || intval($post[$key]) <= 0) {
      $errors[$key] = 'Только число больше 0 ';
@@ -810,4 +810,29 @@ function set_winner($con, $lot_id, $user_id) {
 
   mysqli_stmt_execute($stmt);
   return mysqli_affected_rows ($con);   
+}
+
+function get_date_format ($date) {
+
+  $date_cur = time();
+  $date_bet = strtotime($date); 
+  $date_dif = $date_cur - $date_bet;
+  
+  if ($date_dif<60) {
+    return 'только что';
+  }
+  if ($date_dif<3600) {
+    return  floor($date_dif / 60) . ' ' . nounEnding(
+      floor($date_dif / 60), 
+      ["минута назад", "минуты назад", "минут назад"]
+    );
+  }
+  if ($date_dif < 86400) {
+    return  floor($date_dif / 3600) . ' ' . nounEnding(
+      floor($date_dif / 3600), 
+      ["час назад", "часа назад", "часов назад"]
+    ); 
+  }
+
+  return date('d.m.y в H:i',  $date_bet);
 }
