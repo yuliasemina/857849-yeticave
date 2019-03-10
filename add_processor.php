@@ -17,7 +17,7 @@ if (empty($errors)) {
       [  
         'date_end' => $_POST['date_end'],
         'name' => $_POST['name'],
-        'description' => $_POST['description'],
+        'description' => ($_POST['description']),
         'image' => $file_path,
         'start_price' => $_POST['start_price'],
         'bet_step' => $_POST['bet_step'],

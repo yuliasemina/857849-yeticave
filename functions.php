@@ -85,10 +85,10 @@ function validate_form($post)
       $errors[$key] = 'Это поле необходимо заполнить';
     }
   }
-
+var_dump($_POST);
   foreach ($numbers as $key) {
-    if (!is_numeric($post[$key])) {
-     $errors[$key] = 'Только число';
+    if (!is_numeric($post[$key]) || intval($post[$key]) <= 0) {
+     $errors[$key] = 'Только число больше 0 ';
    }
  }
 
