@@ -1,13 +1,12 @@
 <?php				
-
+session_start();	
 require 'db.php';				
-require 'data.php';				
-require 'functions.php';				
-session_start();				
+require 'functions.php';							
 			
 $tpl_data = [];				
 $file_path ="";				
 $errors = [];				
+$title_name = 'Регистрация';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$errors = validate_reg_form($con, $_POST);			
@@ -42,10 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }				
 
 
-$layout_content = include_template('sign_up.php', 				
-	[   			
-		'errors' => $errors,		
-		'categories' => get_categories($con)		
-	]);			
+$page_content = include_template('sign_up.php', [
+  'categories' => get_categories($con),   
+  'errors' => $errors]);
+
+$layout_content = include_template('layout_inner.php', [
+  'categories' => get_categories($con), 
+  'main_content'=> $page_content, 
+  'title_name' => $title_name
+]);
 
 print($layout_content);				

@@ -1,11 +1,12 @@
 <?php
-
-require 'db.php';
-require 'data.php';
-require 'functions.php';
 session_start();
+require 'db.php';
+require 'functions.php';
 
 $user_name = '';
+$title_name = 'Результаты поиска';
+
+
 if (isset($_SESSION['user'])) {
 	$user = $_SESSION['user'];  
 	$user_name = $user['name'];
@@ -31,18 +32,25 @@ if (strlen($search)>=3) {
 
 	$lot_list = get_search_lot_list ($con, $search_all, $page_items, $offset);
 
-	$layout_content = include_template('search.php', 
-		[
-			'pages' => $pages,
+$page_content = include_template('search.php', [
+            'pages' => $pages,
 			'pages_count' => $pages_count,
 			'cur_page' => $cur_page,
 			'items_count' => $items_count,
-			'search' => $search,
+			
 			'lots' => $lot_list, 
-			'user_name' => $user_name, 
 			'categories' => get_categories($con)
 		]);
 
+$layout_content = include_template('layout_inner.php', [
+  'user_name' => $user_name, 
+  'search' => $search,
+  'categories' => $categories, 
+  'main_content'=> $page_content, 
+  'title_name' => $title_name
+]);
+
 print($layout_content);
+exit;
 }
 header("Location: /index.php");

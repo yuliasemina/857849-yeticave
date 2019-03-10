@@ -1,9 +1,8 @@
 <?php
 
-require 'db.php';
-require 'data.php';
-require 'functions.php';
 session_start();
+require 'db.php';
+require 'functions.php';
 
 $user_name = '';
 if (isset($_SESSION['user'])) {
@@ -22,6 +21,7 @@ if (!isset($_GET['id'])) {
   exit;
 }
 
+$layout_content ='';
 $categories = get_categories($con);
 $cat = get_cat_by_id($con, intval($_GET['id']));
 
@@ -46,18 +46,25 @@ if (is_null($cat['id'])){
     ]);
 
 } else {
-  $layout_content = include_template('all_lots.php', 
-    [
-      'pages' => $pages,
+
+$title_name ='Все лоты «'.htmlspecialchars($cat['name']).'»';
+
+$page_content = include_template('all_lots.php', [
+    'pages' => $pages,
       'pages_count' => $pages_count,
       'cur_page' => $cur_page,
       'items_count' => $items_count,
       'cat' => $cat,
       'lots' => $lot_list, 
-      'user_name' => $user_name, 
       'categories' => get_categories($con)
     ]);
 
+$layout_content = include_template('layout_inner.php', [
+  'categories' => get_categories($con), 
+   'user_name' => $user_name, 
+  'main_content'=> $page_content, 
+  'title_name' => $title_name
+]);
 }
 
 print($layout_content);
